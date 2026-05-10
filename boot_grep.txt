@@ -1,0 +1,26 @@
+5858-      drawParticles();
+5859-      rafId = requestAnimationFrame(render);
+5860-    }
+5861-
+5862-    /* ── Init on DOM ready ───────────────────────── */
+5863:    function boot() {
+5864-      enhanceLoader();
+5865-      createTicker();
+5866-      initParallax();
+5867-      render();
+5868-    }
+5869-
+5870-    if (document.readyState === 'loading') {
+5871-      document.addEventListener('DOMContentLoaded', boot);
+5872-    } else {
+5873-      boot();
+5874-    }
+5875-  })();
+5876-  </script>
+5877-
+5878-
+5879-  <!-- ═══════════════════════════════════════════════
+5880-       AI AGENT 履歴書 SYSTEM — NEON MYTHOS BOOST
+5881-  ═══════════════════════════════════════════════ -->
+5882-  <style>
+5883-    /* ── 履歴書 Panel ────────────────────────────── */
