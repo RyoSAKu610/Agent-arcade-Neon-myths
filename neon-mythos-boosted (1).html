@@ -290,6 +290,7 @@
     <div class="nm-dots" id="nm-dots"></div>
     <div class="nm-bar-wrap"><div class="nm-bar"></div></div>
     <div class="nm-sub" id="nm-status">INITIALIZING...</div>
+    <button id="nm-play-btn" style="display:none; margin-top:20px; padding:12px 28px; background:linear-gradient(90deg, #FF69B4, #00E5FF); border:none; color:#000; font-weight:bold; font-size:16px; font-family:monospace; border-radius:8px; cursor:pointer;">PLAY NOW</button>
   </div>
 
   <!-- Error Screen -->
@@ -5546,14 +5547,7 @@ function NeonMythosCity() {
       var appRoot = ReactDOM.createRoot(container);
       appRoot.render(React.createElement(NeonMythosCity));
 
-      // Fade out loading screen after React mounts
-      setTimeout(function() {
-        var el = document.getElementById("nm-loading");
-        if (!el) return;
-        el.style.transition = "opacity 0.4s ease";
-        el.style.opacity = "0";
-        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 420);
-      }, 300);
+      // Automatic fade-out of loading screen removed to require "PLAY NOW" click.
 
     } catch (err) {
       console.error("[NEON MYTHOS] Boot error:", err);
@@ -5814,7 +5808,19 @@ function NeonMythosCity() {
       const msgIv = setInterval(() => {
         if (!statusEl) { clearInterval(msgIv); return; }
         if (mi < msgs.length) statusEl.textContent = msgs[mi++];
-        else clearInterval(msgIv);
+        else {
+          clearInterval(msgIv);
+          const playBtn = document.getElementById('nm-play-btn');
+          if (playBtn) {
+            playBtn.style.display = 'block';
+            playBtn.addEventListener('click', () => {
+              if (!loading) return;
+              loading.style.transition = "opacity 0.4s ease";
+              loading.style.opacity = "0";
+              setTimeout(function() { if (loading.parentNode) loading.parentNode.removeChild(loading); }, 420);
+            });
+          }
+        }
       }, 200);
 
       // Add scanning line inside loader
