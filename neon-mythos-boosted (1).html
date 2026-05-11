@@ -3705,10 +3705,12 @@ function NeonMythosCity() {
       }
       setConnections(prev => [...prev, ...newConns].slice(-8));
     }
-    setConnections(prev => prev.map(c => ({
-      ...c,
-      time: c.time + 1
-    })).filter(c => c.time < 30));
+    // ⚡ Bolt: Consolidated .map().filter() into a single .reduce() pass to minimize array allocations
+    setConnections(prev => prev.reduce((acc, c) => {
+      const t = c.time + 1;
+      if (t < 30) acc.push({ ...c, time: t });
+      return acc;
+    }, []));
   }, [tick, paused, showAvSel, showLangSel]);
   useEffect(() => {
     if (tick % 120 === 0 && tick > 0 && !paused) {
