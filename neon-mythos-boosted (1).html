@@ -3703,12 +3703,25 @@ function NeonMythosCity() {
           });
         }
       }
-      setConnections(prev => [...prev, ...newConns].slice(-8));
+      setConnections(prev => {
+        const merged = [...prev, ...newConns].slice(-8);
+        return merged.reduce((acc, c) => {
+          const updatedTime = c.time + 1;
+          if (updatedTime < 30) {
+            acc.push({ ...c, time: updatedTime });
+          }
+          return acc;
+        }, []);
+      });
+    } else {
+      setConnections(prev => prev.reduce((acc, c) => {
+        const updatedTime = c.time + 1;
+        if (updatedTime < 30) {
+          acc.push({ ...c, time: updatedTime });
+        }
+        return acc;
+      }, []));
     }
-    setConnections(prev => prev.map(c => ({
-      ...c,
-      time: c.time + 1
-    })).filter(c => c.time < 30));
   }, [tick, paused, showAvSel, showLangSel]);
   useEffect(() => {
     if (tick % 120 === 0 && tick > 0 && !paused) {
