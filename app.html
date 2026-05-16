@@ -3688,36 +3688,27 @@ function NeonMythosCity() {
     if (paused || showAvSel || showLangSel) return;
     runAI(setAgents);
     runAI(setResi);
-    // OPTIMIZATION: Combine state updates and replace chained .map().filter() with .reduce() to prevent intermediate allocations and reduce re-renders.
-    setConnections(prev => {
-      let next = prev.reduce((acc, c) => {
-        if (c.time + 1 < 30) {
-          acc.push({
-            ...c,
-            time: c.time + 1
+    if (tick % 10 === 0) {
+      const workers = [...agents, ...resi].filter(a => a.state === "work");
+      const newConns = [];
+      for (let i = 0; i < Math.min(3, workers.length - 1); i++) {
+        if (workers.length >= 2) {
+          const a = workers[Math.floor(Math.random() * workers.length)];
+          const b = workers[Math.floor(Math.random() * workers.length)];
+          if (a.id !== b.id) newConns.push({
+            id: `${a.id}-${b.id}-${tick}`,
+            from: a,
+            to: b,
+            time: 0
           });
         }
-        return acc;
-      }, []);
-      if (tick % 10 === 0) {
-        const workers = [...agents, ...resi].filter(a => a.state === "work");
-        const newConns = [];
-        for (let i = 0; i < Math.min(3, workers.length - 1); i++) {
-          if (workers.length >= 2) {
-            const a = workers[Math.floor(Math.random() * workers.length)];
-            const b = workers[Math.floor(Math.random() * workers.length)];
-            if (a.id !== b.id) newConns.push({
-              id: `${a.id}-${b.id}-${tick}`,
-              from: a,
-              to: b,
-              time: 0
-            });
-          }
-        }
-        next = [...next, ...newConns].slice(-8);
       }
-      return next;
-    });
+      setConnections(prev => [...prev, ...newConns].slice(-8));
+    }
+    setConnections(prev => prev.map(c => ({
+      ...c,
+      time: c.time + 1
+    })).filter(c => c.time < 30));
   }, [tick, paused, showAvSel, showLangSel]);
   useEffect(() => {
     if (tick % 120 === 0 && tick > 0 && !paused) {
