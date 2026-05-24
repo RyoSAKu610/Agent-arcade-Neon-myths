@@ -1976,7 +1976,15 @@ for (let y = 0; y < MAP_H; y++) {
   ROADS.add(`15,${y}`);
   ROADS.add(`19,${y}`);
 }
-const getBld = (x, y) => BUILDINGS.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h);
+// OPTIMIZATION: Use spatial hash map for O(1) building lookups instead of O(N) array finds
+const _bldMap = new Map();
+const getBld = (x, y) => {
+  const k = `${x},${y}`;
+  if (_bldMap.has(k)) return _bldMap.get(k);
+  const b = BUILDINGS.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h) || null;
+  _bldMap.set(k, b);
+  return b;
+};
 const QTES = [{
   title: "🔥 Fire!",
   desc: "The guild is burning!",
