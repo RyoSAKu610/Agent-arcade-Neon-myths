@@ -1976,7 +1976,16 @@ for (let y = 0; y < MAP_H; y++) {
   ROADS.add(`15,${y}`);
   ROADS.add(`19,${y}`);
 }
-const getBld = (x, y) => BUILDINGS.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h);
+const BLD_MAP = new Map();
+BUILDINGS.forEach(b => {
+  for (let bx = b.x; bx < b.x + b.w; bx++) {
+    for (let by = b.y; by < b.y + b.h; by++) {
+      BLD_MAP.set(`${bx},${by}`, b);
+    }
+  }
+});
+// OPTIMIZATION: Replaced O(N) array search with O(1) spatial map lookup
+const getBld = (x, y) => BLD_MAP.get(`${x},${y}`);
 const QTES = [{
   title: "🔥 Fire!",
   desc: "The guild is burning!",
