@@ -1,21 +1,24 @@
 # Agent Arcade: Neon Myths
 
-Agent Arcade: Neon Myths is a browser-based cyberpunk AI-agent simulation. It runs as a static web app, so anyone can open it from a phone, tablet, or computer without installing anything.
+Agent Arcade: Neon Myths is a browser-based NEON MYTHOS simulation bundled with Codex pet sprites, character artwork, and the correct simulation HTML.
 
 ## Start
 
 [![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/)
 
-Open the Start button above and press **PLAY NOW** when the loading sequence finishes.
+Open the Start button above from any phone, tablet, or computer. Nothing needs to be installed.
 
 Direct URL:
 https://ryosaku610.github.io/Agent-arcade-Neon-myths/
 
-## What Is Included
+## Included Files
 
 - `index.html` public launch page
-- `app.html` the NEON MYTHOS simulation
-- `assets/characters/` bundled character artwork used by the simulation
+- `neon-mythos-codex-pets.html` the correct NEON MYTHOS simulation
+- `character-assets/` character portraits used by the simulation
+- `character-pets/` Codex pet spritesheets used by the simulation
+- `pet-portable-bundle/` portable Codex pet spritesheets used by the simulation
+- `lumen-export/` Lumen spritesheet export used by the simulation
 
 ## Local Start
 
@@ -30,10 +33,4 @@ Then open:
 ```text
 http://localhost:8000/
 ```
-
-You can also open `app.html` directly in a browser.
-
-## Notes
-
-The app is self-contained except for Google Fonts. Audio/video autoplay behavior depends on the browser, so user interaction may be required before media can play.
 

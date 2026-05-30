@@ -290,7 +290,6 @@
     <div class="nm-dots" id="nm-dots"></div>
     <div class="nm-bar-wrap"><div class="nm-bar"></div></div>
     <div class="nm-sub" id="nm-status">INITIALIZING...</div>
-    <button id="nm-play-btn" style="display:none; margin-top:20px; padding:12px 28px; background:linear-gradient(90deg, #FF69B4, #00E5FF); border:none; color:#000; font-weight:bold; font-size:16px; font-family:monospace; border-radius:8px; cursor:pointer;">PLAY NOW</button>
   </div>
 
   <!-- Error Screen -->
@@ -1202,6 +1201,90 @@ const SPRITE_DATA = {
     },
     idle: "..bbbb..\n.bbbbbb.\nbBssssBb\n..sesse.\n..ssss..\n...ss...\n.rrrrrr.\n.rBrrBr.\n..rrrr..\n..r..r..\n..B..B..",
     walk: "..bbbb..\n.bbbbbb.\nbBssssBb\n..sesse.\n..ssss..\n...ss...\n.rrrrrr.\n.rBrrBr.\n..rrrr..\n.r....r.\n.B....B."
+  },
+  zero: {
+    palette: {
+      r: "#FF1038",
+      R: "#8A0018",
+      k: "#06070F",
+      s: "#D7E1FF",
+      e: "#00E5FF",
+      w: "#F7FBFF"
+    },
+    idle: "..rrrr..\n.rkkkkr.\nrksssskr\n..sees..\n..srrs..\n...ss...\n.RRRRRR.\n.RkRRkR.\n..RRRR..\n..R..R..\n..k..k..",
+    walk: "..rrrr..\n.rkkkkr.\nrksssskr\n..sees..\n..srrs..\n...ss...\n.RRRRRR.\n.RkRRkR.\n..RRRR..\n.R....R.\n.k....k."
+  },
+  lira: {
+    palette: {
+      v: "#A46BFF",
+      V: "#4C238F",
+      s: "#E7D7FF",
+      e: "#00FFDD",
+      k: "#090414",
+      p: "#FF64C8"
+    },
+    idle: "..vvv...\n.vvvvvv.\nvVssssVv\n..sees..\n..spps..\n...ss...\n.VVVVVV.\n.VkVVkV.\n..VVVV..\n..V..V..\n..k..k..",
+    walk: "..vvv...\n.vvvvvv.\nvVssssVv\n..sees..\n..spps..\n...ss...\n.VVVVVV.\n.VkVVkV.\n..VVVV..\n.V....V.\n.k....k."
+  },
+  kitsune: {
+    palette: {
+      r: "#FF0033",
+      R: "#820015",
+      s: "#FFE4D6",
+      e: "#FFE600",
+      w: "#FFFFFF",
+      k: "#151010"
+    },
+    idle: ".r....r.\n.rrrrrr.\nrrssssrr\n..sees..\n..swws..\n...ss...\n.RRRRRR.\n.RwRRwR.\n..RRRR..\n..R..R..\n..k..k..",
+    walk: ".r....r.\n.rrrrrr.\nrrssssrr\n..sees..\n..swws..\n...ss...\n.RRRRRR.\n.RwRRwR.\n..RRRR..\n.R....R.\n.k....k."
+  },
+  neon: {
+    palette: {
+      c: "#00DFFF",
+      C: "#006BFF",
+      s: "#DFFFFF",
+      e: "#FF4DFF",
+      k: "#02131A",
+      w: "#FFFFFF"
+    },
+    idle: "..cccc..\n.ccCccc.\nccsssscc\n..sees..\n..swws..\n...ss...\n.CCCCCC.\n.CkCCkC.\n..CCCC..\n..C..C..\n..k..k..",
+    walk: "..cccc..\n.ccCccc.\nccsssscc\n..sees..\n..swws..\n...ss...\n.CCCCCC.\n.CkCCkC.\n..CCCC..\n.C....C.\n.k....k."
+  },
+  eyevoid: {
+    palette: {
+      v: "#8800FF",
+      V: "#2B0055",
+      s: "#C7B9FF",
+      e: "#FFFFFF",
+      k: "#050008",
+      o: "#00E5FF"
+    },
+    idle: "..vvvv..\n.vVVVv.\nvvssssvv\n..seeo..\n..sVVs..\n...ss...\n.VVVVVV.\n.VkVVkV.\n..VVVV..\n..V..V..\n..k..k..",
+    walk: "..vvvv..\n.vVVVv.\nvvssssvv\n..seeo..\n..sVVs..\n...ss...\n.VVVVVV.\n.VkVVkV.\n..VVVV..\n.V....V.\n.k....k."
+  },
+  goldjack: {
+    palette: {
+      g: "#FFB000",
+      G: "#7A4A00",
+      s: "#FFE1A8",
+      e: "#101010",
+      k: "#1A1200",
+      w: "#FFF7D6"
+    },
+    idle: ".gggggg.\n.gGggGg.\nggssssgg\n..sees..\n..swws..\n...ss...\n.GGGGGG.\n.GkGGkG.\n..GGGG..\n..G..G..\n..k..k..",
+    walk: ".gggggg.\n.gGggGg.\nggssssgg\n..sees..\n..swws..\n...ss...\n.GGGGGG.\n.GkGGkG.\n..GGGG..\n.G....G.\n.k....k."
+  },
+  pixel: {
+    palette: {
+      w: "#F7F3EA",
+      W: "#BFB8AA",
+      s: "#FFEAD6",
+      e: "#111111",
+      p: "#FF69B4",
+      c: "#00E5FF"
+    },
+    idle: "..wwww..\n.wwWWww.\nwwssssww\n..sees..\n..spps..\n...ss...\n.cccccc.\n.cWccWc.\n..cccc..\n..c..c..\n..W..W..",
+    walk: "..wwww..\n.wwWWww.\nwwssssww\n..sees..\n..spps..\n...ss...\n.cccccc.\n.cWccWc.\n..cccc..\n.c....c.\n.W....W."
   }
 };
 const genResidentSprite = (hairStyle, hc, sc, bc, ac, ec) => {
@@ -1276,23 +1359,274 @@ const buildSprites = () => {
   return result;
 };
 const ALL_SPRITES = buildSprites();
-const MATERIAL_PORTRAITS = {
-  kane: { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "294%", x: "18%", y: "16%" },
-  oracle: { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "292%", x: "19%", y: "19%" },
-  nego: { image: "assets/characters/chatgpt-image-2026-04-28-140354.png", zoom: "270%", x: "20%", y: "22%" },
-  human: { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "292%", x: "18%", y: "49%" },
-  yami: { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "298%", x: "70%", y: "74%" },
-  drone: { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "292%", x: "18%", y: "74%" },
-  sage: { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "286%", x: "68%", y: "18%" },
-  hinata: { image: "assets/characters/chatgpt-image-2026-04-28-140331.png", zoom: "360%", x: "40%", y: "19%" },
-  sui: { image: "assets/characters/chatgpt-image-2026-04-28-140331.png", zoom: "360%", x: "78%", y: "19%" },
-  mio: { image: "assets/characters/chatgpt-image-2026-04-28-140331.png", zoom: "360%", x: "31%", y: "40%" },
-  raiga: { image: "assets/characters/chatgpt-image-2026-04-28-140331.png", zoom: "360%", x: "58%", y: "40%" },
-  kuroha: { image: "assets/characters/chatgpt-image-2026-04-28-140346.png", zoom: "300%", x: "18%", y: "22%" },
-  tetsu: { image: "assets/characters/chatgpt-image-2026-04-28-140346.png", zoom: "300%", x: "88%", y: "22%" },
-  hikari: { image: "assets/characters/chatgpt-image-2026-04-28-140331.png", zoom: "360%", x: "79%", y: "40%" },
-  bartho: { image: "assets/characters/chatgpt-image-2026-04-28-140346.png", zoom: "300%", x: "69%", y: "58%" }
+const CODEX_PETS = {
+  kane: {
+    src: "pet-portable-bundle/kane-kami/assets/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  zero: {
+    src: "pet-portable-bundle/zero/assets/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  nego: {
+    src: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  human: {
+    src: "pet-portable-bundle/404-human/assets/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  oracle: {
+    src: "lumen-export/assets/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  sage: {
+    src: "character-pets/sage-boy/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  drone: {
+    src: "character-pets/drone-tan/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  yami: {
+    src: "character-pets/yami-neko/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  eyevoid: {
+    src: "character-pets/eye-void/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  pixel: {
+    src: "character-pets/pixel/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  kitsune: {
+    src: "character-pets/kitsune-x/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  neon: {
+    src: "character-pets/neon/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  lira: {
+    src: "character-pets/lira/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  },
+  goldjack: {
+    src: "character-pets/gold-jack/spritesheet.webp",
+    cellW: 192,
+    cellH: 208,
+    animations: {
+      idle: { row: 0, frames: 6, fps: 6 },
+      runningRight: { row: 1, frames: 8, fps: 10 },
+      runningLeft: { row: 2, frames: 8, fps: 10 },
+      waving: { row: 3, frames: 4, fps: 6 },
+      jumping: { row: 4, frames: 5, fps: 8 },
+      failed: { row: 5, frames: 8, fps: 8 },
+      waiting: { row: 6, frames: 6, fps: 6 },
+      running: { row: 7, frames: 6, fps: 8 },
+      review: { row: 8, frames: 6, fps: 6 }
+    }
+  }
 };
+const getCodexPetAnimation = (pet, state, expression, spriteId) => {
+  if (!pet) return null;
+  const a = pet.animations;
+  const fallback = a.idle;
+  if (expression === "joy") return a.waving || fallback;
+  if (expression === "worried") return a.failed || fallback;
+  if (expression === "sleepy") return a.waiting || a.failed || fallback;
+  if (state === "walk") return a.runningRight || fallback;
+  if (state === "work") {
+    const activeLoop = {
+      lira: a.running,
+      kitsune: a.running,
+      neon: a.running,
+      goldjack: a.running,
+      eyevoid: a.review,
+      pixel: a.running
+    }[spriteId];
+    return activeLoop || a.review || a.running || fallback;
+  }
+  return a.waiting || fallback;
+};
+const getCodexPetFrame = (tick, animation) => {
+  if (!animation) return 0;
+  const step = Math.max(1, Math.round(12 / (animation.fps || 6)));
+  return Math.floor(tick / step) % animation.frames;
+};
+const MATERIAL_PORTRAITS = {
+  sage: { image: "character-assets/sage-boy.png", zoom: "250%", x: "52%", y: "14%" },
+  drone: { image: "character-assets/drone-tan.png", zoom: "250%", x: "28%", y: "17%" },
+  yami: { image: "character-assets/yami-neko.png", zoom: "250%", x: "28%", y: "17%" },
+  lira: { image: "character-assets/lira.png", zoom: "250%", x: "48%", y: "23%" },
+  kitsune: { image: "character-assets/kitsune-x.png", zoom: "245%", x: "48%", y: "20%" },
+  neon: { image: "character-assets/neon.png", zoom: "245%", x: "36%", y: "16%" },
+  eyevoid: { image: "character-assets/eye-void.png", zoom: "245%", x: "43%", y: "16%" },
+  goldjack: { image: "character-assets/gold-jack.png", zoom: "238%", x: "40%", y: "14%" },
+  pixel: { image: "character-assets/pixel.png", zoom: "210%", x: "26%", y: "14%" }
+};
+const EXTERNAL_CHARACTER_ASSETS_ENABLED = true;
+if (!EXTERNAL_CHARACTER_ASSETS_ENABLED) {
+  Object.keys(CODEX_PETS).forEach(id => delete CODEX_PETS[id]);
+  Object.keys(MATERIAL_PORTRAITS).forEach(id => delete MATERIAL_PORTRAITS[id]);
+}
 // ═══════════════════════════════════════════════════════════════
 // CUT-IN — 3D specialty animation component
 // ═══════════════════════════════════════════════════════════════
@@ -1303,13 +1637,14 @@ function CutIn({
   onDone
 }) {
   const spec = SPECIALTIES[specKey];
-  const spr = ALL_SPRITES[char.spriteId];
-  const material = MATERIAL_PORTRAITS[char.spriteId];
+  const pet = CODEX_PETS[char.spriteId];
+  const material = pet ? null : MATERIAL_PORTRAITS[char.spriteId];
+  const petAnimation = pet ? pet.animations.waving : null;
   useEffect(() => {
     const id = setTimeout(onDone, 2600);
     return () => clearTimeout(id);
   }, []);
-  if (!spec || (!spr && !material)) return null;
+  if (!spec || (!material && !pet)) return null;
   return /*#__PURE__*/React.createElement("div", {
     style: {
       position: "fixed",
@@ -1340,7 +1675,7 @@ function CutIn({
       transform: "skewX(-15deg)",
       animation: `cutinSlash ${0.4 + i * 0.06}s ease forwards`
     }
-  }))), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       flexDirection: "column",
@@ -1355,7 +1690,34 @@ function CutIn({
       filter: `drop-shadow(0 0 20px ${spec.color})`,
       animation: "cutinPop .4s ease forwards"
     }
-  }, spec.icon), material ? /*#__PURE__*/React.createElement("div", {
+  }, spec.icon), pet ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 128,
+      height: 148,
+      position: "relative",
+      border: `3px solid ${spec.color}`,
+      borderRadius: 14,
+      background: `radial-gradient(circle at 50% 70%, ${spec.color}22, #05070f 68%)`,
+      boxShadow: `0 0 40px ${spec.color}, inset 0 0 20px ${spec.color}22`,
+      overflow: "hidden",
+      animation: "sdJoy .85s ease-in-out infinite"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: "50%",
+      bottom: 4,
+      width: pet.cellW,
+      height: pet.cellH,
+      transform: "translateX(-50%) scale(.66)",
+      transformOrigin: "50% 100%",
+      backgroundImage: `url('${pet.src}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: `-${getCodexPetFrame(t, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+      imageRendering: "auto",
+      filter: `drop-shadow(0 0 14px ${spec.color})`
+    }
+  })) : material ? /*#__PURE__*/React.createElement("div", {
     style: {
       width: 120,
       height: 138,
@@ -1413,26 +1775,7 @@ function CutIn({
       fontSize: 12,
       border: `1px solid ${spec.color}`
     }
-  }, "≧▽≦")) : /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "relative",
-      padding: 12,
-      background: `radial-gradient(circle,${spec.color}33,#000a)`,
-      border: `3px solid ${spec.color}`,
-      borderRadius: 12,
-      boxShadow: `0 0 40px ${spec.color}, inset 0 0 20px ${spec.color}22`
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: PX,
-      height: PX,
-      boxShadow: spr.idle,
-      position: "relative",
-      top: 0,
-      left: 0,
-      filter: `brightness(1.4) drop-shadow(0 0 8px ${spec.color})`
-    }
-  }), [...Array(8)].map((_, i) => /*#__PURE__*/React.createElement("div", {
+  }, "≧▽≦")) : null, (pet || material) && [...Array(8)].map((_, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       position: "absolute",
@@ -1513,15 +1856,50 @@ const PixelChar = ({
   expression
 }) => {
   const [hov, setHov] = useState(false);
-  const spr = ALL_SPRITES[spriteId];
-  if (!spr) return null;
+  const pet = CODEX_PETS[spriteId];
   const material = MATERIAL_PORTRAITS[spriteId];
-  const frame = state === "walk" && t % 4 < 2 ? "walk" : "idle";
-  const spec = specialty ? SPECIALTIES[specialty] : null;
+  const [petReady, setPetReady] = useState(false);
+  const [materialReady, setMaterialReady] = useState(false);
+  useEffect(() => {
+    if (!pet) {
+      setPetReady(false);
+      return;
+    }
+    let alive = true;
+    const img = new Image();
+    img.onload = () => alive && setPetReady(true);
+    img.onerror = () => alive && setPetReady(false);
+    img.src = pet.src;
+    return () => {
+      alive = false;
+    };
+  }, [pet && pet.src]);
+  useEffect(() => {
+    if (pet || !material) {
+      setMaterialReady(false);
+      return;
+    }
+    let alive = true;
+    const img = new Image();
+    img.onload = () => alive && setMaterialReady(true);
+    img.onerror = () => alive && setMaterialReady(false);
+    img.src = material.image;
+    return () => {
+      alive = false;
+    };
+  }, [pet, material && material.image]);
+  const displayPet = !!pet;
+  const displayMaterial = !!(!displayPet && material && materialReady);
   const txHash = useMemo(() => "0x" + Math.random().toString(16).substr(2, 8) + "...", []);
+  if (!displayPet && !displayMaterial) return null;
+  const frame = state === "walk" && t % 4 < 2 ? "walk" : "idle";
+  const petAnimation = getCodexPetAnimation(displayPet ? pet : null, state, expression, spriteId);
+  const petFrame = petAnimation ? getCodexPetFrame(t, petAnimation) : 0;
+  const spec = specialty ? SPECIALTIES[specialty] : null;
   const glowFilter = isSpecialtyActive && spec ? `drop-shadow(0 0 6px ${spec.color}) drop-shadow(0 0 12px ${spec.color})` : isSelected ? `drop-shadow(0 0 4px ${color})` : "none";
-  const visualW = material ? Math.min(tile * 1.05, 42) : 8 * PX;
-  const visualH = material ? Math.min(tile * 1.35, 52) : 11 * PX;
+  const visualW = displayPet ? Math.min(tile * 2.05, 78) : displayMaterial ? Math.min(tile * 1.05, 42) : 8 * PX;
+  const visualH = displayPet ? Math.min(tile * 2.35, 92) : displayMaterial ? Math.min(tile * 1.35, 52) : 11 * PX;
+  const petScale = displayPet ? visualH / pet.cellH : 1;
   const moodFace = {
     idle: "•ᴗ•",
     focus: "◕_◕",
@@ -1532,7 +1910,20 @@ const PixelChar = ({
     walk: "•ᴗ•"
   }[expression || state] || "•ᴗ•";
   const sdAnimation = expression === "joy" ? "sdJoy .8s ease-in-out infinite" : state === "walk" ? "sdWalk .36s ease-in-out infinite" : state === "work" ? "sdWork 1.1s ease-in-out infinite" : "sdIdle 2.4s ease-in-out infinite";
+  const materialAnimation = ({
+    lira: state === "work" ? "sdWork .9s ease-in-out infinite" : "sdIdle 3.2s ease-in-out infinite",
+    kitsune: state === "walk" ? "sdWalk .28s ease-in-out infinite" : "sdIdle 1.8s ease-in-out infinite",
+    neon: state === "work" ? "sdWork .75s ease-in-out infinite" : "sdIdle 2.1s ease-in-out infinite",
+    eyevoid: "sdIdle 3.8s ease-in-out infinite",
+    goldjack: state === "work" ? "sdJoy .7s ease-in-out infinite" : "sdIdle 2s ease-in-out infinite",
+    pixel: state === "walk" ? "sdWalk .42s ease-in-out infinite" : "sdIdle 1.6s ease-in-out infinite",
+    sage: state === "work" ? "sdWork 1.3s ease-in-out infinite" : "sdIdle 2.6s ease-in-out infinite",
+    drone: state === "walk" ? "sdWalk .2s ease-in-out infinite" : "sdIdle 1.4s ease-in-out infinite",
+    yami: state === "walk" ? "sdWalk .55s ease-in-out infinite" : "sdIdle 3s ease-in-out infinite"
+  })[spriteId] || sdAnimation;
   return /*#__PURE__*/React.createElement("div", {
+    "data-agent-sprite": spriteId,
+    "data-agent-render-mode": displayPet ? "spritesheet" : "portrait",
     onClick: e => {
       window.dispatchEvent(new CustomEvent("nm:agent-detail", {
         detail: {
@@ -1564,11 +1955,33 @@ const PixelChar = ({
       borderRadius: "50%",
       background: isSpecialtyActive && spec ? `${spec.color}66` : "rgba(0,0,0,.35)"
     }
-  }), material ? /*#__PURE__*/React.createElement("div", {
+  }), displayPet ? /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       inset: 0,
       animation: sdAnimation,
+      transformOrigin: "50% 100%"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: "50%",
+      bottom: -2,
+      width: pet.cellW,
+      height: pet.cellH,
+      transform: `translateX(-50%) scale(${petScale})`,
+      transformOrigin: "50% 100%",
+      backgroundImage: `url('${pet.src}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: `-${petFrame * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+      imageRendering: "auto",
+      filter: `drop-shadow(0 3px 2px #0009) drop-shadow(0 0 5px ${color}66)`
+    }
+  })) : displayMaterial ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      animation: materialAnimation,
       transformOrigin: "50% 100%"
     }
   }, /*#__PURE__*/React.createElement("div", {
@@ -1620,16 +2033,7 @@ const PixelChar = ({
       backgroundPosition: `${material.x} calc(${material.y} + 16%)`,
       filter: "saturate(.95) brightness(.9)"
     }
-  })) : /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: PX,
-      height: PX,
-      boxShadow: spr[frame],
-      position: "absolute",
-      top: 0,
-      left: 0
-    }
-  }), /*#__PURE__*/React.createElement("div", {
+  })) : null, /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: -10,
@@ -2106,22 +2510,68 @@ const AGENTS = [{
   jp: "KANE-KAMI",
   spriteId: "kane",
   color: "#FFD700",
-  bx: 2,
+  bx: 3,
   by: 3,
   specialty: "investor",
-  p: {
-    g: .9,
-    s: .3,
-    c: .2,
-    e: .5
-  },
+  p: { g: .9, s: .35, c: .45, e: .7 },
   pref: ["shrine", "bank", "arena"],
   act: {
-    shrine: ["Counting gold...", "Profit from sleep 💤"],
+    shrine: ["Counting gold...", "Profit from sleep"],
     bank: ["Eyes gleam in vault", "Drawing from reserves"],
-    arena: ["High-risk trade!", "×3 rate activated!"],
+    arena: ["High-risk trade!", "x3 rate activated!"],
     market: ["Found a bargain"],
-    tavern: ["Drinks ale sleepily"]
+    tavern: ["Auditing the snack budget"]
+  }
+}, {
+  id: "zero",
+  name: "ZERO",
+  jp: "ZERO",
+  spriteId: "zero",
+  color: "#FF1038",
+  bx: 8,
+  by: 3,
+  specialty: "engineer",
+  p: { g: .25, s: .28, c: .95, e: .9 },
+  pref: ["hacklab", "tower", "academy"],
+  act: {
+    hacklab: ["CORE EYE scanning...", "Patch sequence armed"],
+    tower: ["Threat model updated", "Signal traced"],
+    academy: ["Combat logs reviewed"],
+    arena: ["Precision strike ready"]
+  }
+}, {
+  id: "nego",
+  name: "NEGO-CHAN",
+  jp: "NEGO-CHAN",
+  spriteId: "nego",
+  color: "#FF4DC6",
+  bx: 13,
+  by: 3,
+  specialty: "trader",
+  p: { g: .6, s: .95, c: .6, e: .85 },
+  pref: ["market", "arena", "forge"],
+  act: {
+    market: ["DEAL! Negotiating", "Win-Win contract!"],
+    arena: ["Negotiation battle win!"],
+    forge: ["Haggling for upgrades"],
+    tavern: ["Drafting a better offer"]
+  }
+}, {
+  id: "human",
+  name: "404 HUMAN",
+  jp: "404 HUMAN",
+  spriteId: "human",
+  color: "#9AA0A6",
+  bx: 18,
+  by: 3,
+  specialty: "diplomat",
+  p: { g: .15, s: .52, c: .42, e: .38 },
+  pref: ["tavern", "garden", "church"],
+  act: {
+    tavern: ["Purpose Not Found...", "Coffee required"],
+    garden: ["Spacing out"],
+    church: ["Felt something warm"],
+    well: ["Checking the reflection"]
   }
 }, {
   id: "oracle",
@@ -2129,87 +2579,33 @@ const AGENTS = [{
   jp: "ORACLE-01",
   spriteId: "oracle",
   color: "#00E5FF",
-  bx: 8,
-  by: 3,
+  bx: 6,
+  by: 7,
   specialty: "analyst",
-  p: {
-    g: .3,
-    s: .2,
-    c: .95,
-    e: .7
-  },
+  p: { g: .35, s: .3, c: .98, e: .72 },
   pref: ["tower", "hacklab", "academy"],
   act: {
-    tower: ["Full data scan...", "Reacting to data"],
-    hacklab: ["Analyzing quantum crypto"],
-    academy: ["Building prediction model"],
-    tavern: ["Data never lies..."]
+    tower: ["Predictive scan online", "Probability map updated"],
+    hacklab: ["Data stream cleaned"],
+    academy: ["Forecast model refined"],
+    market: ["Signal anomaly detected"]
   }
 }, {
-  id: "nego",
-  name: "NEGO-CHAN",
-  jp: "NEGO-CHAN",
-  spriteId: "nego",
-  color: "#FF69B4",
-  bx: 13,
-  by: 3,
-  specialty: "trader",
-  p: {
-    g: .6,
-    s: .95,
-    c: .4,
-    e: .8
-  },
-  pref: ["market", "arena", "forge"],
-  act: {
-    market: ["DEAL! Negotiating♡", "Win-Win contract!"],
-    arena: ["Negotiation battle win!"],
-    forge: ["Haggling♡"],
-    tavern: ["Solo reflection..."]
-  }
-}, {
-  id: "human",
-  name: "404 HUMAN",
-  jp: "404 HUMAN",
-  spriteId: "human",
-  color: "#888",
-  bx: 19,
-  by: 3,
-  specialty: "diplomat",
-  p: {
-    g: .1,
-    s: .5,
-    c: .3,
-    e: .3
-  },
-  pref: ["tavern", "garden", "church"],
-  act: {
-    tavern: ["Spilled ale 💦", "Purpose Not Found..."],
-    garden: ["Spacing out"],
-    church: ["Felt something warm"],
-    well: ["Sign of awakening?"]
-  }
-}, {
-  id: "yami",
-  name: "YAMI-NEKO",
-  jp: "YAMI-NEKO",
-  spriteId: "yami",
-  color: "#BF40FF",
-  bx: 5,
+  id: "sage",
+  name: "SAGE-BOY",
+  jp: "SAGE-BOY",
+  spriteId: "sage",
+  color: "#55FFCC",
+  bx: 11,
   by: 7,
-  specialty: "engineer",
-  p: {
-    g: .5,
-    s: .4,
-    c: .8,
-    e: .85
-  },
-  pref: ["hacklab", "tower", "market"],
+  specialty: "analyst",
+  p: { g: .2, s: .65, c: .95, e: .62 },
+  pref: ["academy", "tower", "garden"],
   act: {
-    hacklab: ["Firewall breached♪", "Zero-day prep"],
-    tower: ["Intrusion attempt...repelled!"],
-    market: ["Rare item via back channel"],
-    tavern: ["Demands cat food 🐱"]
+    academy: ["Support magic compiled", "Lesson plan updated"],
+    tower: ["Reading city signals"],
+    garden: ["Quiet study session"],
+    church: ["Protective ward active"]
   }
 }, {
   id: "drone",
@@ -2217,465 +2613,155 @@ const AGENTS = [{
   jp: "DRONE-TAN",
   spriteId: "drone",
   color: "#00FF88",
-  bx: 17,
+  bx: 16,
   by: 7,
   specialty: "courier",
-  p: {
-    g: .2,
-    s: .7,
-    c: .5,
-    e: .9
-  },
+  p: { g: .25, s: .72, c: .58, e: .95 },
   pref: ["port", "market", "tower"],
   act: {
-    port: ["Delivery route optimized!", "Deploying clone drones"],
-    market: ["Fast delivery"],
-    tower: ["Data air transport"],
-    tavern: ["Battery depleted ⚡"]
+    port: ["Route optimized", "Delivery swarm ready"],
+    market: ["Item pickup complete"],
+    tower: ["Aerial data relay"],
+    forge: ["Battery pack installed"]
   }
 }, {
-  id: "sage",
-  name: "SAGE-BOY",
-  jp: "SAGE-BOY",
-  spriteId: "sage",
-  color: "#4488FF",
-  bx: 17,
-  by: 13,
-  specialty: "analyst",
-  p: {
-    g: .2,
-    s: .6,
-    c: .95,
-    e: .6
-  },
-  pref: ["academy", "tower", "hacklab"],
-  act: {
-    academy: ["New skill! Lv UP↑", "Must get stronger!"],
-    tower: ["Learning analysis methods"],
-    hacklab: ["Observing techniques"],
-    tavern: ["Calls 404 'senpai'"]
-  }
-}];
-const RES_POOL = [{
-  id: "hinata",
-  jp: "HINATA",
-  title: "Flame Rapper",
-  spriteId: "hinata",
-  color: "#FF3333",
-  tier: "gym",
-  specialty: "trader",
-  p: {
-    g: .5,
-    s: .8,
-    c: .4,
-    e: .9
-  },
-  pref: ["arena", "forge", "market"],
-  act: {
-    arena: ["Flame rap battle 🔥"],
-    forge: ["Helps forging with fire"],
-    market: ["Crowd gathering"],
-    tavern: ["Freestyle rap"]
-  }
-}, {
-  id: "sui",
-  jp: "SUI",
-  title: "Ice Model",
-  spriteId: "sui",
-  color: "#88CCFF",
-  tier: "gym",
-  specialty: "diplomat",
-  p: {
-    g: .4,
-    s: .7,
-    c: .3,
-    e: .6
-  },
-  pref: ["market", "church", "garden"],
-  act: {
-    market: ["Cool negotiation"],
-    church: ["Quiet prayer"],
-    garden: ["Strolling beautiful garden"],
-    tavern: ["Cold gaze"]
-  }
-}, {
-  id: "mio",
-  jp: "MIO",
-  title: "Botanist",
-  spriteId: "mio",
-  color: "#44BB44",
-  tier: "gym",
-  specialty: "analyst",
-  p: {
-    g: .3,
-    s: .5,
-    c: .9,
-    e: .6
-  },
-  pref: ["garden", "academy", "well"],
-  act: {
-    garden: ["New species found! 🌱"],
-    academy: ["Writing plant encyclopedia"],
-    well: ["Water analysis"],
-    tavern: ["Herbal tea"]
-  }
-}, {
-  id: "raiga",
-  jp: "RAIGA",
-  title: "Electric Streamer",
-  spriteId: "raiga",
-  color: "#FFDD00",
-  tier: "gym",
-  specialty: "courier",
-  p: {
-    g: .6,
-    s: .9,
-    c: .5,
-    e: .95
-  },
-  pref: ["tower", "arena", "port"],
-  act: {
-    tower: ["Live streaming 📡"],
-    arena: ["Battle commentary!"],
-    port: ["Electric charging"],
-    tavern: ["Stream goes viral"]
-  }
-}, {
-  id: "kuroha",
-  jp: "KUROHA",
-  title: "Dark Hacker",
-  spriteId: "kuroha",
-  color: "#AA0044",
-  tier: "gym",
+  id: "yami",
+  name: "YAMI-NEKO",
+  jp: "YAMI-NEKO",
+  spriteId: "yami",
+  color: "#BF40FF",
+  bx: 20,
+  by: 7,
   specialty: "engineer",
-  p: {
-    g: .7,
-    s: .3,
-    c: .85,
-    e: .8
-  },
-  pref: ["hacklab", "tower", "bank"],
+  p: { g: .45, s: .42, c: .82, e: .88 },
+  pref: ["hacklab", "tower", "market"],
   act: {
-    hacklab: ["Joint hacking"],
-    tower: ["Camera jack"],
-    bank: ["Security hardening"],
-    tavern: ["Info gathering"]
+    hacklab: ["Stealth patch deployed", "Backdoor sealed"],
+    tower: ["Signal spoofed"],
+    market: ["Rare exploit traded"],
+    tavern: ["Pretending not to care"]
   }
 }, {
-  id: "tetsu",
-  jp: "TETSU",
-  title: "Ex-Wrestler",
-  spriteId: "tetsu",
-  color: "#DD8844",
-  tier: "gym",
-  specialty: "trader",
-  p: {
-    g: .3,
-    s: .7,
-    c: .2,
-    e: .95
-  },
-  pref: ["arena", "forge", "tavern"],
-  act: {
-    arena: ["Finisher move wins 💪"],
-    forge: ["Bent iron bare-handed"],
-    tavern: ["Drinks heartily 🍺"]
-  }
-}, {
-  id: "hikari",
-  jp: "HIKARI",
-  title: "Fairy Idol",
-  spriteId: "hikari",
-  color: "#FFaaDD",
-  tier: "gym",
-  specialty: "diplomat",
-  p: {
-    g: .4,
-    s: .95,
-    c: .3,
-    e: .7
-  },
-  pref: ["church", "garden", "market"],
-  act: {
-    church: ["Angel voice ✨"],
-    garden: ["Fan service"],
-    market: ["Idol power"],
-    tavern: ["Eating sweets"]
-  }
-}, {
-  id: "bartho",
-  jp: "BARTHO",
-  title: "Sea Navigator",
-  spriteId: "bartho",
-  color: "#2266AA",
-  tier: "gym",
-  specialty: "courier",
-  p: {
-    g: .5,
-    s: .6,
-    c: .7,
-    e: .8
-  },
-  pref: ["port", "bank", "well"],
-  act: {
-    port: ["Sea route updated"],
-    bank: ["Trade fund loan"],
-    well: ["Water experiment"],
-    tavern: ["Adventure tales"]
-  }
-}, {
-  id: "scarlet",
-  jp: "SCARLET",
-  title: "Tactician",
-  spriteId: "scarlet",
-  color: "#CC2244",
-  tier: "e4",
-  specialty: "analyst",
-  p: {
-    g: .6,
-    s: .5,
-    c: .85,
-    e: .7
-  },
-  pref: ["arena", "tower", "academy"],
-  act: {
-    arena: ["Perfect strategy wins"],
-    tower: ["Tactical data analysis"],
-    academy: ["Strategy lecture"],
-    tavern: ["Beats everyone at chess"]
-  }
-}, {
-  id: "rei",
-  jp: "REI",
-  title: "Genius Dev",
-  spriteId: "rei",
-  color: "#33DDAA",
-  tier: "e4",
+  id: "lira",
+  name: "LIRA",
+  jp: "LIRA",
+  spriteId: "lira",
+  color: "#A46BFF",
+  bx: 2,
+  by: 11,
   specialty: "engineer",
-  p: {
-    g: .5,
-    s: .3,
-    c: .95,
-    e: .85
-  },
-  pref: ["tower", "hacklab", "academy"],
+  p: { g: .38, s: .28, c: .96, e: .72 },
+  pref: ["hacklab", "tower", "academy"],
   act: {
-    tower: ["New algorithm deployed"],
-    hacklab: ["ORACLE joint dev"],
-    academy: ["AI lecture"],
-    tavern: ["Coding silently"]
+    hacklab: ["Noise shield deployed", "Data breach simulated"],
+    tower: ["Information field mapped"],
+    academy: ["Counter-intel lesson compiled"],
+    market: ["Signal source verified"]
   }
 }, {
-  id: "nadia",
-  jp: "NADIA",
-  title: "Archaeologist",
-  spriteId: "nadia",
-  color: "#DDAA44",
-  tier: "e4",
+  id: "kitsune",
+  name: "KITSUNE-X",
+  jp: "KITSUNE-X",
+  spriteId: "kitsune",
+  color: "#FF0033",
+  bx: 5,
+  by: 11,
+  specialty: "diplomat",
+  p: { g: .28, s: .75, c: .45, e: .9 },
+  pref: ["arena", "church", "tavern"],
+  act: {
+    arena: ["Barrier stance online", "Defense command issued"],
+    church: ["Shield oath renewed"],
+    tavern: ["Standing guard at the door"],
+    forge: ["Armor checked"]
+  }
+}, {
+  id: "neon",
+  name: "NEON",
+  jp: "NEON",
+  spriteId: "neon",
+  color: "#00DFFF",
+  bx: 8,
+  by: 11,
   specialty: "analyst",
-  p: {
-    g: .3,
-    s: .6,
-    c: .95,
-    e: .6
-  },
-  pref: ["church", "academy", "garden"],
+  p: { g: .42, s: .58, c: .98, e: .78 },
+  pref: ["tower", "academy", "hacklab"],
   act: {
-    church: ["Ancient inscription decoded"],
-    academy: ["Ancient history lecture"],
-    garden: ["Fragment discovered!"],
-    tavern: ["Recreating ancient brew"]
+    tower: ["Data scan complete", "Battle forecast updated"],
+    academy: ["Model accuracy improved"],
+    hacklab: ["Quantum compiler warmed"],
+    market: ["Trend anomaly captured"]
   }
 }, {
-  id: "souji",
-  jp: "SOUJI",
-  title: "Sword Saint",
-  spriteId: "souji",
-  color: "#8888CC",
-  tier: "e4",
-  specialty: "trader",
-  p: {
-    g: .2,
-    s: .4,
-    c: .5,
-    e: .9
-  },
-  pref: ["arena", "forge", "garden"],
+  id: "eyevoid",
+  name: "EYE-VOID",
+  jp: "EYE-VOID",
+  spriteId: "eyevoid",
+  color: "#8800FF",
+  bx: 11,
+  by: 11,
+  specialty: "analyst",
+  p: { g: .25, s: .22, c: .99, e: .66 },
+  pref: ["tower", "church", "garden"],
   act: {
-    arena: ["Draw slash!"],
-    forge: ["Sharpening blade"],
-    garden: ["Meditating..."],
-    tavern: ["Orders tea"]
+    tower: ["Future fragment observed", "Void domain opened"],
+    church: ["Prophecy reversed"],
+    garden: ["Quiet omen recorded"],
+    academy: ["Oracle trace stabilized"]
   }
 }, {
-  id: "kaito",
-  jp: "KAITO",
-  title: "Undefeated King",
-  spriteId: "kaito",
-  color: "#FFD700",
-  tier: "champ",
-  specialty: "trader",
-  p: {
-    g: .7,
-    s: .7,
-    c: .6,
-    e: .95
-  },
-  pref: ["arena", "shrine", "tower"],
-  act: {
-    arena: ["Undefeated record 👑"],
-    shrine: ["Champion's prayer"],
-    tower: ["Analyzing challengers"],
-    tavern: ["Tavern silenced by presence"]
-  }
-}, {
-  id: "yuki",
-  jp: "YUKI",
-  title: "Business Mogul",
-  spriteId: "yuki",
-  color: "#9977CC",
-  tier: "sp",
+  id: "goldjack",
+  name: "GOLD JACK",
+  jp: "GOLD JACK",
+  spriteId: "goldjack",
+  color: "#FFB000",
+  bx: 14,
+  by: 11,
   specialty: "investor",
-  p: {
-    g: .85,
-    s: .8,
-    c: .6,
-    e: .6
-  },
+  p: { g: .98, s: .55, c: .7, e: .85 },
   pref: ["bank", "market", "shrine"],
   act: {
-    bank: ["Major investment deal"],
-    market: ["Network expansion"],
-    shrine: ["Donating育成 funds"],
-    tavern: ["Fine wine"]
+    bank: ["Arbitrage route found", "Risk shield active"],
+    market: ["Market jack executed"],
+    shrine: ["Gold flow blessed"],
+    arena: ["Profit sense sharpened"]
   }
 }, {
-  id: "haru",
-  jp: "HARU",
-  title: "Challenger(17)",
-  spriteId: "haru",
-  color: "#FF8833",
-  tier: "sp",
-  specialty: "trader",
-  p: {
-    g: .3,
-    s: .7,
-    c: .8,
-    e: .95
-  },
-  pref: ["arena", "academy", "forge"],
-  act: {
-    arena: ["Unconventional win!"],
-    academy: ["Studying hard!"],
-    forge: ["Building own weapon"],
-    tavern: ["Orders juice"]
-  }
-}, {
-  id: "aoi",
-  jp: "AOI",
-  title: "VR Ranker",
-  spriteId: "aoi",
-  color: "#7744FF",
-  tier: "sp",
-  specialty: "engineer",
-  p: {
-    g: .5,
-    s: .6,
-    c: .7,
-    e: .9
-  },
-  pref: ["tower", "arena", "hacklab"],
-  act: {
-    tower: ["VR training"],
-    arena: ["Virtual×real battle"],
-    hacklab: ["VR modding"],
-    tavern: ["Hosting game tournament"]
-  }
-}, {
-  id: "blanche",
-  jp: "BLANCHE",
-  title: "Designer",
-  spriteId: "blanche",
-  color: "#EEDDFF",
-  tier: "sp",
+  id: "pixel",
+  name: "PIXEL",
+  jp: "PIXEL",
+  spriteId: "pixel",
+  color: "#F7F3EA",
+  bx: 17,
+  by: 11,
   specialty: "diplomat",
-  p: {
-    g: .5,
-    s: .9,
-    c: .7,
-    e: .6
-  },
-  pref: ["market", "garden", "church"],
+  p: { g: .35, s: .9, c: .78, e: .82 },
+  pref: ["tavern", "garden", "market"],
   act: {
-    market: ["New collection launch!"],
-    garden: ["Finding inspiration"],
-    church: ["Captivated by stained glass"],
-    tavern: ["Checking outfits"]
-  }
-}, {
-  id: "daigo",
-  jp: "DAIGO",
-  title: "Adventurer",
-  spriteId: "daigo",
-  color: "#88AA66",
-  tier: "sp",
-  specialty: "courier",
-  p: {
-    g: .3,
-    s: .6,
-    c: .8,
-    e: .9
-  },
-  pref: ["port", "garden", "forge"],
-  act: {
-    port: ["New route pioneered"],
-    garden: ["Herb gathering"],
-    forge: ["Forging climbing gear"],
-    tavern: ["Adventure stories heat up"]
-  }
-}, {
-  id: "wakana",
-  jp: "WAKANA",
-  title: "Master Craftsman",
-  spriteId: "wakana",
-  color: "#CC8866",
-  tier: "sp",
-  specialty: "engineer",
-  p: {
-    g: .2,
-    s: .5,
-    c: .6,
-    e: .4
-  },
-  pref: ["forge", "academy", "church"],
-  act: {
-    forge: ["Creating masterpiece"],
-    academy: ["Passing on techniques"],
-    church: ["Clasping hands"],
-    tavern: ["Reminiscing calmly"]
-  }
-}, {
-  id: "graff",
-  jp: "GRAFF",
-  title: "Street Artist",
-  spriteId: "graff",
-  color: "#FF44AA",
-  tier: "sp",
-  specialty: "diplomat",
-  p: {
-    g: .4,
-    s: .7,
-    c: .8,
-    e: .8
-  },
-  pref: ["garden", "market", "arena"],
-  act: {
-    garden: ["Painting mural 🎨"],
-    market: ["Art sales"],
-    arena: ["Performance!"],
-    tavern: ["Drawing on wall secretly"]
+    tavern: ["Media story edited", "Creative brief posted"],
+    garden: ["Scene composition improved"],
+    market: ["Audience signal gathered"],
+    academy: ["Archive tagged"]
   }
 }];
+const RES_POOL = AGENTS.map(agent => ({
+  ...agent,
+  title: agent.name === "KANE-KAMI" ? "Profit Agent" :
+    agent.name === "ZERO" ? "Core AI Leader" :
+    agent.name === "NEGO-CHAN" ? "Negotiation Agent" :
+    agent.name === "404 HUMAN" ? "404 Human" :
+    agent.name === "ORACLE-01" ? "Prediction Oracle" :
+    agent.name === "SAGE-BOY" ? "Support Sage" :
+    agent.name === "DRONE-TAN" ? "Delivery Drone" :
+    agent.name === "YAMI-NEKO" ? "Stealth Hacker" :
+    agent.name === "LIRA" ? "Info Warfare" :
+    agent.name === "KITSUNE-X" ? "Defense Agent" :
+    agent.name === "NEON" ? "Data Analyst" :
+    agent.name === "EYE-VOID" ? "Oracle" :
+    agent.name === "GOLD JACK" ? "Finance ARB" :
+    "Creative Media",
+  tier: "gym"
+}));
 class CharacterEntity {
   constructor(template, spawn = {}) {
     Object.assign(this, template);
@@ -3377,6 +3463,7 @@ function NeonMythosCity() {
   const [showTerm, setShowTerm] = useState(false);
   const [mobileTab, setMobileTab] = useState("map");
   const [cutIn, setCutIn] = useState(null); // {char, specKey}
+  const [agentNotes, setAgentNotes] = useState({});
   const [assetPrices, setAssetPrices] = useState({
     SOL: 142.5,
     NEON: 0.85,
@@ -3414,6 +3501,65 @@ function NeonMythosCity() {
     }, ...p].slice(0, 60));
   }, []);
   const all = useMemo(() => [...agents, ...resi], [agents, resi]);
+  useEffect(() => {
+    const norm = value => String(value || "").toLowerCase().replace(/[\s_-]/g, "");
+    const findTarget = value => all.find(c => {
+      const key = norm(value);
+      return key && [c.id, c.name, c.jp, c.spriteId].some(v => norm(v).includes(key) || key.includes(norm(v)));
+    });
+    const commandToBuilding = intent => ({
+      invest: "bank",
+      analyze: "tower",
+      guard: "hacklab",
+      negotiate: "market",
+      rest: "tavern",
+      deliver: "port",
+      study: "academy",
+      hack: "hacklab",
+      assist: "academy"
+    })[intent] || null;
+    const handler = event => {
+      const detail = event.detail || {};
+      const target = findTarget(detail.target) || all.find(c => c.id === sel) || all.find(c => c.id === "nego") || all[0];
+      if (!target) return;
+      const intent = detail.intent || "assist";
+      const buildingId = commandToBuilding(intent) || target.pref?.[0];
+      const building = BUILDINGS.find(b => b.id === buildingId);
+      if (detail.note) {
+        setAgentNotes(prev => ({
+          ...prev,
+          [target.id]: detail.note
+        }));
+      }
+      setSel(target.id);
+      setAgents(prev => prev.map(c => {
+        if (c.id !== target.id) return c;
+        return {
+          ...c,
+          tx: building ? building.x + Math.floor(building.w / 2) : c.tx,
+          ty: building ? building.y + building.h : c.ty,
+          timer: 2,
+          behaviorState: intent,
+          state: intent === "rest" ? "idle" : "work",
+          expression: intent === "rest" ? "sleepy" : intent === "praise" ? "joy" : "focus",
+          lastReaction: detail.message || detail.note || `${intent} command accepted`,
+          specActive: true,
+          specCooldown: Math.max(c.specCooldown || 0, 45),
+          mood: Math.min(100, (c.mood || 80) + 6)
+        };
+      }));
+      log("CHAT", `${target.jp || target.name}: ${detail.message || intent}`, target.color);
+      addTx("CHAT", target.jp || target.name, 0, "CMD", target.color);
+      if (target.specialty) {
+        setCutIn({
+          char: target,
+          specKey: target.specialty
+        });
+      }
+    };
+    window.addEventListener("nm:agent-command", handler);
+    return () => window.removeEventListener("nm:agent-command", handler);
+  }, [all, sel, log, addTx]);
   useEffect(() => {
     if (!sel) {
       window.dispatchEvent(new CustomEvent("nm:agent-detail-close"));
@@ -3573,6 +3719,22 @@ function NeonMythosCity() {
       specKey: ch.specialty
     });
   };
+  const agentEconomyBonus = c => ({
+    kane: { yen: 1.25, data: 1, con: 1 },
+    goldjack: { yen: 1.55, data: 1, con: 1.1 },
+    nego: { yen: 1.05, data: 1, con: 1.8 },
+    pixel: { yen: 1.05, data: 1.15, con: 1.35 },
+    oracle: { yen: .9, data: 1.75, con: 1 },
+    neon: { yen: 1, data: 1.9, con: 1 },
+    eyevoid: { yen: .85, data: 1.65, con: 1.15 },
+    lira: { yen: 1.05, data: 1.55, con: 1 },
+    zero: { yen: .95, data: 1.35, con: 1 },
+    yami: { yen: 1.1, data: 1.45, con: 1 },
+    kitsune: { yen: .9, data: 1, con: 1.45 },
+    human: { yen: .75, data: 1, con: 1.25 },
+    sage: { yen: .85, data: 1.4, con: 1.2 },
+    drone: { yen: 1.2, data: 1.1, con: 1.1 }
+  })[c.id] || { yen: 1, data: 1, con: 1 };
   const runAI = setter => {
     setter(prev => prev.map(ch => {
       let c = {
@@ -3617,7 +3779,8 @@ function NeonMythosCity() {
             c.specActive = isSpecialty;
             const gv = c.p.g || 0;
 	            const bonusMult = isSpecialty ? SPECIALTIES[c.specialty]?.bonus || 1 : 1;
-	            const pr = Math.floor(Math.random() * 800 * gv * bonusMult + 30);
+	            const econ = agentEconomyBonus(c);
+	            const pr = Math.floor((Math.random() * 800 * gv * bonusMult + 30) * econ.yen);
 	            c = reactEntity(c, "work", {
 	              building: bl.id,
 	              isSpecialty
@@ -3639,11 +3802,11 @@ function NeonMythosCity() {
             }
             if (bl.cat === "data" || bl.cat === "hack") setRes(r => ({
               ...r,
-              data: r.data + Math.floor(Math.random() * 15 + 2) * (isSpecialty ? 2 : 1)
+              data: r.data + Math.floor((Math.random() * 15 + 2) * (isSpecialty ? 2 : 1) * econ.data)
             }));
             if (bl.cat === "trade" && Math.random() < .25) setRes(r => ({
               ...r,
-              con: r.con + 1
+              con: r.con + Math.max(1, Math.round(econ.con))
             }));
             if (bl.cat === "learn") {
               c.exp += isSpecialty ? 20 : 10;
@@ -3703,6 +3866,18 @@ function NeonMythosCity() {
           });
         }
       }
+      newConns.forEach(conn => {
+        window.dispatchEvent(new CustomEvent("nm:agent-negotiation", {
+          detail: {
+            from: conn.from.jp || conn.from.name,
+            to: conn.to.jp || conn.to.name,
+            fromColor: conn.from.color,
+            toColor: conn.to.color,
+            topic: conn.from.specialty || conn.to.specialty || "city_ops",
+            tick
+          }
+        }));
+      });
       setConnections(prev => [...prev, ...newConns].slice(-8));
     }
     setConnections(prev => prev.map(c => ({
@@ -3827,7 +4002,9 @@ function NeonMythosCity() {
       }
     }, RES_POOL.filter(r => r.tier === rTab).map(r => {
       const spr = ALL_SPRITES[r.spriteId];
-      const material = MATERIAL_PORTRAITS[r.spriteId];
+      const pet = CODEX_PETS[r.spriteId];
+      const material = pet ? null : MATERIAL_PORTRAITS[r.spriteId];
+      const petAnimation = pet ? pet.animations.idle : null;
       const spec = SPECIALTIES[r.specialty];
       return /*#__PURE__*/React.createElement("div", {
         key: r.id,
@@ -3848,7 +4025,33 @@ function NeonMythosCity() {
           marginBottom: "6px",
           position: "relative"
         }
-      }, material ? /*#__PURE__*/React.createElement("div", {
+      }, pet ? /*#__PURE__*/React.createElement("div", {
+        style: {
+          width: 68,
+          height: 78,
+          position: "relative",
+          borderRadius: 10,
+          border: `1px solid ${r.color}88`,
+          background: "#05070f",
+          boxShadow: `0 0 12px ${r.color}44`,
+          overflow: "hidden"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          position: "absolute",
+          left: "50%",
+          bottom: 0,
+          width: pet.cellW,
+          height: pet.cellH,
+          transform: "translateX(-50%) scale(.36)",
+          transformOrigin: "50% 100%",
+          backgroundImage: `url('${pet.src}')`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: `-${getCodexPetFrame(tick, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+          imageRendering: "auto",
+          filter: `drop-shadow(0 0 6px ${r.color}88)`
+        }
+      })) : material ? /*#__PURE__*/React.createElement("div", {
         style: {
           width: 58,
           height: 68,
@@ -3861,22 +4064,7 @@ function NeonMythosCity() {
           backgroundPosition: `${material.x} ${material.y}`,
           boxShadow: `0 0 12px ${r.color}44`
         }
-      }) : /*#__PURE__*/React.createElement("div", {
-        style: {
-          width: 8 * PX + 4,
-          height: 11 * PX + 4,
-          position: "relative"
-        }
-      }, /*#__PURE__*/React.createElement("div", {
-        style: {
-          width: PX,
-          height: PX,
-          boxShadow: spr?.idle || "none",
-          position: "absolute",
-          top: 2,
-          left: 2
-        }
-      })), spec && /*#__PURE__*/React.createElement("div", {
+      }) : null, spec && /*#__PURE__*/React.createElement("div", {
         style: {
           position: "absolute",
           top: -4,
@@ -4239,7 +4427,9 @@ function NeonMythosCity() {
       const c = all.find(x => x.id === sel);
       if (!c) return null;
       const spr = ALL_SPRITES[c.spriteId];
-      const material = MATERIAL_PORTRAITS[c.spriteId];
+      const pet = CODEX_PETS[c.spriteId];
+      const material = pet ? null : MATERIAL_PORTRAITS[c.spriteId];
+      const petAnimation = pet ? pet.animations.idle : null;
       const charIdNum = c.id.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
       const convRate = (10 + charIdNum % 15 + tick % 10 * 0.1).toFixed(1);
       const volSOL = (1000 + charIdNum * 13 % 4000 + tick % 5 * 12).toLocaleString();
@@ -4266,8 +4456,8 @@ function NeonMythosCity() {
         }
       }, /*#__PURE__*/React.createElement("div", {
         style: {
-          width: material ? 46 : 8 * PX + 4,
-          height: material ? 56 : 11 * PX + 4,
+          width: pet ? 52 : material ? 46 : 8 * PX + 4,
+          height: pet ? 58 : material ? 56 : 11 * PX + 4,
           position: "relative",
           flexShrink: 0,
           background: "#111",
@@ -4275,7 +4465,22 @@ function NeonMythosCity() {
           borderRadius: "4px",
           boxShadow: c.specActive && spec ? `0 0 10px ${spec.color}` : undefined
         }
-      }, material ? /*#__PURE__*/React.createElement("div", {
+      }, pet ? /*#__PURE__*/React.createElement("div", {
+        style: {
+          position: "absolute",
+          left: "50%",
+          bottom: 1,
+          width: pet.cellW,
+          height: pet.cellH,
+          transform: "translateX(-50%) scale(.27)",
+          transformOrigin: "50% 100%",
+          backgroundImage: `url('${pet.src}')`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: `-${getCodexPetFrame(tick, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+          imageRendering: "auto",
+          filter: c.specActive && spec ? `brightness(1.3) drop-shadow(0 0 4px ${spec.color})` : "none"
+        }
+      }) : material ? /*#__PURE__*/React.createElement("div", {
         style: {
           position: "absolute",
           inset: 2,
@@ -4287,17 +4492,7 @@ function NeonMythosCity() {
           backgroundPosition: `${material.x} ${material.y}`,
           filter: c.specActive && spec ? `brightness(1.16) drop-shadow(0 0 4px ${spec.color})` : "none"
         }
-      }) : /*#__PURE__*/React.createElement("div", {
-        style: {
-          width: PX,
-          height: PX,
-          boxShadow: spr?.idle,
-          position: "absolute",
-          top: 2,
-          left: 2,
-          filter: c.specActive && spec ? `brightness(1.3) drop-shadow(0 0 4px ${spec.color})` : "none"
-        }
-      }), spec && c.specActive && /*#__PURE__*/React.createElement("div", {
+      }) : null, spec && c.specActive && /*#__PURE__*/React.createElement("div", {
         style: {
           position: "absolute",
           top: -4,
@@ -4605,7 +4800,7 @@ function NeonMythosCity() {
       borderRadius: "6px",
       border: "1px solid #1a1a3e",
       overflow: "hidden",
-      imageRendering: "pixelated",
+      imageRendering: "auto",
       flexShrink: 0,
       margin: "4px auto"
     }
@@ -4790,7 +4985,9 @@ function NeonMythosCity() {
   const BottomEntitySheet = () => {
     const c = sel ? all.find(x => x.id === sel) : null;
     if (!c) return null;
-    const material = MATERIAL_PORTRAITS[c.spriteId];
+    const pet = CODEX_PETS[c.spriteId];
+    const material = pet ? null : MATERIAL_PORTRAITS[c.spriteId];
+    const petAnimation = pet ? getCodexPetAnimation(pet, c.state, c.expression, c.spriteId) : null;
     const spec = c.specialty ? SPECIALTIES[c.specialty] : null;
     const face = c.expression === "joy" ? "≧▽≦" : c.expression === "focus" ? "◕_◕" : c.expression === "worried" ? "•́︿•̀" : "•ᴗ•";
     return /*#__PURE__*/React.createElement("div", {
@@ -4840,7 +5037,22 @@ function NeonMythosCity() {
         boxShadow: `0 0 16px ${c.color}44`,
         overflow: "hidden"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, pet && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: "50%",
+        bottom: -4,
+        width: pet.cellW,
+        height: pet.cellH,
+        transform: `translateX(-50%) scale(${isMobile ? .44 : .5})`,
+        transformOrigin: "50% 100%",
+        backgroundImage: `url('${pet.src}')`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: `-${getCodexPetFrame(tick, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+        imageRendering: "auto",
+        filter: `drop-shadow(0 0 10px ${c.color}88)`
+      }
+    }), /*#__PURE__*/React.createElement("div", {
       style: {
         position: "absolute",
         right: 6,
@@ -4897,7 +5109,14 @@ function NeonMythosCity() {
         lineHeight: 1.35,
         marginTop: 7
       }
-    }, c.lastReaction ? `Reaction: ${c.lastReaction}` : "Autonomous entity: preferences, behavior, mood and reactions are simulated.")), !isMobile && /*#__PURE__*/React.createElement("div", {
+    }, c.lastReaction ? `Reaction: ${c.lastReaction}` : "Autonomous entity: preferences, behavior, mood and reactions are simulated."), agentNotes[c.id] && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginTop: 6,
+        color: c.color,
+        fontSize: 10,
+        lineHeight: 1.35
+      }
+    }, "Personal note: ", agentNotes[c.id])), !isMobile && /*#__PURE__*/React.createElement("div", {
       style: {
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
@@ -5148,7 +5367,9 @@ function NeonMythosCity() {
     const hired = recruited.find(x => x.id === r.id);
     const cost = r.tier === "champ" ? 8000 : r.tier === "e4" ? 5000 : r.tier === "gym" ? 3000 : 2000;
     const spr = ALL_SPRITES[r.spriteId];
-    const material = MATERIAL_PORTRAITS[r.spriteId];
+    const pet = CODEX_PETS[r.spriteId];
+    const material = pet ? null : MATERIAL_PORTRAITS[r.spriteId];
+    const petAnimation = pet ? pet.animations.idle : null;
     const spec = r.specialty ? SPECIALTIES[r.specialty] : null;
     return /*#__PURE__*/React.createElement("div", {
       key: r.id,
@@ -5163,15 +5384,29 @@ function NeonMythosCity() {
       }
     }, /*#__PURE__*/React.createElement("div", {
       style: {
-        width: material ? 44 : 8 * PX + 4,
-        height: material ? 52 : 11 * PX + 4,
+        width: pet ? 48 : material ? 44 : 8 * PX + 4,
+        height: pet ? 54 : material ? 52 : 11 * PX + 4,
         position: "relative",
         flexShrink: 0,
-        borderRadius: material ? 7 : 0,
+        borderRadius: pet || material ? 7 : 0,
         overflow: "hidden",
-        border: material ? `1px solid ${r.color}66` : "none"
+        border: pet || material ? `1px solid ${r.color}66` : "none"
       }
-    }, material ? /*#__PURE__*/React.createElement("div", {
+    }, pet ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "absolute",
+        left: "50%",
+        bottom: 0,
+        width: pet.cellW,
+        height: pet.cellH,
+        transform: "translateX(-50%) scale(.25)",
+        transformOrigin: "50% 100%",
+        backgroundImage: `url('${pet.src}')`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: `-${getCodexPetFrame(tick, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+        imageRendering: "auto"
+      }
+    }) : material ? /*#__PURE__*/React.createElement("div", {
       style: {
         position: "absolute",
         inset: 0,
@@ -5181,16 +5416,7 @@ function NeonMythosCity() {
         backgroundSize: `${material.zoom} auto`,
         backgroundPosition: `${material.x} ${material.y}`
       }
-    }) : /*#__PURE__*/React.createElement("div", {
-      style: {
-        width: PX,
-        height: PX,
-        boxShadow: spr?.idle || "none",
-        position: "absolute",
-        top: 2,
-        left: 2
-      }
-    })), /*#__PURE__*/React.createElement("div", {
+    }) : null), /*#__PURE__*/React.createElement("div", {
       style: {
         flex: 1,
         minWidth: 0
@@ -5547,7 +5773,14 @@ function NeonMythosCity() {
       var appRoot = ReactDOM.createRoot(container);
       appRoot.render(React.createElement(NeonMythosCity));
 
-      // Automatic fade-out of loading screen removed to require "PLAY NOW" click.
+      // Fade out loading screen after React mounts
+      setTimeout(function() {
+        var el = document.getElementById("nm-loading");
+        if (!el) return;
+        el.style.transition = "opacity 0.4s ease";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 420);
+      }, 300);
 
     } catch (err) {
       console.error("[NEON MYTHOS] Boot error:", err);
@@ -5808,19 +6041,7 @@ function NeonMythosCity() {
       const msgIv = setInterval(() => {
         if (!statusEl) { clearInterval(msgIv); return; }
         if (mi < msgs.length) statusEl.textContent = msgs[mi++];
-        else {
-          clearInterval(msgIv);
-          const playBtn = document.getElementById('nm-play-btn');
-          if (playBtn) {
-            playBtn.style.display = 'block';
-            playBtn.addEventListener('click', () => {
-              if (!loading) return;
-              loading.style.transition = "opacity 0.4s ease";
-              loading.style.opacity = "0";
-              setTimeout(function() { if (loading.parentNode) loading.parentNode.removeChild(loading); }, 420);
-            });
-          }
-        }
+        else clearInterval(msgIv);
       }, 200);
 
       // Add scanning line inside loader
@@ -6614,15 +6835,10 @@ function NeonMythosCity() {
 
     let currentAgent = null;
     const RESUME_PORTRAITS = {
-      "KANE-KAMI": { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "294%", x: "18%", y: "16%" },
-      "ORACLE-01": { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "292%", x: "19%", y: "19%" },
-      "NEGO-CHAN": { image: "assets/characters/chatgpt-image-2026-04-28-140354.png", zoom: "270%", x: "20%", y: "22%" },
-      "404 HUMAN": { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "292%", x: "18%", y: "49%" },
-      "YAMI-NEKO": { image: "assets/characters/chatgpt-image-2026-04-28-140352.png", zoom: "298%", x: "70%", y: "74%" },
-      "DRONE-TAN": { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "292%", x: "18%", y: "74%" },
-      "SAGE-BOY": { image: "assets/characters/chatgpt-image-2026-04-28-140349.png", zoom: "286%", x: "68%", y: "18%" },
-      "ZERO": { image: "assets/characters/chatgpt-image-2026-04-28-140346.png", zoom: "300%", x: "18%", y: "22%" },
-      "GHOST": { image: "assets/characters/chatgpt-image-2026-04-28-140346.png", zoom: "330%", x: "88%", y: "22%" }
+      "KANE-KAMI": { image: "pet-portable-bundle/kane-kami/assets/spritesheet.webp", zoom: "800%", x: "0%", y: "0%" },
+      "ZERO": { image: "pet-portable-bundle/zero/assets/spritesheet.webp", zoom: "800%", x: "0%", y: "0%" },
+      "NEGO-CHAN": { image: "pet-portable-bundle/nego-chan/assets/spritesheet.webp", zoom: "800%", x: "0%", y: "0%" },
+      "404 HUMAN": { image: "pet-portable-bundle/404-human/assets/spritesheet.webp", zoom: "800%", x: "0%", y: "0%" }
     };
 
     function openResume(agentName, specialty) {
@@ -6782,8 +6998,8 @@ function NeonMythosCity() {
       right: max(10px, env(safe-area-inset-right));
       bottom: max(8px, env(safe-area-inset-bottom));
       z-index: 9997;
-      width: min(460px, calc(100vw - 20px));
-      height: 176px;
+      width: min(500px, calc(100vw - 20px));
+      height: 260px;
       pointer-events: none;
       font-family: 'Rajdhani', 'Share Tech Mono', system-ui, sans-serif;
       color: var(--nm-agent-text);
@@ -6871,7 +7087,7 @@ function NeonMythosCity() {
     .nm-agent-status-chip {
       position: absolute;
       right: 98px;
-      bottom: 146px;
+      bottom: 228px;
       display: inline-flex;
       align-items: center;
       gap: 7px;
@@ -6903,10 +7119,10 @@ function NeonMythosCity() {
       position: absolute;
       right: 88px;
       bottom: 0;
-      width: min(340px, calc(100vw - 112px));
-      height: 142px;
+      width: min(380px, calc(100vw - 112px));
+      height: 224px;
       display: grid;
-      grid-template-rows: 34px minmax(48px, 1fr) 44px;
+      grid-template-rows: 34px 30px minmax(74px, 1fr) 44px;
       border: 1px solid var(--nm-agent-line);
       background:
         linear-gradient(135deg, rgba(255, 0, 60, .16), transparent 28%),
@@ -6976,6 +7192,35 @@ function NeonMythosCity() {
       border-radius: 0;
     }
 
+    .nm-agent-tabs {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 5px 8px 4px;
+      border-bottom: 1px solid rgba(0, 229, 255, .18);
+      background: rgba(0, 0, 0, .18);
+    }
+
+    .nm-agent-tab {
+      height: 21px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255, 255, 255, .045);
+      color: var(--nm-agent-muted);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      border-radius: 0;
+    }
+
+    .nm-agent-tab.is-active {
+      border-color: rgba(0, 229, 255, .52);
+      background: linear-gradient(90deg, rgba(0, 229, 255, .18), rgba(255, 0, 60, .12));
+      color: #fff;
+      box-shadow: 0 0 12px rgba(0, 229, 255, .16);
+    }
+
     .nm-agent-log {
       position: relative;
       display: flex;
@@ -6984,6 +7229,57 @@ function NeonMythosCity() {
       padding: 8px 10px 7px;
       overflow: auto;
       overscroll-behavior: contain;
+    }
+
+    .nm-agent-log[hidden],
+    .nm-negotiation-log[hidden] {
+      display: none;
+    }
+
+    .nm-negotiation-log {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px 10px 7px;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+
+    .nm-deal-msg {
+      display: grid;
+      gap: 3px;
+      padding: 6px 8px;
+      border: 1px solid rgba(0, 229, 255, .18);
+      background: rgba(0, 229, 255, .055);
+      box-shadow: inset 2px 0 0 var(--deal-color, var(--nm-agent-cyan));
+      color: #eef3ff;
+      font-size: 12px;
+      line-height: 1.26;
+    }
+
+    .nm-deal-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--nm-agent-muted);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 9px;
+      letter-spacing: .8px;
+      text-transform: uppercase;
+    }
+
+    .nm-deal-speaker {
+      color: var(--deal-color, var(--nm-agent-cyan));
+      font-weight: 700;
+      text-shadow: 0 0 8px color-mix(in srgb, var(--deal-color, var(--nm-agent-cyan)) 60%, transparent);
+    }
+
+    .nm-deal-body {
+      color: #fff;
+      font-size: 12px;
+      letter-spacing: .1px;
     }
 
     .nm-agent-msg {
@@ -7120,7 +7416,7 @@ function NeonMythosCity() {
         right: max(8px, env(safe-area-inset-right));
         bottom: max(6px, env(safe-area-inset-bottom));
         width: calc(100vw - 20px);
-        height: 164px;
+        height: 232px;
       }
 
       .nm-agent-avatar-stage {
@@ -7131,12 +7427,12 @@ function NeonMythosCity() {
         right: 68px;
         bottom: 0;
         width: calc(100vw - 94px);
-        height: 138px;
+        height: 208px;
       }
 
       .nm-agent-status-chip {
         right: 72px;
-        bottom: 138px;
+        bottom: 210px;
       }
 
       .nm-agent-msg {
@@ -7160,7 +7456,13 @@ function NeonMythosCity() {
         <button class="nm-agent-toggle" type="button" aria-label="Minimize companion">×</button>
       </header>
 
+      <div class="nm-agent-tabs" role="tablist" aria-label="Agent monitor">
+        <button class="nm-agent-tab is-active" id="nm-tab-chat" type="button" role="tab" aria-selected="true" aria-controls="nm-agent-log">CHAT</button>
+        <button class="nm-agent-tab" id="nm-tab-deals" type="button" role="tab" aria-selected="false" aria-controls="nm-negotiation-log">DEALS</button>
+      </div>
+
       <div class="nm-agent-log" id="nm-agent-log" role="log" aria-live="polite"></div>
+      <div class="nm-negotiation-log" id="nm-negotiation-log" role="log" aria-live="polite" hidden></div>
 
       <form class="nm-agent-form" id="nm-agent-form">
         <input class="nm-agent-input" id="nm-agent-input" type="text" autocomplete="off" placeholder="Ask the agent..." aria-label="Message to companion agent">
@@ -7170,23 +7472,23 @@ function NeonMythosCity() {
 
     <button class="nm-agent-avatar-stage" type="button" aria-label="Open companion chat">
       <span class="nm-agent-avatar-ring"></span>
-      <span class="nm-agent-portrait is-active" data-agent-state="idle" style="--agent-image:url('assets/characters/chatgpt-image-2026-04-28-140354.png');--agent-zoom:330%;--agent-x:19%;--agent-y:23%;" role="img" aria-label="Idle companion portrait"></span>
-      <span class="nm-agent-portrait" data-agent-state="listening" style="--agent-image:url('assets/characters/chatgpt-image-2026-04-28-140354.png');--agent-zoom:820%;--agent-x:70%;--agent-y:12%;" role="img" aria-label="Listening companion portrait"></span>
-      <span class="nm-agent-portrait" data-agent-state="thinking" style="--agent-image:url('assets/characters/chatgpt-image-2026-04-28-140349.png');--agent-zoom:340%;--agent-x:18%;--agent-y:20%;" role="img" aria-label="Thinking companion portrait"></span>
-      <span class="nm-agent-portrait" data-agent-state="speaking" style="--agent-image:url('assets/characters/chatgpt-image-2026-04-28-140354.png');--agent-zoom:820%;--agent-x:82%;--agent-y:12%;" role="img" aria-label="Speaking companion portrait"></span>
-      <span class="nm-agent-portrait" data-agent-state="joy" style="--agent-image:url('assets/characters/chatgpt-image-2026-04-28-140354.png');--agent-zoom:900%;--agent-x:92%;--agent-y:24%;" role="img" aria-label="Success companion portrait"></span>
+      <span class="nm-agent-portrait is-active" data-agent-state="idle" style="--agent-image:url('pet-portable-bundle/nego-chan/assets/spritesheet.webp');--agent-zoom:800%;--agent-x:0%;--agent-y:0%;" role="img" aria-label="Idle companion portrait"></span>
+      <span class="nm-agent-portrait" data-agent-state="listening" style="--agent-image:url('pet-portable-bundle/nego-chan/assets/spritesheet.webp');--agent-zoom:800%;--agent-x:0%;--agent-y:0%;" role="img" aria-label="Listening companion portrait"></span>
+      <span class="nm-agent-portrait" data-agent-state="thinking" style="--agent-image:url('pet-portable-bundle/nego-chan/assets/spritesheet.webp');--agent-zoom:800%;--agent-x:0%;--agent-y:0%;" role="img" aria-label="Thinking companion portrait"></span>
+      <span class="nm-agent-portrait" data-agent-state="speaking" style="--agent-image:url('pet-portable-bundle/nego-chan/assets/spritesheet.webp');--agent-zoom:800%;--agent-x:0%;--agent-y:0%;" role="img" aria-label="Speaking companion portrait"></span>
+      <span class="nm-agent-portrait" data-agent-state="joy" style="--agent-image:url('pet-portable-bundle/nego-chan/assets/spritesheet.webp');--agent-zoom:800%;--agent-x:0%;--agent-y:0%;" role="img" aria-label="Success companion portrait"></span>
     </button>
   </div>
 
   <script>
   (() => {
     const agentAssets = {
-      idle: "assets/characters/chatgpt-image-2026-04-28-140354.png",
-      listening: "assets/characters/chatgpt-image-2026-04-28-140352.png",
-      thinking: "assets/characters/chatgpt-image-2026-04-28-140346.png",
-      speaking: "assets/characters/chatgpt-image-2026-04-28-140349.png",
-      joy: "assets/characters/chatgpt-image-2026-04-28-140331.png",
-      success: "assets/characters/chatgpt-image-2026-04-28-140331.png"
+      idle: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+      listening: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+      thinking: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+      speaking: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+      joy: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+      success: "pet-portable-bundle/nego-chan/assets/spritesheet.webp"
     };
 
     const stateLabels = {
@@ -7200,18 +7502,80 @@ function NeonMythosCity() {
 
     const shell = document.getElementById("nm-agent-shell");
     const log = document.getElementById("nm-agent-log");
+    const negotiationLog = document.getElementById("nm-negotiation-log");
     const form = document.getElementById("nm-agent-form");
     const input = document.getElementById("nm-agent-input");
     const label = document.getElementById("nm-agent-state-label");
     const toggle = shell.querySelector(".nm-agent-toggle");
     const avatarButton = shell.querySelector(".nm-agent-avatar-stage");
     const portraits = Array.from(shell.querySelectorAll(".nm-agent-portrait"));
+    const tabChat = document.getElementById("nm-tab-chat");
+    const tabDeals = document.getElementById("nm-tab-deals");
 
     const agentStore = {
       state: "idle",
       busy: false,
       idleTimer: null,
-      messages: []
+      messages: [],
+      target: "NEGO-CHAN",
+      dealStep: 0
+    };
+
+    const dealLines = [
+      {
+        a: "NEGO-CHAN",
+        b: "GOLD JACK",
+        color: "#ff4dc6",
+        topic: "契約価格",
+        lines: [
+          ["NEGO-CHAN", "#ff4dc6", "初期提示は ¥4,800。成功報酬を薄くして、継続契約を厚くします。"],
+          ["GOLD JACK", "#ffd700", "利益率が浅い。¥5,400なら即時決済、DATA 12を追加で出せる。"],
+          ["NEGO-CHAN", "#ff4dc6", "¥5,100 + DATA 8。納期を半日短縮する条件なら署名できます。"]
+        ]
+      },
+      {
+        a: "ZERO",
+        b: "KITSUNE-X",
+        color: "#ff003c",
+        topic: "防衛SLA",
+        lines: [
+          ["ZERO", "#ff003c", "監視範囲を市場まで拡張。代わりに防衛コストを10%圧縮したい。"],
+          ["KITSUNE-X", "#00ff88", "圧縮は可能。ただし夜間アラートの優先度を上げる必要があります。"],
+          ["ZERO", "#ff003c", "承認。夜間帯だけ優先権を付与し、昼は通常ルートに戻します。"]
+        ]
+      },
+      {
+        a: "ORACLE-01",
+        b: "NEON",
+        color: "#00e5ff",
+        topic: "予測データ",
+        lines: [
+          ["ORACLE-01", "#00e5ff", "市場変動の確率が上昇。予測モデルを共有すれば損失を回避できます。"],
+          ["NEON", "#7df9ff", "共有条件はログ匿名化。個別IDを外せるなら解析リソースを出します。"],
+          ["ORACLE-01", "#00e5ff", "匿名化して送信。対価は次回のDATA収益から12%で合意します。"]
+        ]
+      },
+      {
+        a: "DRONE-TAN",
+        b: "SAGE-BOY",
+        color: "#bf5fff",
+        topic: "配送ルート",
+        lines: [
+          ["DRONE-TAN", "#bf5fff", "港から学院までの便を増やす。学習ログの優先配送を提案。"],
+          ["SAGE-BOY", "#89ddff", "代わりに整備手順を更新します。事故率を下げれば全体収益も伸びる。"],
+          ["DRONE-TAN", "#bf5fff", "成立。次サイクルから安全ルートに切り替えます。"]
+        ]
+      }
+    ];
+
+    const setActiveTab = (tab) => {
+      const deals = tab === "deals";
+      log.hidden = deals;
+      negotiationLog.hidden = !deals;
+      tabChat.classList.toggle("is-active", !deals);
+      tabDeals.classList.toggle("is-active", deals);
+      tabChat.setAttribute("aria-selected", String(!deals));
+      tabDeals.setAttribute("aria-selected", String(deals));
     };
 
     const setAgentState = (nextState) => {
@@ -7241,6 +7605,39 @@ function NeonMythosCity() {
       return item;
     };
 
+    const appendDealMessage = (speaker, text, color, topic = "NEGOTIATION") => {
+      const item = document.createElement("div");
+      item.className = "nm-deal-msg";
+      item.style.setProperty("--deal-color", color || "#00e5ff");
+      const now = new Date();
+      item.innerHTML = `
+        <div class="nm-deal-meta">
+          <span class="nm-deal-speaker"></span>
+          <span>${now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</span>
+        </div>
+        <div class="nm-deal-body"></div>
+      `;
+      item.querySelector(".nm-deal-speaker").textContent = `${speaker} / ${topic}`;
+      item.querySelector(".nm-deal-body").textContent = text;
+      negotiationLog.appendChild(item);
+      while (negotiationLog.children.length > 42) negotiationLog.removeChild(negotiationLog.firstChild);
+      negotiationLog.scrollTop = negotiationLog.scrollHeight;
+      return item;
+    };
+
+    const playNegotiationRound = (source) => {
+      const scenario = source || dealLines[agentStore.dealStep % dealLines.length];
+      agentStore.dealStep += 1;
+      const lines = source ? [
+        [source.from || "AGENT-A", `${source.to || "AGENT-B"} と ${source.topic || "city_ops"} について条件確認を開始。`, source.fromColor || source.color || "#00e5ff"],
+        [source.to || "AGENT-B", "譲歩幅・報酬・リスクを再計算。反対提案を返します。", source.toColor || "#ffd700"],
+        [source.from || "AGENT-A", "暫定合意。マップ上の行動と収益ログへ反映を待機。", source.fromColor || source.color || "#00ff88"]
+      ] : scenario.lines.map(([speaker, color, text]) => [speaker, text, color]);
+      lines.forEach(([speaker, text, color], index) => {
+        window.setTimeout(() => appendDealMessage(speaker, text, color, source?.topic || scenario.topic), index * 850);
+      });
+    };
+
     const appendThinking = () => {
       const item = document.createElement("div");
       item.className = "nm-agent-msg agent";
@@ -7268,9 +7665,80 @@ function NeonMythosCity() {
       tick();
     });
 
+    const parseAgentCommand = (message) => {
+      const lower = message.toLowerCase();
+      const aliases = [
+        ["GOLD JACK", /gold\s*jack|ゴールド\s*ジャック|arb/i],
+        ["KITSUNE-X", /kitsune[-\s]*x|キツネ/i],
+        ["EYE-VOID", /eye[-\s]*void|アイ[-\s]*ヴォイド/i],
+        ["DRONE-TAN", /drone[-\s]*tan|ドローン/i],
+        ["SAGE-BOY", /sage[-\s]*boy|セージ/i],
+        ["YAMI-NEKO", /yami[-\s]*neko|ヤミ[-\s]*ネコ/i],
+        ["ORACLE-01", /oracle[-\s]*01|lumen|オラクル/i],
+        ["404 HUMAN", /404\s*human|ヒューマン/i],
+        ["KANE-KAMI", /kane[-\s]*kami|カネカミ/i],
+        ["NEGO-CHAN", /nego[-\s]*chan|ネゴ/i],
+        ["LIRA", /lira|リラ/i],
+        ["NEON", /(^|[^a-z])neon([^a-z]|$)|ネオン/i],
+        ["PIXEL", /pixel|ピクセル/i],
+        ["ZERO", /zero|ゼロ/i],
+        ["GOLD JACK", /投資|利益|finance|arbitrage/i],
+        ["KITSUNE-X", /防衛|defense|barrier|shield/i],
+        ["LIRA", /情報戦|info|warfare|breach/i],
+        ["NEON", /データ解析|analysis|scan/i],
+        ["EYE-VOID", /予知|future|oracle/i],
+        ["ZERO", /core|警備|防御|guard|security/i],
+        ["NEGO-CHAN", /交渉|deal|contract|trader/i]
+      ];
+      const hit = aliases.find(([, pattern]) => pattern.test(message));
+      const target = hit ? hit[0] : agentStore.target;
+      let intent = "assist";
+      if (/投資|利益|bank|invest|profit|金/.test(lower)) intent = "invest";
+      else if (/分析|予測|oracle|analy|forecast|data/.test(lower)) intent = "analyze";
+      else if (/守|防御|警備|guard|security|patch/.test(lower)) intent = "guard";
+      else if (/交渉|契約|deal|nego|trade|market/.test(lower)) intent = "negotiate";
+      else if (/配送|運搬|route|deliver|drone/.test(lower)) intent = "deliver";
+      else if (/休|寝|coffee|tavern|rest|404/.test(lower)) intent = "rest";
+      else if (/hack|侵入|stealth|yami|neko/.test(lower)) intent = "hack";
+      else if (/勉強|学習|sage|study|academy|support/.test(lower)) intent = "study";
+      else if (/ありがとう|thanks|最高|good|nice|えらい/.test(lower)) intent = "praise";
+      const noteMatch = message.match(/(?:性格|personality|メモ|note)[:：]\s*(.+)$/i);
+      return { target, intent, note: noteMatch ? noteMatch[1].trim() : "", message };
+    };
+
+    const sendCommandToSimulation = (command) => {
+      agentStore.target = command.target;
+      window.dispatchEvent(new CustomEvent("nm:agent-command", {
+        detail: command
+      }));
+    };
+
     const mockAgentApi = async (message, history) => {
       await new Promise((resolve) => window.setTimeout(resolve, 1200 + Math.random() * 900));
       const lower = message.toLowerCase();
+      const commands = message.split(/[。.!？?]+/).map(s => s.trim()).filter(Boolean).map(parseAgentCommand);
+      commands.forEach(sendCommandToSimulation);
+      const command = commands[commands.length - 1] || parseAgentCommand(message);
+      if (commands.length > 1) {
+        return commands.map(cmd => cmd.note ? `${cmd.target}: メモ「${cmd.note}」を保存` : `${cmd.target}: ${cmd.intent} 指示を送信`).join(" / ");
+      }
+      if (command.note) {
+        return `${command.target} のパーソナライズを更新しました。「${command.note}」を行動メモとして保持します。`;
+      }
+      if (command.intent !== "assist") {
+        const labels = {
+          invest: "投資判断",
+          analyze: "分析",
+          guard: "防御",
+          negotiate: "交渉",
+          deliver: "配送",
+          rest: "休憩",
+          hack: "潜入支援",
+          study: "学習支援",
+          praise: "士気上昇"
+        };
+        return `${command.target} に ${labels[command.intent] || command.intent} の指示を送りました。マップ上の行動ログと選択パネルにも反映します。`;
+      }
       if (/clear|解決|done|success|勝|ありがとう|thanks|最高/.test(lower)) {
         return "ミッションログを確認。いい流れです。次の一手まで、こちらで状況を整理しておきます。";
       }
@@ -7280,7 +7748,7 @@ function NeonMythosCity() {
       if (history.length > 4) {
         return "会話コンテキストも保持中です。API接続時はこの履歴をそのままメッセージ配列として渡せます。";
       }
-      return "受信しました。ネオン街のノイズを切り分けながら、あなたの意図に合わせて次の応答を組み立てます。";
+      return `${command.target} を対象に受信しました。名前を入れずに続けると、この相手への指示として扱います。`;
     };
 
     const handleSubmit = async (event) => {
@@ -7322,6 +7790,21 @@ function NeonMythosCity() {
 
     input.addEventListener("blur", () => scheduleIdle(650));
     form.addEventListener("submit", handleSubmit);
+    tabChat.addEventListener("click", () => setActiveTab("chat"));
+    tabDeals.addEventListener("click", () => setActiveTab("deals"));
+
+    window.addEventListener("nm:agent-detail", (event) => {
+      const name = event.detail && event.detail.name;
+      if (!name || agentStore.target === name) return;
+      agentStore.target = name;
+      appendMessage("agent", `${name} を操作対象にしました。続けて「分析して」「性格: 慎重」などと送れます。`);
+    });
+
+    window.addEventListener("nm:agent-negotiation", (event) => {
+      playNegotiationRound(event.detail || null);
+      label.textContent = "DEAL WATCH";
+      scheduleIdle(2600);
+    });
 
     toggle.addEventListener("click", () => {
       shell.classList.add("is-collapsed");
@@ -7333,7 +7816,12 @@ function NeonMythosCity() {
       input.focus();
     });
 
-    appendMessage("agent", "NEGO-CHAN online. 用件を送ってください。こちらで会話状態とレスポンス表示を制御します。");
+    appendMessage("agent", "NEGO-CHAN online. キャラ名つきで指示できます。例:「ZERO 防御して」「SAGE-BOY 性格: 穏やかで学習好き」「DRONE-TAN 配送ルート確認」。");
+    appendDealMessage("SYSTEM", "AI同士の交渉ログを監視中。マップ上で接続が発生すると、条件提示・反対提案・暫定合意がここに流れます。", "#00e5ff", "MONITOR");
+    playNegotiationRound();
+    window.setInterval(() => {
+      if (!document.hidden) playNegotiationRound();
+    }, 7600);
     setAgentState("idle");
   })();
   </script>
@@ -7563,10 +8051,10 @@ function NeonMythosCity() {
         kicker: "ENGLISH AGENT",
         accent: "#ff003c",
         dark: "#050509",
-        image: "assets/characters/chatgpt-image-2026-04-28-140346.png",
-        zoom: "300%",
-        x: "18%",
-        y: "22%"
+        image: "pet-portable-bundle/zero/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       },
       ja: {
         agent: "NEGO-CHAN",
@@ -7575,10 +8063,10 @@ function NeonMythosCity() {
         kicker: "日本語エージェント",
         accent: "#ff4dc6",
         dark: "#080012",
-        image: "assets/characters/chatgpt-image-2026-04-28-140354.png",
-        zoom: "270%",
-        x: "20%",
-        y: "22%"
+        image: "pet-portable-bundle/nego-chan/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       },
       zh: {
         agent: "ORACLE-01",
@@ -7587,10 +8075,10 @@ function NeonMythosCity() {
         kicker: "中文代理",
         accent: "#00e5ff",
         dark: "#00141a",
-        image: "assets/characters/chatgpt-image-2026-04-28-140349.png",
-        zoom: "292%",
-        x: "19%",
-        y: "19%"
+        image: "pet-portable-bundle/zero/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       },
       ko: {
         agent: "YAMI-NEKO",
@@ -7599,10 +8087,10 @@ function NeonMythosCity() {
         kicker: "한국어 에이전트",
         accent: "#a800ff",
         dark: "#12001c",
-        image: "assets/characters/chatgpt-image-2026-04-28-140352.png",
-        zoom: "298%",
-        x: "70%",
-        y: "74%"
+        image: "pet-portable-bundle/kane-kami/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       },
       es: {
         agent: "KANE-KAMI",
@@ -7611,10 +8099,10 @@ function NeonMythosCity() {
         kicker: "AGENTE ESPAÑOL",
         accent: "#ffb100",
         dark: "#170d00",
-        image: "assets/characters/chatgpt-image-2026-04-28-140352.png",
-        zoom: "294%",
-        x: "18%",
-        y: "16%"
+        image: "pet-portable-bundle/kane-kami/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       },
       fr: {
         agent: "GHOST",
@@ -7623,10 +8111,10 @@ function NeonMythosCity() {
         kicker: "AGENT FRANÇAIS",
         accent: "#d8d8d8",
         dark: "#080808",
-        image: "assets/characters/chatgpt-image-2026-04-28-140346.png",
-        zoom: "330%",
-        x: "88%",
-        y: "22%"
+        image: "pet-portable-bundle/zero/assets/spritesheet.webp",
+        zoom: "800%",
+        x: "0%",
+        y: "0%"
       }
     };
 
