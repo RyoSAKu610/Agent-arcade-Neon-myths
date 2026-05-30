@@ -1,30 +1,39 @@
-# Agent-arcade-Neon-myths
-Agent arcade(Neon mythos) is an immersive, high-octane Cyberpunk Interactive Web Application built on React 18. It blends cutting-edge visual effects with game-inspired mechanics to create a uniquely stylish and narrative-driven user interface
-Visual Overdrive:
+# Agent Arcade: Neon Myths
 
-Striking palette of neon cyans, pinks, and golds.
+Agent Arcade: Neon Myths is a browser-based cyberpunk AI-agent simulation. It runs as a static web app, so anyone can open it from a phone, tablet, or computer without installing anything.
 
-Advanced CSS/JS effects including CRT scanlines, chromatic aberration, particle canvas systems, and holographic grids.
+## Start
 
-Gamified Interaction:
+[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/)
 
-Features "QTE" (Quick Time Event) panels and reactive tap buttons, blurring the line between a traditional website and a video game interface.
+Open the Start button above and press **PLAY NOW** when the loading sequence finishes.
 
-Multi-Language Narrative Agents:
+Direct URL:
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/
 
-Integrated "Agents" (like the character GHOST) that feature localized dialogue and specific roles, such as the French agent’s "Execute / Shadow Counsel" persona.
+## What Is Included
 
-Immersive UX:
+- `index.html` public launch page
+- `app.html` the NEON MYTHOS simulation
+- `assets/characters/` bundled character artwork used by the simulation
 
-A cohesive sci-fi experience from start to finish, including custom loading sequences and stylized "System Error" screens to maintain the narrative atmosphere.
+## Local Start
 
-Technical Stack
-Frontend Core: React 18 / ReactDOM 18 (with libraries optimized for performance).
+For the most reliable local test, run:
 
-Typography: A curated selection of futuristic Google Fonts: Orbitron, Share Tech Mono, Rajdhani, and Exo 2.
+```bash
+python3 -m http.server 8000
+```
 
-Styling & Animation: * Dynamic theme management via CSS Variables.
+Then open:
 
-Hardware-accelerated animations for smooth, high-fidelity visual transitions.
+```text
+http://localhost:8000/
+```
 
-The Verdict: More than just a functional web app, this project serves as a digital art piece and game prototype, pushing the boundaries of what is possible with modern frontend implementation.
+You can also open `app.html` directly in a browser.
+
+## Notes
+
+The app is self-contained except for Google Fonts. Audio/video autoplay behavior depends on the browser, so user interaction may be required before media can play.
+

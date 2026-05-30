@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="0; url=app.html">
+  <title>Agent Arcade: Neon Myths</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Share Tech Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #060812;
+      color: #e8fbff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100svh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+        radial-gradient(circle at 50% 35%, rgba(255, 105, 180, 0.2), transparent 34rem),
+        #060812;
+      background-size: 36px 36px, 36px 36px, auto, auto;
+    }
+
+    main {
+      width: min(92vw, 600px);
+      padding: 32px;
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      background: rgba(4, 10, 26, 0.82);
+      box-shadow: 0 0 42px rgba(0, 229, 255, 0.16);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 8vw, 4rem);
+      line-height: 0.92;
+      letter-spacing: 0;
+      text-transform: uppercase;
+      color: #00e5ff;
+      text-shadow: 0 0 18px rgba(0, 229, 255, 0.65);
+    }
+
+    p {
+      margin: 0 auto 24px;
+      max-width: 34rem;
+      color: #a8c7d8;
+      line-height: 1.6;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 24px;
+      border: 2px solid #00e5ff;
+      background: #00e5ff;
+      color: #061019;
+      font-weight: 900;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.4);
+    }
+
+    a:focus-visible {
+      outline: 3px solid #ff69b4;
+      outline-offset: 4px;
+    }
+  </style>
+  <script>
+    window.location.replace("app.html");
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Agent Arcade</h1>
+    <p>Loading NEON MYTHOS. If it does not open automatically, press Start.</p>
+    <a href="app.html">Start Simulation</a>
+  </main>
+</body>
+</html>
+
