@@ -3700,7 +3700,14 @@ function NeonMythosCity() {
         return acc;
       }, []);
       if (tick % 10 === 0) {
-        const workers = [...agents, ...resi].filter(a => a.state === "work");
+        // ⚡ Bolt: Use sequential for loops instead of [...arr1, ...arr2].filter() to avoid intermediate array allocations and GC overhead in the game loop
+        const workers = [];
+        for (let i = 0; i < agents.length; i++) {
+          if (agents[i].state === "work") workers.push(agents[i]);
+        }
+        for (let i = 0; i < resi.length; i++) {
+          if (resi[i].state === "work") workers.push(resi[i]);
+        }
         const newConns = [];
         for (let i = 0; i < Math.min(3, workers.length - 1); i++) {
           if (workers.length >= 2) {
