@@ -4,12 +4,13 @@ Agent Arcade: Neon Myths is a browser-based NEON MYTHOS simulation bundled with 
 
 ## Start
 
-[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=codex-pets)
+[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=sound-on)
 
 Open the Start button above from any phone, tablet, or computer. Nothing needs to be installed.
+Use the **SOUND ON** button in the top-right corner if the browser does not start BGM automatically.
 
 Direct URL:
-https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=codex-pets
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=sound-on
 
 ## Included Files
 
@@ -19,6 +20,7 @@ https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html
 - `character-pets/` Codex pet spritesheets used by the simulation
 - `pet-portable-bundle/` portable Codex pet spritesheets used by the simulation
 - `lumen-export/` Lumen spritesheet export used by the simulation
+- `music/` BGM used by the simulation
 
 ## Local Start
 

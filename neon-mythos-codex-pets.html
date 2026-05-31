@@ -8148,5 +8148,138 @@ function NeonMythosCity() {
   })();
   </script>
 
+  <style>
+    #nm-sound-panel {
+      position: fixed;
+      top: max(10px, env(safe-area-inset-top));
+      right: max(10px, env(safe-area-inset-right));
+      z-index: 10050;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border: 1px solid rgba(0, 229, 255, .3);
+      background: rgba(5, 8, 20, .78);
+      box-shadow: 0 0 18px rgba(0, 229, 255, .16);
+      backdrop-filter: blur(8px);
+      font-family: "Share Tech Mono", monospace;
+    }
+
+    #nm-sound-btn {
+      min-height: 34px;
+      padding: 0 12px;
+      border: 1px solid rgba(0, 229, 255, .72);
+      border-radius: 0;
+      background: rgba(0, 229, 255, .12);
+      color: #9ff8ff;
+      font: 700 11px "Share Tech Mono", monospace;
+      letter-spacing: .7px;
+      text-shadow: 0 0 8px rgba(0, 229, 255, .75);
+    }
+
+    #nm-sound-btn.is-playing {
+      background: linear-gradient(90deg, rgba(0, 229, 255, .88), rgba(255, 45, 214, .76));
+      color: #04111a;
+      border-color: rgba(255, 255, 255, .8);
+      text-shadow: none;
+    }
+
+    #nm-sound-status {
+      max-width: 150px;
+      color: rgba(210, 240, 255, .72);
+      font-size: 9px;
+      line-height: 1.25;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 720px) {
+      #nm-sound-panel {
+        top: max(8px, env(safe-area-inset-top));
+        right: max(8px, env(safe-area-inset-right));
+        gap: 5px;
+      }
+
+      #nm-sound-status {
+        display: none;
+      }
+    }
+  </style>
+
+  <div id="nm-sound-panel" aria-label="Sound controls">
+    <button id="nm-sound-btn" type="button" aria-pressed="false">♪ SOUND ON</button>
+    <span id="nm-sound-status">Tap to enable BGM</span>
+  </div>
+  <audio id="nm-bgm" src="music/neon-myths-english.mp3" preload="auto" loop playsinline></audio>
+
+  <script>
+  (() => {
+    const audio = document.getElementById("nm-bgm");
+    const button = document.getElementById("nm-sound-btn");
+    const status = document.getElementById("nm-sound-status");
+    const panel = document.getElementById("nm-sound-panel");
+    if (!audio || !button || !status || !panel) return;
+
+    audio.volume = 0.42;
+    let userPaused = false;
+
+    const setUi = (state, label) => {
+      const playing = state === "playing";
+      button.classList.toggle("is-playing", playing);
+      button.setAttribute("aria-pressed", playing ? "true" : "false");
+      button.textContent = playing ? "♪ SOUND ON" : "♪ SOUND OFF";
+      status.textContent = label;
+    };
+
+    const startBgm = async () => {
+      userPaused = false;
+      try {
+        audio.muted = false;
+        await audio.play();
+        setUi("playing", "BGM online");
+        return true;
+      } catch (err) {
+        setUi("blocked", "Tap SOUND ON");
+        return false;
+      }
+    };
+
+    const pauseBgm = () => {
+      userPaused = true;
+      audio.pause();
+      setUi("paused", "BGM paused");
+    };
+
+    button.addEventListener("click", async (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (audio.paused) await startBgm();
+      else pauseBgm();
+    });
+
+    const unlockOnGesture = async (event) => {
+      if (userPaused || panel.contains(event.target) || !audio.paused) return;
+      const started = await startBgm();
+      if (started) {
+        document.removeEventListener("pointerdown", unlockOnGesture, true);
+        document.removeEventListener("touchstart", unlockOnGesture, true);
+        document.removeEventListener("keydown", unlockOnGesture, true);
+      }
+    };
+
+    document.addEventListener("pointerdown", unlockOnGesture, true);
+    document.addEventListener("touchstart", unlockOnGesture, true);
+    document.addEventListener("keydown", unlockOnGesture, true);
+
+    audio.addEventListener("play", () => setUi("playing", "BGM online"));
+    audio.addEventListener("pause", () => {
+      if (!userPaused && audio.currentTime > 0) setUi("paused", "Tap to resume");
+    });
+    audio.addEventListener("error", () => setUi("error", "Audio file missing"));
+
+    setUi("ready", "Tap to enable BGM");
+    window.neonMythosAudio = { audio, start: startBgm, pause: pauseBgm };
+  })();
+  </script>
+
 </body>
 </html>
