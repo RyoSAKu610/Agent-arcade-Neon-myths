@@ -4,13 +4,13 @@ Agent Arcade: Neon Myths is a browser-based NEON MYTHOS simulation bundled with 
 
 ## Start
 
-[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=agent-lang)
+[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=open-city)
 
 Open the Start button above from any phone, tablet, or computer. Nothing needs to be installed.
 Use the **SOUND ON** button in the top-right corner if the browser does not start BGM automatically.
 
 Direct URL:
-https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=agent-lang
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=open-city
 
 ## Included Files
 
