@@ -1836,6 +1836,263 @@ function CutIn({
   }, t[spec.cutKey])));
 }
 
+function MangaPortrait({
+  char,
+  tick,
+  side
+}) {
+  const pet = CODEX_PETS[char.spriteId];
+  const material = pet ? null : MATERIAL_PORTRAITS[char.spriteId];
+  const petAnimation = pet ? getCodexPetAnimation(pet, "work", char.expression || "focus", char.spriteId) : null;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      height: "100%",
+      minHeight: 150,
+      border: `3px solid ${char.color}`,
+      background: `radial-gradient(circle at 50% 72%, ${char.color}33, transparent 45%), linear-gradient(135deg, #05070f, #11172c)`,
+      boxShadow: `0 0 24px ${char.color}55, inset 0 0 0 2px #ffffff16`,
+      overflow: "hidden",
+      clipPath: side === "left" ? "polygon(0 0, 92% 0, 100% 100%, 0 100%)" : "polygon(8% 0, 100% 0, 100% 100%, 0 100%)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      background: "repeating-radial-gradient(circle at 50% 55%, rgba(255,255,255,.2) 0 1px, transparent 1px 7px)",
+      opacity: .18
+    }
+  }), pet ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: "50%",
+      bottom: -18,
+      width: pet.cellW,
+      height: pet.cellH,
+      transform: "translateX(-50%) scale(.78)",
+      transformOrigin: "50% 100%",
+      backgroundImage: `url('${pet.src}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundPosition: `-${getCodexPetFrame(tick, petAnimation) * pet.cellW}px -${petAnimation.row * pet.cellH}px`,
+      imageRendering: "auto",
+      filter: `drop-shadow(0 0 16px ${char.color})`
+    }
+  }) : material ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: "50%",
+      top: 10,
+      width: "76%",
+      height: "78%",
+      transform: "translateX(-50%)",
+      borderRadius: "46% 46% 38% 38%",
+      backgroundColor: "#05070f",
+      backgroundImage: `url('${material.image}')`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: `${material.zoom} auto`,
+      backgroundPosition: `${material.x} ${material.y}`,
+      border: `2px solid ${char.color}`,
+      boxShadow: `0 0 18px ${char.color}`
+    }
+  }) : null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: side === "left" ? 8 : "auto",
+      right: side === "right" ? 8 : "auto",
+      bottom: 8,
+      padding: "3px 8px",
+      background: "#05070fe0",
+      border: `1px solid ${char.color}`,
+      color: char.color,
+      fontFamily: "'Orbitron','Share Tech Mono',monospace",
+      fontSize: 11,
+      fontWeight: 900,
+      letterSpacing: 1,
+      textShadow: `0 0 10px ${char.color}`
+    }
+  }, char.jp || char.name));
+}
+
+function MangaDealCutIn({
+  deal,
+  lang,
+  isMobile
+}) {
+  if (!deal) return null;
+  const style = DEAL_RESULT_STYLE[deal.outcome] || DEAL_RESULT_STYLE.hold;
+  const text = getDealText(lang);
+  const panelW = isMobile ? "calc(100vw - 20px)" : "min(760px, calc(100vw - 64px))";
+  return /*#__PURE__*/React.createElement("div", {
+    "data-manga-deal": deal.outcome,
+    style: {
+      position: "fixed",
+      inset: 0,
+      zIndex: 12000,
+      pointerEvents: "none",
+      display: "flex",
+      alignItems: isMobile ? "center" : "flex-start",
+      justifyContent: "center",
+      padding: isMobile ? 10 : "72px 24px 24px",
+      fontFamily: "'Orbitron','Rajdhani','Share Tech Mono',monospace",
+      animation: "mangaDealFade 3.6s ease both"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: 0,
+      background: `radial-gradient(circle at 50% 50%, ${style.color}26, transparent 36%), repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,.18) 0 1px, transparent 1px 9px), rgba(0,0,0,.34)`,
+      mixBlendMode: "screen"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: panelW,
+      minHeight: isMobile ? 250 : 320,
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 130px 1fr",
+      gap: isMobile ? 6 : 10,
+      padding: isMobile ? 8 : 12,
+      background: "linear-gradient(135deg,#f8f4ea,#ffffff 34%,#dce8ff)",
+      border: "4px solid #05070f",
+      boxShadow: "0 22px 60px rgba(0,0,0,.62), 8px 8px 0 #05070f",
+      transform: "rotate(-1deg)",
+      overflow: "hidden",
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      inset: -50,
+      background: `conic-gradient(from 20deg at 50% 50%, transparent 0 7deg, ${style.color}22 7deg 10deg, transparent 10deg 18deg)`,
+      animation: "mangaSpeedSpin 3.6s linear infinite",
+      opacity: .75
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: 12,
+      top: 8,
+      padding: "2px 10px",
+      border: "2px solid #05070f",
+      background: "#fff",
+      color: "#05070f",
+      fontSize: isMobile ? 10 : 14,
+      fontWeight: 900,
+      letterSpacing: 1.5,
+      transform: "rotate(-3deg)",
+      boxShadow: `4px 4px 0 ${style.color}`
+    }
+  }, deal.header), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      gridColumn: isMobile ? "1 / 2" : "1 / 2",
+      marginTop: isMobile ? 26 : 36,
+      animation: "mangaPanelIn .38s ease both"
+    }
+  }, /*#__PURE__*/React.createElement(MangaPortrait, {
+    char: deal.from,
+    tick: deal.tick,
+    side: "left"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      padding: "6px 8px",
+      border: "2px solid #05070f",
+      background: "#fff",
+      color: "#05070f",
+      fontSize: isMobile ? 10 : 13,
+      fontWeight: 900,
+      lineHeight: 1.18,
+      boxShadow: `4px 4px 0 ${deal.from.color}`
+    }
+  }, text.offer, ": ", deal.fromLine)), !isMobile && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      display: "grid",
+      placeItems: "center",
+      marginTop: 52
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: 118,
+      height: 118,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      flexDirection: "column",
+      gap: 4,
+      borderRadius: "50%",
+      border: "4px solid #05070f",
+      background: `radial-gradient(circle, #fff 0 34%, ${style.color} 35% 64%, ${style.dark})`,
+      color: "#05070f",
+      fontSize: 34,
+      fontWeight: 900,
+      lineHeight: .9,
+      textAlign: "center",
+      boxShadow: `0 0 24px ${style.color}, 6px 6px 0 #05070f`,
+      transform: "rotate(-8deg)",
+      animation: "mangaStamp .6s cubic-bezier(.17,.67,.28,1.42) both"
+    }
+  }, deal.mark, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "block",
+      fontSize: 15,
+      letterSpacing: 1,
+      whiteSpace: "nowrap"
+    }
+  }, deal.resultLabel))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative",
+      gridColumn: isMobile ? "2 / 3" : "3 / 4",
+      marginTop: isMobile ? 26 : 36,
+      animation: "mangaPanelIn .38s ease .08s both"
+    }
+  }, /*#__PURE__*/React.createElement(MangaPortrait, {
+    char: deal.to,
+    tick: deal.tick + 4,
+    side: "right"
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      padding: "6px 8px",
+      border: "2px solid #05070f",
+      background: "#fff",
+      color: "#05070f",
+      fontSize: isMobile ? 10 : 13,
+      fontWeight: 900,
+      lineHeight: 1.18,
+      boxShadow: `4px 4px 0 ${deal.to.color}`
+    }
+  }, text.counter, ": ", deal.toLine)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      left: "50%",
+      bottom: isMobile ? 10 : 18,
+      transform: "translateX(-50%) rotate(-4deg)",
+      minWidth: isMobile ? 190 : 290,
+      padding: isMobile ? "8px 14px" : "10px 22px",
+      border: "4px solid #05070f",
+      background: style.color,
+      color: "#05070f",
+      fontSize: isMobile ? 24 : 44,
+      fontWeight: 900,
+      lineHeight: .9,
+      textAlign: "center",
+      letterSpacing: 1,
+      textShadow: "2px 2px 0 #fff",
+      boxShadow: "7px 7px 0 #05070f",
+      animation: "mangaResultSlam .48s cubic-bezier(.17,.67,.28,1.42) both"
+    }
+  }, deal.resultLabel, /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 6,
+      fontFamily: "'Share Tech Mono',monospace",
+      fontSize: isMobile ? 9 : 12,
+      letterSpacing: 1,
+      textShadow: "none"
+    }
+  }, deal.outcome === "success" ? `${deal.payoffLabel} ¥${deal.payout.toLocaleString()}` : `${style.tone} / SCORE ${deal.score}`))));
+}
+
 // ═══════════════════════════════════════════════════════════════
 // PixelChar — enhanced with specialty glow
 // ═══════════════════════════════════════════════════════════════
@@ -2486,6 +2743,136 @@ const ACTION_ICONS = {
   hack: "⌘",
   praise: "★",
   wander: "…"
+};
+const DEAL_RESULT_STYLE = {
+  success: { color: "#00FF88", dark: "#003D26", mark: "OK", tone: "SIGNED" },
+  fail: { color: "#FF3355", dark: "#3D0012", mark: "NG", tone: "BREAK" },
+  hold: { color: "#FFD34D", dark: "#3A2A00", mark: "...", tone: "HOLD" }
+};
+const DEAL_MANGA_TEXT = {
+  en: {
+    clash: "NEGOTIATION BATTLE!!",
+    success: "SIGNED!!",
+    fail: "BROKEN!!",
+    hold: "ON HOLD...",
+    offer: "OFFER",
+    counter: "COUNTER",
+    payoff: "PAYOUT",
+    successFrom: "Terms aligned. I can sign now!",
+    successTo: "Accepted. Route the reward to the city log!",
+    failFrom: "No deal. That risk is too high!",
+    failTo: "Rejected. Returning with a counterplan!",
+    holdFrom: "Need more data before we sign.",
+    holdTo: "Hold the clause. Recheck next cycle."
+  },
+  ja: {
+    clash: "交渉バトル!!",
+    success: "成立!!",
+    fail: "決裂!!",
+    hold: "保留…",
+    offer: "提示",
+    counter: "反撃",
+    payoff: "報酬",
+    successFrom: "条件一致。ここでサインできる!",
+    successTo: "承認。報酬を都市ログへ流す!",
+    failFrom: "譲れない。そのリスクは高すぎる!",
+    failTo: "却下。作戦を組み直して出直す!",
+    holdFrom: "情報が足りない。まだ署名できない。",
+    holdTo: "条項を保留。次サイクルで再確認。"
+  },
+  zh: {
+    clash: "协商对决!!",
+    success: "成立!!",
+    fail: "破裂!!",
+    hold: "保留…",
+    offer: "报价",
+    counter: "反击",
+    payoff: "报酬",
+    successFrom: "条件一致。现在可以签署!",
+    successTo: "接受。把报酬写入城市日志!",
+    failFrom: "不能成交。风险太高!",
+    failTo: "拒绝。重新制定方案!",
+    holdFrom: "数据不足，还不能签署。",
+    holdTo: "条款保留。下一周期再确认。"
+  },
+  ko: {
+    clash: "협상 배틀!!",
+    success: "성립!!",
+    fail: "결렬!!",
+    hold: "보류…",
+    offer: "제안",
+    counter: "반격",
+    payoff: "보상",
+    successFrom: "조건 일치. 지금 서명 가능!",
+    successTo: "승인. 보상을 도시 로그로 전송!",
+    failFrom: "거래 불가. 위험이 너무 높아!",
+    failTo: "거절. 작전을 다시 짜서 돌아온다!",
+    holdFrom: "정보가 부족해 아직 서명할 수 없어.",
+    holdTo: "조항 보류. 다음 사이클에 재확인."
+  },
+  es: {
+    clash: "BATALLA DE NEGOCIACIÓN!!",
+    success: "FIRMADO!!",
+    fail: "ROTO!!",
+    hold: "EN PAUSA...",
+    offer: "OFERTA",
+    counter: "RÉPLICA",
+    payoff: "PAGO",
+    successFrom: "Condiciones alineadas. Puedo firmar ahora!",
+    successTo: "Aceptado. Envia la recompensa al registro!",
+    failFrom: "Sin trato. Ese riesgo es demasiado alto!",
+    failTo: "Rechazado. Volvemos con otro plan!",
+    holdFrom: "Faltan datos antes de firmar.",
+    holdTo: "Cláusula en pausa. Revisar el próximo ciclo."
+  },
+  fr: {
+    clash: "BATAILLE DE NÉGOCIATION!!",
+    success: "SIGNÉ!!",
+    fail: "ROMPU!!",
+    hold: "EN ATTENTE...",
+    offer: "OFFRE",
+    counter: "RIPOSTE",
+    payoff: "GAIN",
+    successFrom: "Conditions alignées. Je peux signer!",
+    successTo: "Accepté. Envoie le gain au journal!",
+    failFrom: "Pas d'accord. Risque trop élevé!",
+    failTo: "Refusé. On revient avec un autre plan!",
+    holdFrom: "Données insuffisantes pour signer.",
+    holdTo: "Clause en attente. À revoir au prochain cycle."
+  }
+};
+const getDealText = lang => DEAL_MANGA_TEXT[lang] || DEAL_MANGA_TEXT.en;
+const resolveNegotiationDeal = (from, to, tick, lang) => {
+  const text = getDealText(lang);
+  const sameBuilding = (from.currentBuilding || "") && from.currentBuilding === to.currentBuilding;
+  const diplomat = from.specialty === "diplomat" || to.specialty === "diplomat";
+  const trader = from.specialty === "trader" || to.specialty === "trader";
+  const investor = from.specialty === "investor" || to.specialty === "investor";
+  const moodScore = (((from.mood || 60) + (to.mood || 60)) / 2 - 50) * .36;
+  const levelScore = ((from.level || 1) + (to.level || 1)) * 1.4;
+  const specialtyScore = (sameBuilding ? 9 : 0) + (diplomat ? 13 : 0) + (trader ? 8 : 0) + (investor ? 5 : 0);
+  const score = 28 + moodScore + levelScore + specialtyScore + Math.random() * 42;
+  const outcome = score >= 70 ? "success" : score <= 45 ? "fail" : "hold";
+  const style = DEAL_RESULT_STYLE[outcome];
+  const payout = outcome === "success" ? Math.round(420 + score * 18 + ((from.level || 1) + (to.level || 1)) * 55) : outcome === "hold" ? Math.round(2 + score / 18) : 0;
+  const topic = from.specialty || to.specialty || from.currentBuilding || to.currentBuilding || "city_ops";
+  return {
+    id: `deal-${from.id}-${to.id}-${tick}-${Math.random().toString(16).slice(2, 7)}`,
+    from,
+    to,
+    tick,
+    topic,
+    outcome,
+    color: style.color,
+    mark: style.mark,
+    resultLabel: text[outcome],
+    header: text.clash,
+    fromLine: text[`${outcome}From`],
+    toLine: text[`${outcome}To`],
+    payoffLabel: text.payoff,
+    payout,
+    score: Math.round(score)
+  };
 };
 const getElevation = (x, y) => {
   if (y <= 2 && x <= 7) return 2;
@@ -3611,6 +3998,7 @@ function NeonMythosCity() {
   const [showTerm, setShowTerm] = useState(false);
   const [mobileTab, setMobileTab] = useState("map");
   const [cutIn, setCutIn] = useState(null); // {char, specKey}
+  const [mangaDeal, setMangaDeal] = useState(null);
   const [agentNotes, setAgentNotes] = useState({});
   const [assetPrices, setAssetPrices] = useState({
     SOL: 142.5,
@@ -3885,6 +4273,46 @@ function NeonMythosCity() {
     sage: { yen: .85, data: 1.4, con: 1.2 },
     drone: { yen: 1.2, data: 1.1, con: 1.1 }
   })[c.id] || { yen: 1, data: 1, con: 1 };
+  const applyNegotiationResult = useCallback(deal => {
+    const deltaMood = deal.outcome === "success" ? 7 : deal.outcome === "fail" ? -6 : 2;
+    const expression = deal.outcome === "success" ? "joy" : deal.outcome === "fail" ? "worried" : "focus";
+    const behaviorState = deal.outcome === "success" ? "deal-success" : deal.outcome === "fail" ? "deal-fail" : "deal-hold";
+    const ids = new Set([deal.from.id, deal.to.id]);
+    const patchRoster = roster => roster.map(c => ids.has(c.id) ? {
+      ...c,
+      expression,
+      behaviorState,
+      lastReaction: `${deal.resultLabel} ${deal.from.jp || deal.from.name} ⇄ ${deal.to.jp || deal.to.name}`,
+      currentAction: deal.resultLabel,
+      specActive: deal.outcome === "success" ? true : c.specActive,
+      specCooldown: deal.outcome === "success" ? Math.max(c.specCooldown || 0, 55) : c.specCooldown,
+      mood: Math.max(10, Math.min(100, (c.mood || 60) + deltaMood))
+    } : c);
+    setAgents(patchRoster);
+    setResi(patchRoster);
+    if (deal.outcome === "success") {
+      setRes(r => ({
+        ...r,
+        yen: r.yen + deal.payout,
+        con: r.con + 1,
+        rep: Math.min(100, r.rep + 1)
+      }));
+      setTp(p => p + deal.payout);
+      addTx("DEAL-OK", `${deal.from.jp || deal.from.name}⇄${deal.to.jp || deal.to.name}`, deal.payout, "YEN", deal.color);
+    } else if (deal.outcome === "hold") {
+      setRes(r => ({
+        ...r,
+        data: r.data + Math.max(1, deal.payout)
+      }));
+      addTx("DEAL-HOLD", `${deal.from.jp || deal.from.name}⇄${deal.to.jp || deal.to.name}`, Math.max(1, deal.payout), "DATA", deal.color);
+    } else {
+      setRes(r => ({
+        ...r,
+        rep: Math.max(0, r.rep - 1)
+      }));
+      addTx("DEAL-NG", `${deal.from.jp || deal.from.name}⇄${deal.to.jp || deal.to.name}`, 0, "CON", deal.color);
+    }
+  }, [addTx]);
   const runAI = setter => {
     setter(prev => prev.map(ch => {
       let c = {
@@ -4011,15 +4439,29 @@ function NeonMythosCity() {
         if (workers.length >= 2) {
           const a = workers[Math.floor(Math.random() * workers.length)];
           const b = workers[Math.floor(Math.random() * workers.length)];
-          if (a.id !== b.id) newConns.push({
-            id: `${a.id}-${b.id}-${tick}`,
-            from: a,
-            to: b,
-            time: 0
-          });
+          if (a.id !== b.id) {
+            const deal = resolveNegotiationDeal(a, b, tick, lang);
+            newConns.push({
+              id: `${a.id}-${b.id}-${tick}`,
+              from: a,
+              to: b,
+              time: 0,
+              outcome: deal.outcome,
+              color: deal.color,
+              resultLabel: deal.resultLabel,
+              deal
+            });
+          }
         }
       }
-      newConns.forEach(conn => {
+      newConns.forEach((conn, index) => {
+        applyNegotiationResult(conn.deal);
+        window.setTimeout(() => {
+          setMangaDeal(conn.deal);
+          window.setTimeout(() => {
+            setMangaDeal(current => current && current.id === conn.deal.id ? null : current);
+          }, 3600);
+        }, index * 620);
         window.dispatchEvent(new CustomEvent("nm:agent-negotiation", {
           detail: {
             from: conn.from.jp || conn.from.name,
@@ -4027,6 +4469,13 @@ function NeonMythosCity() {
             fromColor: conn.from.color,
             toColor: conn.to.color,
             topic: conn.from.specialty || conn.to.specialty || "city_ops",
+            outcome: conn.outcome,
+            resultLabel: conn.resultLabel,
+            color: conn.color,
+            score: conn.deal.score,
+            payout: conn.deal.payout,
+            fromLine: conn.deal.fromLine,
+            toLine: conn.deal.toLine,
             tick
           }
         }));
@@ -4037,7 +4486,7 @@ function NeonMythosCity() {
       ...c,
       time: c.time + 1
     })).filter(c => c.time < 30));
-  }, [tick, paused, showAvSel, showLangSel]);
+  }, [tick, paused, showAvSel, showLangSel, lang, applyNegotiationResult]);
   useEffect(() => {
     if (tick % 120 === 0 && tick > 0 && !paused) {
       const ev = [{
@@ -5328,6 +5777,7 @@ function NeonMythosCity() {
       const op = Math.max(0, 1 - c.time / 30);
       const isSel = sel === c.from.id || sel === c.to.id;
       if (!isSel && sel !== null) return null;
+      const dealColor = c.color || "#00E5FF";
       return /*#__PURE__*/React.createElement("g", {
         key: c.id
       }, /*#__PURE__*/React.createElement("line", {
@@ -5335,15 +5785,30 @@ function NeonMythosCity() {
         y1: sy,
         x2: ex,
         y2: ey,
-        stroke: `rgba(0,229,255,${isSel ? op : op * 0.3})`,
-        strokeWidth: "1.5",
-        strokeDasharray: "4 2"
+        stroke: dealColor,
+        opacity: isSel ? op : op * 0.42,
+        strokeWidth: c.outcome === "success" ? "2.6" : "1.8",
+        strokeDasharray: c.outcome === "fail" ? "2 3" : c.outcome === "hold" ? "7 4" : "4 2",
+        filter: `drop-shadow(0 0 5px ${dealColor})`
       }), c.time % 2 === 0 && /*#__PURE__*/React.createElement("circle", {
         cx: sx + (ex - sx) * (c.time / 30),
         cy: sy + (ey - sy) * (c.time / 30),
-        r: "2",
-        fill: "#FFD700"
-      }));
+        r: c.outcome === "success" ? "3" : "2",
+        fill: dealColor,
+        stroke: "#fff",
+        strokeWidth: ".6"
+      }), /*#__PURE__*/React.createElement("text", {
+        x: (sx + ex) / 2,
+        y: (sy + ey) / 2 - 5,
+        fill: dealColor,
+        stroke: "#05070f",
+        strokeWidth: "2",
+        paintOrder: "stroke",
+        fontSize: isMobile ? "7" : "10",
+        fontWeight: "900",
+        textAnchor: "middle",
+        opacity: Math.min(1, op + .18)
+      }, c.resultLabel || "DEAL"));
     })), worldAgents.map(({ c, activity, targetBuilding, currentBuilding }) => {
       const label = c.state === "walk" && targetBuilding ? getActionText(lang, "walk") : activity.label;
       const detail = currentBuilding ? `${activity.label} @ ${currentBuilding.name}` : targetBuilding ? `${getActionText(lang, "walk")} @ ${targetBuilding.name}` : c.currentAction || c.lastReaction || activity.label;
@@ -5607,9 +6072,19 @@ function NeonMythosCity() {
         @keyframes cityWater{0%{background-position:0 0;opacity:.3}50%{opacity:.65}100%{background-position:18px 0;opacity:.3}}
         @keyframes roofGlow{0%,100%{filter:saturate(1);transform:translateY(0)}50%{filter:saturate(1.25) brightness(1.12);transform:translateY(-1px)}}
         @keyframes agentBubblePulse{0%,100%{opacity:.78}50%{opacity:1;box-shadow:0 0 12px rgba(0,229,255,.35)}}
+        @keyframes mangaDealFade{0%{opacity:0;transform:scale(.94)}8%,84%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.04)}}
+        @keyframes mangaPanelIn{from{opacity:0;transform:translateY(18px) rotate(-2deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
+        @keyframes mangaStamp{0%{opacity:0;transform:scale(2.4) rotate(-22deg)}62%{opacity:1;transform:scale(.88) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(-8deg)}}
+        @keyframes mangaResultSlam{0%{opacity:0;transform:translateX(-50%) scale(2.2) rotate(-12deg)}58%{opacity:1;transform:translateX(-50%) scale(.9) rotate(-4deg)}100%{opacity:1;transform:translateX(-50%) scale(1) rotate(-4deg)}}
+        @keyframes mangaSpeedSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0a0a1a}::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
-      `), cutIn && /*#__PURE__*/React.createElement(CutIn, {
+      `), mangaDeal && /*#__PURE__*/React.createElement(MangaDealCutIn, {
+    key: mangaDeal.id,
+    deal: mangaDeal,
+    lang: lang,
+    isMobile: isMobile
+  }), cutIn && /*#__PURE__*/React.createElement(CutIn, {
     char: cutIn.char,
     specKey: cutIn.specKey,
     t: t,
@@ -8693,7 +9168,26 @@ function NeonMythosCity() {
       const scenario = source || dealLines[agentStore.dealStep % dealLines.length];
       const langVersion = agentStore.langVersion;
       agentStore.dealStep += 1;
-      const lines = source ? langPack.sourceDealLines(source) : scenario.lines.map(([speaker, color, text]) => [speaker, text, color]);
+      const fallbackSourceLines = source ? langPack.sourceDealLines(source) : null;
+      const resultSpeaker = ({
+        en: "RESULT",
+        ja: "結果",
+        zh: "结果",
+        ko: "결과",
+        es: "RESULTADO",
+        fr: "RÉSULTAT"
+      })[agentStore.lang] || "RESULT";
+      const resultMeta = source?.resultLabel ? [
+        resultSpeaker,
+        `${source.resultLabel} / SCORE ${source.score ?? "--"}${source.payout ? ` / ¥${Number(source.payout).toLocaleString()}` : ""}`,
+        source.color || "#00e5ff"
+      ] : null;
+      const sourceLines = source ? [
+        [source.from || "AGENT-A", source.fromLine || fallbackSourceLines[0][1], source.fromColor || source.color || "#00e5ff"],
+        [source.to || "AGENT-B", source.toLine || fallbackSourceLines[1][1], source.toColor || "#ffd700"],
+        resultMeta || fallbackSourceLines[2]
+      ] : null;
+      const lines = sourceLines || scenario.lines.map(([speaker, color, text]) => [speaker, text, color]);
       lines.forEach(([speaker, text, color], index) => {
         window.setTimeout(() => {
           if (langVersion === agentStore.langVersion) {
