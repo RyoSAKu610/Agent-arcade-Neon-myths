@@ -5462,6 +5462,11 @@ function NeonMythosCity() {
   })))), showSettings && /*#__PURE__*/React.createElement(SettingsPanel, {
     lang: lang,
     onLangChange: code => {
+      window.dispatchEvent(new CustomEvent("nm:language-cutin", {
+        detail: {
+          code
+        }
+      }));
       setLang(code);
       setShowSettings(false);
     },
@@ -7491,14 +7496,647 @@ function NeonMythosCity() {
       success: "pet-portable-bundle/nego-chan/assets/spritesheet.webp"
     };
 
-    const stateLabels = {
-      idle: "IDLE",
-      listening: "LISTENING",
-      thinking: "THINKING",
-      speaking: "SPEAKING",
-      joy: "SUCCESS",
-      success: "SUCCESS"
+    const COMPANION_I18N = {
+      en: {
+        role: "NEON MYTHOS COMPANION AGENT",
+        statusAria: "Companion status",
+        panelLabel: "AI companion command chat",
+        monitorLabel: "Agent monitor",
+        chatTab: "COMMAND",
+        dealsTab: "DEALS",
+        inputPlaceholder: "Tell NEGO-CHAN what to do...",
+        inputLabel: "Command for companion agent",
+        sendLabel: "Send command",
+        toggleLabel: "Minimize companion",
+        openLabel: "Open companion command tab",
+        thinkingLabel: "Thinking",
+        portraitLabels: {
+          idle: "Idle companion portrait",
+          listening: "Listening companion portrait",
+          thinking: "Thinking companion portrait",
+          speaking: "Speaking companion portrait",
+          joy: "Success companion portrait"
+        },
+        stateLabels: {
+          idle: "IDLE",
+          listening: "LISTENING",
+          thinking: "THINKING",
+          speaking: "SPEAKING",
+          joy: "SUCCESS",
+          success: "SUCCESS"
+        },
+        initialOnline: "NEGO-CHAN online. Add a character name to command them, like \"ZERO guard\", \"SAGE-BOY personality: calm learner\", or \"DRONE-TAN check delivery route\".",
+        monitorMessage: "Watching AI-to-AI negotiation logs. When agents connect on the map, offers, counteroffers, and provisional agreements appear here.",
+        monitorTopic: "MONITOR",
+        dealWatch: "DEAL WATCH",
+        targetSelected: name => `${name} is now the command target. Continue with \"analyze\" or \"personality: careful\".`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `Started checking terms with ${source.to || "AGENT-B"} for ${source.topic || "city_ops"}.`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "Recalculating concession range, reward, and risk. Sending a counteroffer.", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "Provisional agreement. Waiting for map actions and revenue logs to confirm.", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: saved note "${cmd.note}"`,
+        multiCommand: (cmd, label) => `${cmd.target}: sent ${label} command`,
+        noteReply: cmd => `${cmd.target} personalization updated. I will keep "${cmd.note}" as an action note.`,
+        commandReply: (cmd, label) => `Sent ${label} instructions to ${cmd.target}. This is reflected in the map action log and selection panel.`,
+        successReply: "Mission log checked. Good momentum. I will keep the situation organized until the next move.",
+        helpReply: "Yes. This is a demo connection now, with the send/receive layer separated so it can be swapped to the OpenAI API later. Input changes the agent state through listening, thinking, and speaking.",
+        historyReply: "Conversation context is being retained. When the API is connected, this history can be passed as the message array.",
+        targetReply: cmd => `${cmd.target} received. If you continue without a name, I will treat it as instructions for this target.`,
+        errorReply: "Communication layer error detected. Please check the API connection settings.",
+        intentLabels: {
+          invest: "investment",
+          analyze: "analysis",
+          guard: "defense",
+          negotiate: "negotiation",
+          deliver: "delivery",
+          rest: "rest",
+          hack: "stealth support",
+          study: "study support",
+          praise: "morale boost",
+          assist: "assist"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "CONTRACT PRICE",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "Initial offer is 4,800 yen. I will reduce the success fee and strengthen the ongoing contract."],
+              ["GOLD JACK", "#ffd700", "The margin is thin. At 5,400 yen I can settle immediately and add DATA 12."],
+              ["NEGO-CHAN", "#ff4dc6", "5,100 yen + DATA 8. I can sign if delivery is shortened by half a day."]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "DEFENSE SLA",
+            lines: [
+              ["ZERO", "#ff003c", "Expanding monitoring to the market. In exchange, I want defense costs compressed by 10%."],
+              ["KITSUNE-X", "#00ff88", "Compression is possible, but night alerts need higher priority."],
+              ["ZERO", "#ff003c", "Approved. Night priority is granted, daytime returns to the standard route."]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "FORECAST DATA",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "Market volatility probability is rising. Sharing the forecast model can avoid losses."],
+              ["NEON", "#7df9ff", "Condition is anonymized logs. Remove individual IDs and I will provide analysis resources."],
+              ["ORACLE-01", "#00e5ff", "Sending anonymized data. We agree on 12% from the next DATA revenue."]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "DELIVERY ROUTE",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "Increasing runs from the port to the academy. I propose priority delivery for learning logs."],
+              ["SAGE-BOY", "#89ddff", "I will update maintenance steps in exchange. Lower accident rates raise total revenue."],
+              ["DRONE-TAN", "#bf5fff", "Accepted. Switching to the safe route from the next cycle."]
+            ]
+          }
+        ]
+      },
+      ja: {
+        role: "NEON MYTHOS 伴走エージェント",
+        statusAria: "コンパニオン状態",
+        panelLabel: "AIコンパニオン指示チャット",
+        monitorLabel: "エージェント監視",
+        chatTab: "指示",
+        dealsTab: "交渉",
+        inputPlaceholder: "NEGO-CHANに指示...",
+        inputLabel: "コンパニオンエージェントへの指示",
+        sendLabel: "指示を送信",
+        toggleLabel: "コンパニオンを最小化",
+        openLabel: "コンパニオン指示タブを開く",
+        thinkingLabel: "思考中",
+        portraitLabels: {
+          idle: "待機中のコンパニオン",
+          listening: "聞き取り中のコンパニオン",
+          thinking: "思考中のコンパニオン",
+          speaking: "発話中のコンパニオン",
+          joy: "成功状態のコンパニオン"
+        },
+        stateLabels: {
+          idle: "待機",
+          listening: "聞取",
+          thinking: "思考",
+          speaking: "応答",
+          joy: "成功",
+          success: "成功"
+        },
+        initialOnline: "NEGO-CHAN online. キャラ名つきで指示できます。例:「ZERO 防御して」「SAGE-BOY 性格: 穏やかで学習好き」「DRONE-TAN 配送ルート確認」。",
+        monitorMessage: "AI同士の交渉ログを監視中。マップ上で接続が発生すると、条件提示・反対提案・暫定合意がここに流れます。",
+        monitorTopic: "監視",
+        dealWatch: "交渉監視",
+        targetSelected: name => `${name} を操作対象にしました。続けて「分析して」「性格: 慎重」などと送れます。`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `${source.to || "AGENT-B"} と ${source.topic || "city_ops"} について条件確認を開始。`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "譲歩幅・報酬・リスクを再計算。反対提案を返します。", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "暫定合意。マップ上の行動と収益ログへ反映を待機。", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: メモ「${cmd.note}」を保存`,
+        multiCommand: (cmd, label) => `${cmd.target}: ${label} 指示を送信`,
+        noteReply: cmd => `${cmd.target} のパーソナライズを更新しました。「${cmd.note}」を行動メモとして保持します。`,
+        commandReply: (cmd, label) => `${cmd.target} に ${label} の指示を送りました。マップ上の行動ログと選択パネルにも反映します。`,
+        successReply: "ミッションログを確認。いい流れです。次の一手まで、こちらで状況を整理しておきます。",
+        helpReply: "もちろん。いまはデモ接続なので、あとでOpenAI APIに差し替えられるよう送受信部分を分離しています。入力すると状態が listening → thinking → speaking に遷移します。",
+        historyReply: "会話コンテキストも保持中です。API接続時はこの履歴をそのままメッセージ配列として渡せます。",
+        targetReply: cmd => `${cmd.target} を対象に受信しました。名前を入れずに続けると、この相手への指示として扱います。`,
+        errorReply: "通信レイヤーでエラーを検知。API接続設定を確認してください。",
+        intentLabels: {
+          invest: "投資判断",
+          analyze: "分析",
+          guard: "防御",
+          negotiate: "交渉",
+          deliver: "配送",
+          rest: "休憩",
+          hack: "潜入支援",
+          study: "学習支援",
+          praise: "士気上昇",
+          assist: "支援"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "契約価格",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "初期提示は ¥4,800。成功報酬を薄くして、継続契約を厚くします。"],
+              ["GOLD JACK", "#ffd700", "利益率が浅い。¥5,400なら即時決済、DATA 12を追加で出せる。"],
+              ["NEGO-CHAN", "#ff4dc6", "¥5,100 + DATA 8。納期を半日短縮する条件なら署名できます。"]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "防衛SLA",
+            lines: [
+              ["ZERO", "#ff003c", "監視範囲を市場まで拡張。代わりに防衛コストを10%圧縮したい。"],
+              ["KITSUNE-X", "#00ff88", "圧縮は可能。ただし夜間アラートの優先度を上げる必要があります。"],
+              ["ZERO", "#ff003c", "承認。夜間帯だけ優先権を付与し、昼は通常ルートに戻します。"]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "予測データ",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "市場変動の確率が上昇。予測モデルを共有すれば損失を回避できます。"],
+              ["NEON", "#7df9ff", "共有条件はログ匿名化。個別IDを外せるなら解析リソースを出します。"],
+              ["ORACLE-01", "#00e5ff", "匿名化して送信。対価は次回のDATA収益から12%で合意します。"]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "配送ルート",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "港から学院までの便を増やす。学習ログの優先配送を提案。"],
+              ["SAGE-BOY", "#89ddff", "代わりに整備手順を更新します。事故率を下げれば全体収益も伸びる。"],
+              ["DRONE-TAN", "#bf5fff", "成立。次サイクルから安全ルートに切り替えます。"]
+            ]
+          }
+        ]
+      },
+      zh: {
+        role: "NEON MYTHOS 伙伴代理",
+        statusAria: "伙伴状态",
+        panelLabel: "AI伙伴指令聊天",
+        monitorLabel: "代理监控",
+        chatTab: "指令",
+        dealsTab: "协商",
+        inputPlaceholder: "给NEGO-CHAN下指令...",
+        inputLabel: "给伙伴代理的指令",
+        sendLabel: "发送指令",
+        toggleLabel: "最小化伙伴",
+        openLabel: "打开伙伴指令标签",
+        thinkingLabel: "思考中",
+        portraitLabels: {
+          idle: "待机伙伴头像",
+          listening: "监听中伙伴头像",
+          thinking: "思考中伙伴头像",
+          speaking: "回应中伙伴头像",
+          joy: "成功状态伙伴头像"
+        },
+        stateLabels: {
+          idle: "待机",
+          listening: "监听",
+          thinking: "思考",
+          speaking: "回应",
+          joy: "成功",
+          success: "成功"
+        },
+        initialOnline: "NEGO-CHAN已上线。带上角色名就能下指令，例如“ZERO 防御”“SAGE-BOY 性格: 冷静好学”“DRONE-TAN 检查配送路线”。",
+        monitorMessage: "正在监视AI之间的协商日志。地图上发生连接时，报价、反报价和临时协议会显示在这里。",
+        monitorTopic: "监控",
+        dealWatch: "协商监控",
+        targetSelected: name => `${name} 已设为指令目标。可以继续发送“分析”或“性格: 谨慎”。`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `开始和 ${source.to || "AGENT-B"} 确认 ${source.topic || "city_ops"} 的条件。`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "正在重新计算让步范围、报酬和风险，并返回反报价。", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "已达成临时协议。等待地图行动和收益日志确认。", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: 已保存备注“${cmd.note}”`,
+        multiCommand: (cmd, label) => `${cmd.target}: 已发送${label}指令`,
+        noteReply: cmd => `${cmd.target} 的个性设置已更新。我会把“${cmd.note}”作为行动备注保存。`,
+        commandReply: (cmd, label) => `已向 ${cmd.target} 发送${label}指令。地图行动日志和选择面板也会反映。`,
+        successReply: "任务日志已确认。节奏很好。到下一步之前，我会整理当前状况。",
+        helpReply: "可以。现在是演示连接，发送/接收层已分离，之后可替换为OpenAI API。输入后状态会依次变为监听、思考、回应。",
+        historyReply: "对话上下文正在保存。接入API后，可以把这段历史直接作为消息数组传入。",
+        targetReply: cmd => `已收到给 ${cmd.target} 的指令。之后不写名字时，会按给这个目标的指令处理。`,
+        errorReply: "检测到通信层错误。请检查API连接设置。",
+        intentLabels: {
+          invest: "投资判断",
+          analyze: "分析",
+          guard: "防御",
+          negotiate: "协商",
+          deliver: "配送",
+          rest: "休息",
+          hack: "潜入支援",
+          study: "学习支援",
+          praise: "士气提升",
+          assist: "支援"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "合约价格",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "初始报价为4,800日元。我会降低成功报酬，强化长期合约。"],
+              ["GOLD JACK", "#ffd700", "利润率太薄。5,400日元即可即时结算，并追加DATA 12。"],
+              ["NEGO-CHAN", "#ff4dc6", "5,100日元 + DATA 8。如果交期缩短半天，我可以签署。"]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "防御SLA",
+            lines: [
+              ["ZERO", "#ff003c", "把监视范围扩展到市场。作为交换，希望防御成本压缩10%。"],
+              ["KITSUNE-X", "#00ff88", "可以压缩，但夜间警报需要提高优先级。"],
+              ["ZERO", "#ff003c", "批准。仅夜间赋予优先权，白天恢复标准路线。"]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "预测数据",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "市场波动概率上升。共享预测模型可以避免损失。"],
+              ["NEON", "#7df9ff", "条件是日志匿名化。去除个人ID后，我会提供分析资源。"],
+              ["ORACLE-01", "#00e5ff", "匿名化后发送。对价为下一次DATA收益的12%，达成一致。"]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "配送路线",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "增加港口到学院的班次。提议优先配送学习日志。"],
+              ["SAGE-BOY", "#89ddff", "作为交换，我会更新维护步骤。事故率下降会提高整体收益。"],
+              ["DRONE-TAN", "#bf5fff", "成立。下一周期开始切换到安全路线。"]
+            ]
+          }
+        ]
+      },
+      ko: {
+        role: "NEON MYTHOS 동행 에이전트",
+        statusAria: "동행 에이전트 상태",
+        panelLabel: "AI 동행 에이전트 지시 채팅",
+        monitorLabel: "에이전트 모니터",
+        chatTab: "지시",
+        dealsTab: "협상",
+        inputPlaceholder: "NEGO-CHAN에게 지시...",
+        inputLabel: "동행 에이전트에게 보낼 지시",
+        sendLabel: "지시 보내기",
+        toggleLabel: "동행 에이전트 최소화",
+        openLabel: "동행 에이전트 지시 탭 열기",
+        thinkingLabel: "생각 중",
+        portraitLabels: {
+          idle: "대기 중 동행 에이전트",
+          listening: "듣는 중 동행 에이전트",
+          thinking: "생각 중 동행 에이전트",
+          speaking: "응답 중 동행 에이전트",
+          joy: "성공 상태 동행 에이전트"
+        },
+        stateLabels: {
+          idle: "대기",
+          listening: "청취",
+          thinking: "사고",
+          speaking: "응답",
+          joy: "성공",
+          success: "성공"
+        },
+        initialOnline: "NEGO-CHAN 온라인. 캐릭터 이름을 붙여 지시할 수 있어요. 예: \"ZERO 방어\", \"SAGE-BOY 성격: 차분하고 학습을 좋아함\", \"DRONE-TAN 배송 경로 확인\".",
+        monitorMessage: "AI끼리의 협상 로그를 감시 중입니다. 맵에서 연결이 발생하면 제안, 역제안, 임시 합의가 여기에 표시됩니다.",
+        monitorTopic: "감시",
+        dealWatch: "협상 감시",
+        targetSelected: name => `${name}을(를) 지시 대상으로 설정했습니다. 이어서 \"분석\" 또는 \"성격: 신중\"처럼 보낼 수 있어요.`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `${source.to || "AGENT-B"}와(과) ${source.topic || "city_ops"} 조건 확인을 시작합니다.`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "양보 폭, 보상, 위험을 다시 계산하고 역제안을 보냅니다.", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "임시 합의. 맵 행동과 수익 로그 반영을 대기합니다.", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: 메모 \"${cmd.note}\" 저장`,
+        multiCommand: (cmd, label) => `${cmd.target}: ${label} 지시 전송`,
+        noteReply: cmd => `${cmd.target}의 개인화 설정을 업데이트했습니다. \"${cmd.note}\"를 행동 메모로 보관합니다.`,
+        commandReply: (cmd, label) => `${cmd.target}에게 ${label} 지시를 보냈습니다. 맵 행동 로그와 선택 패널에도 반영됩니다.`,
+        successReply: "미션 로그를 확인했습니다. 흐름이 좋아요. 다음 수까지 상황을 정리해 둘게요.",
+        helpReply: "가능합니다. 지금은 데모 연결이며, 나중에 OpenAI API로 바꿀 수 있도록 송수신 부분을 분리해 두었습니다. 입력하면 상태가 청취, 사고, 응답 순서로 바뀝니다.",
+        historyReply: "대화 컨텍스트도 보관 중입니다. API 연결 시 이 기록을 그대로 메시지 배열로 전달할 수 있습니다.",
+        targetReply: cmd => `${cmd.target} 대상으로 수신했습니다. 이름 없이 이어서 보내면 이 대상에 대한 지시로 처리합니다.`,
+        errorReply: "통신 레이어 오류를 감지했습니다. API 연결 설정을 확인해 주세요.",
+        intentLabels: {
+          invest: "투자 판단",
+          analyze: "분석",
+          guard: "방어",
+          negotiate: "협상",
+          deliver: "배송",
+          rest: "휴식",
+          hack: "잠입 지원",
+          study: "학습 지원",
+          praise: "사기 상승",
+          assist: "지원"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "계약 가격",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "초기 제안은 4,800엔. 성공 보수는 낮추고 지속 계약을 두껍게 하겠습니다."],
+              ["GOLD JACK", "#ffd700", "수익률이 얕습니다. 5,400엔이면 즉시 결제하고 DATA 12를 추가할 수 있습니다."],
+              ["NEGO-CHAN", "#ff4dc6", "5,100엔 + DATA 8. 납기를 반나절 줄이는 조건이면 서명 가능합니다."]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "방어 SLA",
+            lines: [
+              ["ZERO", "#ff003c", "감시 범위를 시장까지 확장합니다. 대신 방어 비용을 10% 압축하고 싶습니다."],
+              ["KITSUNE-X", "#00ff88", "압축은 가능합니다. 다만 야간 알림 우선도를 높여야 합니다."],
+              ["ZERO", "#ff003c", "승인. 야간에만 우선권을 부여하고 낮에는 일반 루트로 되돌립니다."]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "예측 데이터",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "시장 변동 확률이 상승했습니다. 예측 모델을 공유하면 손실을 피할 수 있습니다."],
+              ["NEON", "#7df9ff", "공유 조건은 로그 익명화입니다. 개별 ID를 제거하면 분석 리소스를 내겠습니다."],
+              ["ORACLE-01", "#00e5ff", "익명화해서 전송합니다. 대가는 다음 DATA 수익의 12%로 합의합니다."]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "배송 경로",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "항구에서 학원까지 운행을 늘립니다. 학습 로그 우선 배송을 제안합니다."],
+              ["SAGE-BOY", "#89ddff", "대신 정비 절차를 업데이트하겠습니다. 사고율이 낮아지면 전체 수익도 늘어납니다."],
+              ["DRONE-TAN", "#bf5fff", "성립. 다음 사이클부터 안전 루트로 전환합니다."]
+            ]
+          }
+        ]
+      },
+      es: {
+        role: "AGENTE ACOMPANANTE DE NEON MYTHOS",
+        statusAria: "Estado del acompañante",
+        panelLabel: "Chat de comandos del acompañante IA",
+        monitorLabel: "Monitor de agentes",
+        chatTab: "ORDEN",
+        dealsTab: "TRATOS",
+        inputPlaceholder: "Da una orden a NEGO-CHAN...",
+        inputLabel: "Orden para el agente acompañante",
+        sendLabel: "Enviar orden",
+        toggleLabel: "Minimizar acompañante",
+        openLabel: "Abrir pestaña de órdenes",
+        thinkingLabel: "Pensando",
+        portraitLabels: {
+          idle: "Retrato del acompañante en espera",
+          listening: "Retrato del acompañante escuchando",
+          thinking: "Retrato del acompañante pensando",
+          speaking: "Retrato del acompañante respondiendo",
+          joy: "Retrato del acompañante en éxito"
+        },
+        stateLabels: {
+          idle: "ESPERA",
+          listening: "ESCUCHA",
+          thinking: "PIENSA",
+          speaking: "RESPONDE",
+          joy: "ÉXITO",
+          success: "ÉXITO"
+        },
+        initialOnline: "NEGO-CHAN en línea. Añade el nombre del personaje para dar órdenes, por ejemplo: \"ZERO defender\", \"SAGE-BOY personalidad: calmado y curioso\", \"DRONE-TAN revisar ruta\".",
+        monitorMessage: "Vigilando los registros de negociación entre IA. Cuando los agentes se conecten en el mapa, aquí aparecerán ofertas, contraofertas y acuerdos provisionales.",
+        monitorTopic: "MONITOR",
+        dealWatch: "VIGILAR TRATO",
+        targetSelected: name => `${name} es ahora el objetivo de órdenes. Puedes seguir con \"analizar\" o \"personalidad: prudente\".`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `Inicia revisión de condiciones con ${source.to || "AGENT-B"} sobre ${source.topic || "city_ops"}.`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "Recalcula concesiones, recompensa y riesgo. Envia una contraoferta.", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "Acuerdo provisional. Espera acciones del mapa y confirmación de ingresos.", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: nota guardada \"${cmd.note}\"`,
+        multiCommand: (cmd, label) => `${cmd.target}: orden de ${label} enviada`,
+        noteReply: cmd => `Personalización de ${cmd.target} actualizada. Mantendré \"${cmd.note}\" como nota de acción.`,
+        commandReply: (cmd, label) => `Envié la orden de ${label} a ${cmd.target}. También se refleja en el registro del mapa y en el panel de selección.`,
+        successReply: "Registro de misión revisado. Buen ritmo. Organizaré la situación hasta el siguiente movimiento.",
+        helpReply: "Claro. Ahora es una conexión demo; la capa de envío y recepción está separada para poder cambiarla luego por la API de OpenAI. Al escribir, el estado pasa por escucha, piensa y responde.",
+        historyReply: "También se conserva el contexto de conversación. Cuando conectes la API, este historial se puede pasar como arreglo de mensajes.",
+        targetReply: cmd => `Recibido para ${cmd.target}. Si sigues sin escribir un nombre, lo trataré como órdenes para este objetivo.`,
+        errorReply: "Error detectado en la capa de comunicación. Revisa la configuración de conexión de la API.",
+        intentLabels: {
+          invest: "inversión",
+          analyze: "análisis",
+          guard: "defensa",
+          negotiate: "negociación",
+          deliver: "entrega",
+          rest: "descanso",
+          hack: "apoyo de infiltración",
+          study: "apoyo de estudio",
+          praise: "subida de moral",
+          assist: "asistencia"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "PRECIO DE CONTRATO",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "Oferta inicial: 4.800 yenes. Bajo el bono de éxito y refuerzo el contrato continuo."],
+              ["GOLD JACK", "#ffd700", "El margen es bajo. Por 5.400 yenes liquido ahora y añado DATA 12."],
+              ["NEGO-CHAN", "#ff4dc6", "5.100 yenes + DATA 8. Puedo firmar si el plazo baja medio día."]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "SLA DEFENSIVO",
+            lines: [
+              ["ZERO", "#ff003c", "Amplío la vigilancia hasta el mercado. A cambio quiero reducir el coste defensivo un 10%."],
+              ["KITSUNE-X", "#00ff88", "La reducción es posible, pero las alertas nocturnas necesitan más prioridad."],
+              ["ZERO", "#ff003c", "Aprobado. Prioridad solo de noche; de día vuelve la ruta normal."]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "DATOS DE PREDICCIÓN",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "Sube la probabilidad de volatilidad. Compartir el modelo puede evitar pérdidas."],
+              ["NEON", "#7df9ff", "La condición es anonimizar logs. Si quitas IDs, aporto recursos de análisis."],
+              ["ORACLE-01", "#00e5ff", "Envío datos anonimizados. Acordamos 12% del próximo ingreso DATA."]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "RUTA DE ENTREGA",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "Aumento viajes del puerto a la academia. Propongo entrega prioritaria de logs de aprendizaje."],
+              ["SAGE-BOY", "#89ddff", "A cambio actualizaré los pasos de mantenimiento. Menos accidentes mejora el ingreso total."],
+              ["DRONE-TAN", "#bf5fff", "Aceptado. Cambio a la ruta segura desde el próximo ciclo."]
+            ]
+          }
+        ]
+      },
+      fr: {
+        role: "AGENT COMPAGNON NEON MYTHOS",
+        statusAria: "État du compagnon",
+        panelLabel: "Chat de commandes du compagnon IA",
+        monitorLabel: "Moniteur des agents",
+        chatTab: "ORDRE",
+        dealsTab: "ACCORDS",
+        inputPlaceholder: "Donne un ordre à NEGO-CHAN...",
+        inputLabel: "Ordre pour l'agent compagnon",
+        sendLabel: "Envoyer l'ordre",
+        toggleLabel: "Réduire le compagnon",
+        openLabel: "Ouvrir l'onglet de commandes",
+        thinkingLabel: "Réflexion",
+        portraitLabels: {
+          idle: "Portrait du compagnon en attente",
+          listening: "Portrait du compagnon à l'écoute",
+          thinking: "Portrait du compagnon en réflexion",
+          speaking: "Portrait du compagnon en réponse",
+          joy: "Portrait du compagnon en succès"
+        },
+        stateLabels: {
+          idle: "ATTENTE",
+          listening: "ÉCOUTE",
+          thinking: "PENSE",
+          speaking: "RÉPOND",
+          joy: "SUCCÈS",
+          success: "SUCCÈS"
+        },
+        initialOnline: "NEGO-CHAN en ligne. Ajoute le nom d'un personnage pour donner un ordre, par exemple : \"ZERO défendre\", \"SAGE-BOY personnalité: calme et curieux\", \"DRONE-TAN vérifier la route\".",
+        monitorMessage: "Surveillance des journaux de négociation entre IA. Quand des agents se connectent sur la carte, offres, contre-offres et accords provisoires apparaissent ici.",
+        monitorTopic: "MONITEUR",
+        dealWatch: "VEILLE ACCORD",
+        targetSelected: name => `${name} est maintenant la cible des ordres. Tu peux continuer avec \"analyser\" ou \"personnalité: prudente\".`,
+        sourceDealLines: source => [
+          [source.from || "AGENT-A", `Début de vérification des conditions avec ${source.to || "AGENT-B"} pour ${source.topic || "city_ops"}.`, source.fromColor || source.color || "#00e5ff"],
+          [source.to || "AGENT-B", "Recalcule marge de concession, récompense et risque. Envoie une contre-offre.", source.toColor || "#ffd700"],
+          [source.from || "AGENT-A", "Accord provisoire. En attente des actions de carte et des journaux de revenus.", source.fromColor || source.color || "#00ff88"]
+        ],
+        multiNote: cmd => `${cmd.target}: note enregistrée \"${cmd.note}\"`,
+        multiCommand: (cmd, label) => `${cmd.target}: ordre ${label} envoyé`,
+        noteReply: cmd => `Personnalisation de ${cmd.target} mise à jour. Je garde \"${cmd.note}\" comme note d'action.`,
+        commandReply: (cmd, label) => `Ordre ${label} envoyé à ${cmd.target}. Le journal de carte et le panneau de sélection sont aussi mis à jour.`,
+        successReply: "Journal de mission vérifié. Bonne dynamique. Je garde la situation organisée jusqu'au prochain mouvement.",
+        helpReply: "Bien sûr. Pour l'instant c'est une connexion démo; la couche envoi/réception est séparée pour pouvoir la remplacer plus tard par l'API OpenAI. La saisie fait passer l'état par écoute, réflexion et réponse.",
+        historyReply: "Le contexte de conversation est aussi conservé. Avec l'API connectée, cet historique pourra être envoyé comme tableau de messages.",
+        targetReply: cmd => `Reçu pour ${cmd.target}. Si tu continues sans nom, je traiterai cela comme des ordres pour cette cible.`,
+        errorReply: "Erreur détectée dans la couche de communication. Vérifie les paramètres de connexion API.",
+        intentLabels: {
+          invest: "investissement",
+          analyze: "analyse",
+          guard: "défense",
+          negotiate: "négociation",
+          deliver: "livraison",
+          rest: "repos",
+          hack: "soutien d'infiltration",
+          study: "soutien d'étude",
+          praise: "hausse du moral",
+          assist: "assistance"
+        },
+        dealLines: [
+          {
+            a: "NEGO-CHAN",
+            b: "GOLD JACK",
+            color: "#ff4dc6",
+            topic: "PRIX DU CONTRAT",
+            lines: [
+              ["NEGO-CHAN", "#ff4dc6", "Offre initiale : 4 800 yens. Je réduis la prime de succès et renforce le contrat continu."],
+              ["GOLD JACK", "#ffd700", "La marge est faible. À 5 400 yens, règlement immédiat et DATA 12 en plus."],
+              ["NEGO-CHAN", "#ff4dc6", "5 100 yens + DATA 8. Je signe si le délai baisse d'une demi-journée."]
+            ]
+          },
+          {
+            a: "ZERO",
+            b: "KITSUNE-X",
+            color: "#ff003c",
+            topic: "SLA DÉFENSIF",
+            lines: [
+              ["ZERO", "#ff003c", "J'étends la surveillance au marché. En échange, je veux réduire le coût défensif de 10%."],
+              ["KITSUNE-X", "#00ff88", "Réduction possible, mais les alertes nocturnes doivent être prioritaires."],
+              ["ZERO", "#ff003c", "Approuvé. Priorité de nuit seulement; retour à la route normale le jour."]
+            ]
+          },
+          {
+            a: "ORACLE-01",
+            b: "NEON",
+            color: "#00e5ff",
+            topic: "DONNÉES PRÉDICTIVES",
+            lines: [
+              ["ORACLE-01", "#00e5ff", "La probabilité de volatilité augmente. Partager le modèle peut éviter les pertes."],
+              ["NEON", "#7df9ff", "Condition : logs anonymisés. Retire les IDs et je fournis les ressources d'analyse."],
+              ["ORACLE-01", "#00e5ff", "Envoi anonymisé. Accord sur 12% du prochain revenu DATA."]
+            ]
+          },
+          {
+            a: "DRONE-TAN",
+            b: "SAGE-BOY",
+            color: "#bf5fff",
+            topic: "ROUTE DE LIVRAISON",
+            lines: [
+              ["DRONE-TAN", "#bf5fff", "J'augmente les trajets du port à l'académie. Proposition: livraison prioritaire des logs d'apprentissage."],
+              ["SAGE-BOY", "#89ddff", "En échange, je mets à jour les procédures de maintenance. Moins d'accidents améliore le revenu total."],
+              ["DRONE-TAN", "#bf5fff", "Accepté. Passage à la route sûre au prochain cycle."]
+            ]
+          }
+        ]
+      }
     };
+
+    const normalizeCompanionLang = (code) => COMPANION_I18N[code] ? code : "en";
+    const getCompanionLang = () => COMPANION_I18N[normalizeCompanionLang(agentStore.lang)];
 
     const shell = document.getElementById("nm-agent-shell");
     const log = document.getElementById("nm-agent-log");
@@ -7506,70 +8144,34 @@ function NeonMythosCity() {
     const form = document.getElementById("nm-agent-form");
     const input = document.getElementById("nm-agent-input");
     const label = document.getElementById("nm-agent-state-label");
+    const statusChip = shell.querySelector(".nm-agent-status-chip");
+    const panel = shell.querySelector(".nm-agent-panel");
+    const roleLabel = shell.querySelector(".nm-agent-role");
     const toggle = shell.querySelector(".nm-agent-toggle");
     const avatarButton = shell.querySelector(".nm-agent-avatar-stage");
     const portraits = Array.from(shell.querySelectorAll(".nm-agent-portrait"));
     const tabChat = document.getElementById("nm-tab-chat");
     const tabDeals = document.getElementById("nm-tab-deals");
+    const tabList = shell.querySelector(".nm-agent-tabs");
+    const sendButton = shell.querySelector(".nm-agent-send");
 
     const agentStore = {
+      lang: "en",
+      langVersion: 0,
       state: "idle",
       busy: false,
       idleTimer: null,
       messages: [],
       target: "NEGO-CHAN",
-      dealStep: 0
+      dealStep: 0,
+      activeTab: "chat"
     };
 
-    const dealLines = [
-      {
-        a: "NEGO-CHAN",
-        b: "GOLD JACK",
-        color: "#ff4dc6",
-        topic: "契約価格",
-        lines: [
-          ["NEGO-CHAN", "#ff4dc6", "初期提示は ¥4,800。成功報酬を薄くして、継続契約を厚くします。"],
-          ["GOLD JACK", "#ffd700", "利益率が浅い。¥5,400なら即時決済、DATA 12を追加で出せる。"],
-          ["NEGO-CHAN", "#ff4dc6", "¥5,100 + DATA 8。納期を半日短縮する条件なら署名できます。"]
-        ]
-      },
-      {
-        a: "ZERO",
-        b: "KITSUNE-X",
-        color: "#ff003c",
-        topic: "防衛SLA",
-        lines: [
-          ["ZERO", "#ff003c", "監視範囲を市場まで拡張。代わりに防衛コストを10%圧縮したい。"],
-          ["KITSUNE-X", "#00ff88", "圧縮は可能。ただし夜間アラートの優先度を上げる必要があります。"],
-          ["ZERO", "#ff003c", "承認。夜間帯だけ優先権を付与し、昼は通常ルートに戻します。"]
-        ]
-      },
-      {
-        a: "ORACLE-01",
-        b: "NEON",
-        color: "#00e5ff",
-        topic: "予測データ",
-        lines: [
-          ["ORACLE-01", "#00e5ff", "市場変動の確率が上昇。予測モデルを共有すれば損失を回避できます。"],
-          ["NEON", "#7df9ff", "共有条件はログ匿名化。個別IDを外せるなら解析リソースを出します。"],
-          ["ORACLE-01", "#00e5ff", "匿名化して送信。対価は次回のDATA収益から12%で合意します。"]
-        ]
-      },
-      {
-        a: "DRONE-TAN",
-        b: "SAGE-BOY",
-        color: "#bf5fff",
-        topic: "配送ルート",
-        lines: [
-          ["DRONE-TAN", "#bf5fff", "港から学院までの便を増やす。学習ログの優先配送を提案。"],
-          ["SAGE-BOY", "#89ddff", "代わりに整備手順を更新します。事故率を下げれば全体収益も伸びる。"],
-          ["DRONE-TAN", "#bf5fff", "成立。次サイクルから安全ルートに切り替えます。"]
-        ]
-      }
-    ];
+    const getDealLines = () => getCompanionLang().dealLines || COMPANION_I18N.en.dealLines;
 
     const setActiveTab = (tab) => {
       const deals = tab === "deals";
+      agentStore.activeTab = deals ? "deals" : "chat";
       log.hidden = deals;
       negotiationLog.hidden = !deals;
       tabChat.classList.toggle("is-active", !deals);
@@ -7582,7 +8184,8 @@ function NeonMythosCity() {
       const normalized = agentAssets[nextState] ? nextState : "idle";
       agentStore.state = normalized;
       shell.dataset.state = normalized;
-      label.textContent = stateLabels[normalized] || normalized.toUpperCase();
+      const langPack = getCompanionLang();
+      label.textContent = langPack.stateLabels[normalized] || normalized.toUpperCase();
       portraits.forEach((img) => {
         img.classList.toggle("is-active", img.dataset.agentState === normalized || (normalized === "success" && img.dataset.agentState === "joy"));
       });
@@ -7625,23 +8228,61 @@ function NeonMythosCity() {
       return item;
     };
 
+    const applyCompanionLanguage = (code, options = {}) => {
+      agentStore.lang = normalizeCompanionLang(code);
+      agentStore.langVersion += 1;
+      const langPack = getCompanionLang();
+
+      statusChip.setAttribute("aria-label", langPack.statusAria);
+      panel.setAttribute("aria-label", langPack.panelLabel);
+      tabList.setAttribute("aria-label", langPack.monitorLabel);
+      roleLabel.textContent = langPack.role;
+      tabChat.textContent = langPack.chatTab;
+      tabDeals.textContent = langPack.dealsTab;
+      input.placeholder = langPack.inputPlaceholder;
+      input.setAttribute("aria-label", langPack.inputLabel);
+      sendButton.setAttribute("aria-label", langPack.sendLabel);
+      toggle.setAttribute("aria-label", langPack.toggleLabel);
+      avatarButton.setAttribute("aria-label", langPack.openLabel);
+      portraits.forEach((portrait) => {
+        const portraitState = portrait.dataset.agentState || "idle";
+        portrait.setAttribute("aria-label", langPack.portraitLabels[portraitState] || langPack.portraitLabels.idle);
+      });
+
+      setActiveTab(agentStore.activeTab);
+      setAgentState(agentStore.state);
+
+      if (options.resetLog) {
+        log.replaceChildren();
+        negotiationLog.replaceChildren();
+        agentStore.messages = [];
+        appendMessage("agent", langPack.initialOnline);
+        appendDealMessage("SYSTEM", langPack.monitorMessage, "#00e5ff", langPack.monitorTopic);
+        playNegotiationRound();
+      }
+    };
+
     const playNegotiationRound = (source) => {
+      const langPack = getCompanionLang();
+      const dealLines = getDealLines();
       const scenario = source || dealLines[agentStore.dealStep % dealLines.length];
+      const langVersion = agentStore.langVersion;
       agentStore.dealStep += 1;
-      const lines = source ? [
-        [source.from || "AGENT-A", `${source.to || "AGENT-B"} と ${source.topic || "city_ops"} について条件確認を開始。`, source.fromColor || source.color || "#00e5ff"],
-        [source.to || "AGENT-B", "譲歩幅・報酬・リスクを再計算。反対提案を返します。", source.toColor || "#ffd700"],
-        [source.from || "AGENT-A", "暫定合意。マップ上の行動と収益ログへ反映を待機。", source.fromColor || source.color || "#00ff88"]
-      ] : scenario.lines.map(([speaker, color, text]) => [speaker, text, color]);
+      const lines = source ? langPack.sourceDealLines(source) : scenario.lines.map(([speaker, color, text]) => [speaker, text, color]);
       lines.forEach(([speaker, text, color], index) => {
-        window.setTimeout(() => appendDealMessage(speaker, text, color, source?.topic || scenario.topic), index * 850);
+        window.setTimeout(() => {
+          if (langVersion === agentStore.langVersion) {
+            appendDealMessage(speaker, text, color, source?.topic || scenario.topic);
+          }
+        }, index * 850);
       });
     };
 
     const appendThinking = () => {
       const item = document.createElement("div");
       item.className = "nm-agent-msg agent";
-      item.innerHTML = '<span class="nm-agent-typing" aria-label="Thinking"><i></i><i></i><i></i></span>';
+      item.innerHTML = '<span class="nm-agent-typing"><i></i><i></i><i></i></span>';
+      item.querySelector(".nm-agent-typing").setAttribute("aria-label", getCompanionLang().thinkingLabel);
       log.appendChild(item);
       log.scrollTop = log.scrollHeight;
       return item;
@@ -7669,12 +8310,12 @@ function NeonMythosCity() {
       const lower = message.toLowerCase();
       const aliases = [
         ["GOLD JACK", /gold\s*jack|ゴールド\s*ジャック|arb/i],
-        ["KITSUNE-X", /kitsune[-\s]*x|キツネ/i],
+        ["KITSUNE-X", /kitsune[-\s]*x|キツネ|狐狸|구미호/i],
         ["EYE-VOID", /eye[-\s]*void|アイ[-\s]*ヴォイド/i],
-        ["DRONE-TAN", /drone[-\s]*tan|ドローン/i],
-        ["SAGE-BOY", /sage[-\s]*boy|セージ/i],
-        ["YAMI-NEKO", /yami[-\s]*neko|ヤミ[-\s]*ネコ/i],
-        ["ORACLE-01", /oracle[-\s]*01|lumen|オラクル/i],
+        ["DRONE-TAN", /drone[-\s]*tan|ドローン|无人机|드론/i],
+        ["SAGE-BOY", /sage[-\s]*boy|セージ|贤者|세이지/i],
+        ["YAMI-NEKO", /yami[-\s]*neko|ヤミ[-\s]*ネコ|暗猫|야미/i],
+        ["ORACLE-01", /oracle[-\s]*01|lumen|オラクル|预言|오라클/i],
         ["404 HUMAN", /404\s*human|ヒューマン/i],
         ["KANE-KAMI", /kane[-\s]*kami|カネカミ/i],
         ["NEGO-CHAN", /nego[-\s]*chan|ネゴ/i],
@@ -7682,27 +8323,27 @@ function NeonMythosCity() {
         ["NEON", /(^|[^a-z])neon([^a-z]|$)|ネオン/i],
         ["PIXEL", /pixel|ピクセル/i],
         ["ZERO", /zero|ゼロ/i],
-        ["GOLD JACK", /投資|利益|finance|arbitrage/i],
-        ["KITSUNE-X", /防衛|defense|barrier|shield/i],
-        ["LIRA", /情報戦|info|warfare|breach/i],
-        ["NEON", /データ解析|analysis|scan/i],
-        ["EYE-VOID", /予知|future|oracle/i],
-        ["ZERO", /core|警備|防御|guard|security/i],
-        ["NEGO-CHAN", /交渉|deal|contract|trader/i]
+        ["GOLD JACK", /投資|利益|finance|arbitrage|inversión|investment|投资|투자/i],
+        ["KITSUNE-X", /防衛|defense|defence|barrier|shield|défense|defensa|防御|방어/i],
+        ["LIRA", /情報戦|info|warfare|breach|renseignement|信息战|정보전/i],
+        ["NEON", /データ解析|analysis|scan|analyse|analizar|分析|분석/i],
+        ["EYE-VOID", /予知|future|oracle|prédiction|predicción|预测|예측/i],
+        ["ZERO", /core|警備|防御|guard|security|sécurité|seguridad|安全|보안/i],
+        ["NEGO-CHAN", /交渉|deal|contract|trader|negotiation|négociation|negociación|协商|협상/i]
       ];
       const hit = aliases.find(([, pattern]) => pattern.test(message));
       const target = hit ? hit[0] : agentStore.target;
       let intent = "assist";
-      if (/投資|利益|bank|invest|profit|金/.test(lower)) intent = "invest";
-      else if (/分析|予測|oracle|analy|forecast|data/.test(lower)) intent = "analyze";
-      else if (/守|防御|警備|guard|security|patch/.test(lower)) intent = "guard";
-      else if (/交渉|契約|deal|nego|trade|market/.test(lower)) intent = "negotiate";
-      else if (/配送|運搬|route|deliver|drone/.test(lower)) intent = "deliver";
-      else if (/休|寝|coffee|tavern|rest|404/.test(lower)) intent = "rest";
-      else if (/hack|侵入|stealth|yami|neko/.test(lower)) intent = "hack";
-      else if (/勉強|学習|sage|study|academy|support/.test(lower)) intent = "study";
-      else if (/ありがとう|thanks|最高|good|nice|えらい/.test(lower)) intent = "praise";
-      const noteMatch = message.match(/(?:性格|personality|メモ|note)[:：]\s*(.+)$/i);
+      if (/投資|利益|bank|invest|profit|金|inversión|invertir|investissement|投资|수익|투자/.test(lower)) intent = "invest";
+      else if (/分析|解析|予測|oracle|analy|forecast|data|analizar|analyse|prédiction|predicción|预测|분석|예측/.test(lower)) intent = "analyze";
+      else if (/守|防御|防衛|警備|guard|security|patch|defend|defense|defence|défense|defensa|保护|安全|방어|보안/.test(lower)) intent = "guard";
+      else if (/交渉|契約|deal|nego|trade|market|contract|négociation|negociación|trato|accord|协商|谈判|협상|거래/.test(lower)) intent = "negotiate";
+      else if (/配送|運搬|route|deliver|delivery|drone|entrega|livraison|路线|配送|배송/.test(lower)) intent = "deliver";
+      else if (/休|寝|coffee|tavern|rest|descanso|repos|休息|휴식|404/.test(lower)) intent = "rest";
+      else if (/hack|侵入|潜入|stealth|yami|neko|infiltr|pirater|入侵|잠입|해킹/.test(lower)) intent = "hack";
+      else if (/勉強|学習|sage|study|academy|support|aprender|estudiar|étudier|学习|공부|학습/.test(lower)) intent = "study";
+      else if (/ありがとう|thanks|最高|good|nice|えらい|gracias|merci|谢谢|감사|고마워/.test(lower)) intent = "praise";
+      const noteMatch = message.match(/(?:性格|personality|メモ|note|个性|人格|备注|성격|메모|personalidad|nota|personnalité)[:：]\s*(.+)$/i);
       return { target, intent, note: noteMatch ? noteMatch[1].trim() : "", message };
     };
 
@@ -7716,39 +8357,33 @@ function NeonMythosCity() {
     const mockAgentApi = async (message, history) => {
       await new Promise((resolve) => window.setTimeout(resolve, 1200 + Math.random() * 900));
       const lower = message.toLowerCase();
+      const langPack = getCompanionLang();
       const commands = message.split(/[。.!？?]+/).map(s => s.trim()).filter(Boolean).map(parseAgentCommand);
       commands.forEach(sendCommandToSimulation);
       const command = commands[commands.length - 1] || parseAgentCommand(message);
       if (commands.length > 1) {
-        return commands.map(cmd => cmd.note ? `${cmd.target}: メモ「${cmd.note}」を保存` : `${cmd.target}: ${cmd.intent} 指示を送信`).join(" / ");
+        return commands.map(cmd => {
+          const label = langPack.intentLabels[cmd.intent] || cmd.intent;
+          return cmd.note ? langPack.multiNote(cmd) : langPack.multiCommand(cmd, label);
+        }).join(" / ");
       }
       if (command.note) {
-        return `${command.target} のパーソナライズを更新しました。「${command.note}」を行動メモとして保持します。`;
+        return langPack.noteReply(command);
       }
       if (command.intent !== "assist") {
-        const labels = {
-          invest: "投資判断",
-          analyze: "分析",
-          guard: "防御",
-          negotiate: "交渉",
-          deliver: "配送",
-          rest: "休憩",
-          hack: "潜入支援",
-          study: "学習支援",
-          praise: "士気上昇"
-        };
-        return `${command.target} に ${labels[command.intent] || command.intent} の指示を送りました。マップ上の行動ログと選択パネルにも反映します。`;
+        const label = langPack.intentLabels[command.intent] || command.intent;
+        return langPack.commandReply(command, label);
       }
-      if (/clear|解決|done|success|勝|ありがとう|thanks|最高/.test(lower)) {
-        return "ミッションログを確認。いい流れです。次の一手まで、こちらで状況を整理しておきます。";
+      if (/clear|解決|done|success|勝|ありがとう|thanks|最高|gracias|merci|谢谢|감사|고마워/.test(lower)) {
+        return langPack.successReply;
       }
-      if (/help|使い方|何|どう|how/.test(lower)) {
-        return "もちろん。いまはデモ接続なので、あとでOpenAI APIに差し替えられるよう送受信部分を分離しています。入力すると状態が listening → thinking → speaking に遷移します。";
+      if (/help|使い方|何|どう|how|ayuda|aide|帮助|도움/.test(lower)) {
+        return langPack.helpReply;
       }
       if (history.length > 4) {
-        return "会話コンテキストも保持中です。API接続時はこの履歴をそのままメッセージ配列として渡せます。";
+        return langPack.historyReply;
       }
-      return `${command.target} を対象に受信しました。名前を入れずに続けると、この相手への指示として扱います。`;
+      return langPack.targetReply(command);
     };
 
     const handleSubmit = async (event) => {
@@ -7766,10 +8401,10 @@ function NeonMythosCity() {
       try {
         const reply = await mockAgentApi(text, agentStore.messages);
         await typeAgentMessage(thinkingNode, reply);
-        const positive = /ありがとう|thanks|最高|done|clear|解決|success|勝/i.test(text + reply);
+        const positive = /ありがとう|thanks|最高|done|clear|解決|success|勝|gracias|merci|谢谢|감사|고마워/i.test(text + reply);
         setAgentState(positive ? "joy" : "speaking");
       } catch (error) {
-        thinkingNode.textContent = "通信レイヤーでエラーを検知。API接続設定を確認してください。";
+        thinkingNode.textContent = getCompanionLang().errorReply;
         setAgentState("idle");
       } finally {
         agentStore.busy = false;
@@ -7777,7 +8412,7 @@ function NeonMythosCity() {
       }
     };
 
-    const positiveDelay = (text) => (/ありがとう|thanks|最高|done|clear|解決|success|勝/i.test(text) ? 3200 : 2100);
+    const positiveDelay = (text) => (/ありがとう|thanks|最高|done|clear|解決|success|勝|gracias|merci|谢谢|감사|고마워/i.test(text) ? 3200 : 2100);
 
     input.addEventListener("input", () => {
       if (agentStore.busy) return;
@@ -7797,13 +8432,17 @@ function NeonMythosCity() {
       const name = event.detail && event.detail.name;
       if (!name || agentStore.target === name) return;
       agentStore.target = name;
-      appendMessage("agent", `${name} を操作対象にしました。続けて「分析して」「性格: 慎重」などと送れます。`);
+      appendMessage("agent", getCompanionLang().targetSelected(name));
     });
 
     window.addEventListener("nm:agent-negotiation", (event) => {
       playNegotiationRound(event.detail || null);
-      label.textContent = "DEAL WATCH";
+      label.textContent = getCompanionLang().dealWatch;
       scheduleIdle(2600);
+    });
+
+    window.addEventListener("nm:language-cutin", (event) => {
+      applyCompanionLanguage(event.detail && event.detail.code, { resetLog: true });
     });
 
     toggle.addEventListener("click", () => {
@@ -7816,9 +8455,7 @@ function NeonMythosCity() {
       input.focus();
     });
 
-    appendMessage("agent", "NEGO-CHAN online. キャラ名つきで指示できます。例:「ZERO 防御して」「SAGE-BOY 性格: 穏やかで学習好き」「DRONE-TAN 配送ルート確認」。");
-    appendDealMessage("SYSTEM", "AI同士の交渉ログを監視中。マップ上で接続が発生すると、条件提示・反対提案・暫定合意がここに流れます。", "#00e5ff", "MONITOR");
-    playNegotiationRound();
+    applyCompanionLanguage("en", { resetLog: true });
     window.setInterval(() => {
       if (!document.hidden) playNegotiationRound();
     }, 7600);
