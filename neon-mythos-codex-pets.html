@@ -2380,7 +2380,17 @@ for (let y = 0; y < MAP_H; y++) {
   ROADS.add(`15,${y}`);
   ROADS.add(`19,${y}`);
 }
-const getBld = (x, y) => BUILDINGS.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h);
+const bldGrid = new Array(MAP_H).fill(null).map(() => new Array(MAP_W).fill(null));
+BUILDINGS.forEach(b => {
+  for (let y = b.y; y < b.y + b.h; y++) {
+    for (let x = b.x; x < b.x + b.w; x++) {
+      if (y >= 0 && y < MAP_H && x >= 0 && x < MAP_W) {
+        bldGrid[y][x] = b;
+      }
+    }
+  }
+});
+const getBld = (x, y) => (y >= 0 && y < MAP_H && x >= 0 && x < MAP_W) ? bldGrid[y][x] : undefined;
 const QTES = [{
   title: "🔥 Fire!",
   desc: "The guild is burning!",
@@ -3501,6 +3511,13 @@ function NeonMythosCity() {
     }, ...p].slice(0, 60));
   }, []);
   const all = useMemo(() => [...agents, ...resi], [agents, resi]);
+  const allMap = useMemo(() => {
+    const m = new Map();
+    for (let i = 0; i < all.length; i++) {
+      m.set(all[i].id, all[i]);
+    }
+    return m;
+  }, [all]);
   useEffect(() => {
     const norm = value => String(value || "").toLowerCase().replace(/[\s_-]/g, "");
     const findTarget = value => all.find(c => {
@@ -3520,7 +3537,7 @@ function NeonMythosCity() {
     })[intent] || null;
     const handler = event => {
       const detail = event.detail || {};
-      const target = findTarget(detail.target) || all.find(c => c.id === sel) || all.find(c => c.id === "nego") || all[0];
+      const target = findTarget(detail.target) || allMap.get(sel) || allMap.get("nego") || all[0];
       if (!target) return;
       const intent = detail.intent || "assist";
       const buildingId = commandToBuilding(intent) || target.pref?.[0];
@@ -3565,7 +3582,7 @@ function NeonMythosCity() {
       window.dispatchEvent(new CustomEvent("nm:agent-detail-close"));
       return;
     }
-    const selected = all.find(c => c.id === sel);
+    const selected = allMap.get(sel);
     if (selected) {
       window.dispatchEvent(new CustomEvent("nm:agent-detail", {
         detail: {
@@ -4424,7 +4441,7 @@ function NeonMythosCity() {
         fontFamily: "monospace"
       }
     }, sel && (() => {
-      const c = all.find(x => x.id === sel);
+      const c = (sel ? allMap.get(sel) : undefined);
       if (!c) return null;
       const spr = ALL_SPRITES[c.spriteId];
       const pet = CODEX_PETS[c.spriteId];
@@ -4983,7 +5000,7 @@ function NeonMythosCity() {
 	  }));
 
   const BottomEntitySheet = () => {
-    const c = sel ? all.find(x => x.id === sel) : null;
+    const c = sel ? allMap.get(sel) : null;
     if (!c) return null;
     const pet = CODEX_PETS[c.spriteId];
     const material = pet ? null : MATERIAL_PORTRAITS[c.spriteId];
