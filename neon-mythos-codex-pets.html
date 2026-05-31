@@ -1093,6 +1093,15 @@ const PX = 3,
   TICK_MS = 170,
   DAY_TICKS = 350,
   QTE_MS = 300000;
+const DEAL_CUTIN_MS = 2800,
+  DEAL_CONNECTION_TICKS = 20,
+  DEAL_CONNECTION_LIMIT = 4,
+  DEAL_FIRST_DELAY_MS = 18000,
+  DEAL_FIRST_JITTER_MS = 14000,
+  DEAL_INTERVAL_MIN_MS = 30000,
+  DEAL_INTERVAL_JITTER_MS = 22000,
+  DEAL_RETRY_MIN_MS = 9000,
+  DEAL_RETRY_JITTER_MS = 8000;
 const useIsMobile = () => {
   const [m, setM] = useState(typeof window !== "undefined" && window.innerWidth < 640);
   useEffect(() => {
@@ -1934,7 +1943,7 @@ function MangaDealCutIn({
       justifyContent: "center",
       padding: isMobile ? 10 : "72px 24px 24px",
       fontFamily: "'Orbitron','Rajdhani','Share Tech Mono',monospace",
-      animation: "mangaDealFade 3.6s ease both"
+      animation: `mangaDealFade ${DEAL_CUTIN_MS / 1000}s ease both`
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1963,8 +1972,8 @@ function MangaDealCutIn({
       position: "absolute",
       inset: -50,
       background: `conic-gradient(from 20deg at 50% 50%, transparent 0 7deg, ${style.color}22 7deg 10deg, transparent 10deg 18deg)`,
-      animation: "mangaSpeedSpin 3.6s linear infinite",
-      opacity: .75
+      animation: `mangaSpeedSpin ${DEAL_CUTIN_MS / 1000}s ease-out both`,
+      opacity: .52
     }
   }), /*#__PURE__*/React.createElement("div", {
     style: {
@@ -4017,6 +4026,14 @@ function NeonMythosCity() {
   });
   const lastQ = useRef(Date.now());
   const cutInCooldowns = useRef({});
+  const nextNegotiationAt = useRef(null);
+  const mangaDealClearTimer = useRef(null);
+  if (nextNegotiationAt.current === null) {
+    nextNegotiationAt.current = Date.now() + DEAL_FIRST_DELAY_MS + Math.random() * DEAL_FIRST_JITTER_MS;
+  }
+  useEffect(() => () => {
+    if (mangaDealClearTimer.current) window.clearTimeout(mangaDealClearTimer.current);
+  }, []);
   const log = useCallback((ch, msg, col) => {
     setLogs(p => [{
       ch,
@@ -4432,60 +4449,62 @@ function NeonMythosCity() {
     if (paused || showAvSel || showLangSel) return;
     runAI(setAgents);
     runAI(setResi);
-    if (tick % 10 === 0) {
+    const now = Date.now();
+    if (now >= nextNegotiationAt.current) {
       const workers = [...agents, ...resi].filter(a => a.state === "work");
-      const newConns = [];
-      for (let i = 0; i < Math.min(3, workers.length - 1); i++) {
-        if (workers.length >= 2) {
-          const a = workers[Math.floor(Math.random() * workers.length)];
-          const b = workers[Math.floor(Math.random() * workers.length)];
-          if (a.id !== b.id) {
-            const deal = resolveNegotiationDeal(a, b, tick, lang);
-            newConns.push({
-              id: `${a.id}-${b.id}-${tick}`,
-              from: a,
-              to: b,
-              time: 0,
-              outcome: deal.outcome,
-              color: deal.color,
-              resultLabel: deal.resultLabel,
-              deal
-            });
-          }
+      if (workers.length >= 2) {
+        nextNegotiationAt.current = now + DEAL_INTERVAL_MIN_MS + Math.random() * DEAL_INTERVAL_JITTER_MS;
+        let a = null;
+        let b = null;
+        for (let attempt = 0; attempt < 8 && (!a || !b || a.id === b.id); attempt++) {
+          a = workers[Math.floor(Math.random() * workers.length)];
+          b = workers[Math.floor(Math.random() * workers.length)];
         }
-      }
-      newConns.forEach((conn, index) => {
-        applyNegotiationResult(conn.deal);
-        window.setTimeout(() => {
+        if (a && b && a.id !== b.id) {
+          const deal = resolveNegotiationDeal(a, b, tick, lang);
+          const conn = {
+            id: `${a.id}-${b.id}-${tick}`,
+            from: a,
+            to: b,
+            time: 0,
+            outcome: deal.outcome,
+            color: deal.color,
+            resultLabel: deal.resultLabel,
+            deal
+          };
+          setConnections(prev => [...prev, conn].slice(-DEAL_CONNECTION_LIMIT));
+          applyNegotiationResult(conn.deal);
+          if (mangaDealClearTimer.current) window.clearTimeout(mangaDealClearTimer.current);
           setMangaDeal(conn.deal);
-          window.setTimeout(() => {
+          mangaDealClearTimer.current = window.setTimeout(() => {
             setMangaDeal(current => current && current.id === conn.deal.id ? null : current);
-          }, 3600);
-        }, index * 620);
-        window.dispatchEvent(new CustomEvent("nm:agent-negotiation", {
-          detail: {
-            from: conn.from.jp || conn.from.name,
-            to: conn.to.jp || conn.to.name,
-            fromColor: conn.from.color,
-            toColor: conn.to.color,
-            topic: conn.from.specialty || conn.to.specialty || "city_ops",
-            outcome: conn.outcome,
-            resultLabel: conn.resultLabel,
-            color: conn.color,
-            score: conn.deal.score,
-            payout: conn.deal.payout,
-            fromLine: conn.deal.fromLine,
-            toLine: conn.deal.toLine,
-            tick
-          }
-        }));
-      });
-      setConnections(prev => [...prev, ...newConns].slice(-8));
+          }, DEAL_CUTIN_MS);
+          window.dispatchEvent(new CustomEvent("nm:agent-negotiation", {
+            detail: {
+              from: conn.from.jp || conn.from.name,
+              to: conn.to.jp || conn.to.name,
+              fromColor: conn.from.color,
+              toColor: conn.to.color,
+              topic: conn.from.specialty || conn.to.specialty || "city_ops",
+              outcome: conn.outcome,
+              resultLabel: conn.resultLabel,
+              color: conn.color,
+              score: conn.deal.score,
+              payout: conn.deal.payout,
+              fromLine: conn.deal.fromLine,
+              toLine: conn.deal.toLine,
+              tick
+            }
+          }));
+        }
+      } else {
+        nextNegotiationAt.current = now + DEAL_RETRY_MIN_MS + Math.random() * DEAL_RETRY_JITTER_MS;
+      }
     }
-    setConnections(prev => prev.map(c => ({
+    setConnections(prev => prev.length ? prev.map(c => ({
       ...c,
       time: c.time + 1
-    })).filter(c => c.time < 30));
+    })).filter(c => c.time < DEAL_CONNECTION_TICKS) : prev);
   }, [tick, paused, showAvSel, showLangSel, lang, applyNegotiationResult]);
   useEffect(() => {
     if (tick % 120 === 0 && tick > 0 && !paused) {
@@ -6076,7 +6095,7 @@ function NeonMythosCity() {
         @keyframes mangaPanelIn{from{opacity:0;transform:translateY(18px) rotate(-2deg)}to{opacity:1;transform:translateY(0) rotate(0)}}
         @keyframes mangaStamp{0%{opacity:0;transform:scale(2.4) rotate(-22deg)}62%{opacity:1;transform:scale(.88) rotate(-8deg)}100%{opacity:1;transform:scale(1) rotate(-8deg)}}
         @keyframes mangaResultSlam{0%{opacity:0;transform:translateX(-50%) scale(2.2) rotate(-12deg)}58%{opacity:1;transform:translateX(-50%) scale(.9) rotate(-4deg)}100%{opacity:1;transform:translateX(-50%) scale(1) rotate(-4deg)}}
-        @keyframes mangaSpeedSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        @keyframes mangaSpeedSpin{from{transform:rotate(0deg);opacity:.52}to{transform:rotate(90deg);opacity:.18}}
         *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#0a0a1a}::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
       `), mangaDeal && /*#__PURE__*/React.createElement(MangaDealCutIn, {
@@ -9123,7 +9142,7 @@ function NeonMythosCity() {
       item.querySelector(".nm-deal-speaker").textContent = `${speaker} / ${topic}`;
       item.querySelector(".nm-deal-body").textContent = text;
       negotiationLog.appendChild(item);
-      while (negotiationLog.children.length > 42) negotiationLog.removeChild(negotiationLog.firstChild);
+      while (negotiationLog.children.length > 28) negotiationLog.removeChild(negotiationLog.firstChild);
       negotiationLog.scrollTop = negotiationLog.scrollHeight;
       return item;
     };
@@ -9193,7 +9212,7 @@ function NeonMythosCity() {
           if (langVersion === agentStore.langVersion) {
             appendDealMessage(speaker, text, color, source?.topic || scenario.topic);
           }
-        }, index * 850);
+        }, index * 650);
       });
     };
 
