@@ -2686,7 +2686,17 @@ for (let y = 0; y < MAP_H; y++) {
   ROADS.add(`15,${y}`);
   ROADS.add(`19,${y}`);
 }
-const getBld = (x, y) => BUILDINGS.find(b => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h);
+// ⚡ Bolt Optimization: Pre-computed O(1) grid lookup replaces O(N) Array.find() for spatial building queries.
+const _bldGrid = Array.from({ length: MAP_H }, () => new Array(MAP_W).fill(undefined));
+BUILDINGS.forEach(b => {
+  for (let by = b.y; by < b.y + b.h; by++) {
+    for (let bx = b.x; bx < b.x + b.w; bx++) {
+      if (by >= 0 && by < MAP_H && bx >= 0 && bx < MAP_W) _bldGrid[by][bx] = b;
+    }
+  }
+});
+const getBld = (x, y) => (y >= 0 && y < MAP_H && x >= 0 && x < MAP_W) ? _bldGrid[y][x] : undefined;
+
 const toCellSet = cells => new Set(cells.map(([x, y]) => `${x},${y}`));
 const PLAZA_TILES = toCellSet([
   [8, 4], [9, 4], [10, 4], [11, 4], [8, 5], [9, 5], [10, 5], [11, 5],
