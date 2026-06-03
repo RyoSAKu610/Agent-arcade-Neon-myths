@@ -616,6 +616,7 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   (function() {
     var colors = ["#FF69B4","#00E5FF","#FFD700","#00FF88","#BF40FF"];
     var dots = document.getElementById("nm-dots");
+    if (!dots) return;
     for (var i = 0; i < 5; i++) {
       var d = document.createElement("div");
       d.className = "nm-dot";
@@ -630,7 +631,11 @@ function(a,b,c){if(!Vd(b))throw Error(m(200));return Wd(null,a,b,!1,c)};Q.unmoun
   <script>
   (function() {
     try {
-      document.getElementById("nm-status").textContent = "LOADING CITY DATA...";
+      var bootStatus = document.getElementById("nm-status");
+      if (bootStatus) bootStatus.textContent = "LOADING CITY DATA...";
+      if (!window.React || !window.ReactDOM) {
+        throw new Error("React runtime did not initialize.");
+      }
 
 const {
   useState,
@@ -6691,9 +6696,13 @@ function NeonMythosCity() {
   }, /*#__PURE__*/React.createElement("span", null, t.neonCity, " ", t.day, day, " / ", all.length), /*#__PURE__*/React.createElement("span", null, t.online)));
 }
 
-      document.getElementById("nm-status").textContent = "STARTING ENGINE...";
+      var engineStatus = document.getElementById("nm-status");
+      if (engineStatus) engineStatus.textContent = "STARTING ENGINE...";
 
       var container = document.getElementById("root");
+      if (!container) {
+        throw new Error("Application mount node #root is missing.");
+      }
       var appRoot = ReactDOM.createRoot(container);
       appRoot.render(React.createElement(NeonMythosCity));
 
@@ -6711,7 +6720,7 @@ function NeonMythosCity() {
       var errDiv = document.getElementById("nm-error");
       var errMsg = document.getElementById("nm-err-msg");
       if (errMsg) errMsg.textContent = (err && err.message) ? err.message : String(err);
-      errDiv.style.display = "flex";
+      if (errDiv) errDiv.style.display = "flex";
       var ld = document.getElementById("nm-loading");
       if (ld && ld.parentNode) ld.parentNode.removeChild(ld);
     }
@@ -6769,6 +6778,7 @@ function NeonMythosCity() {
     window.addEventListener('resize', initCols);
 
     function drawDS() {
+      if (!dsCtx) return;
       dsCtx.fillStyle = 'rgba(5,6,15,.18)';
       dsCtx.fillRect(0, 0, dsCanvas.width, dsCanvas.height);
       dsCtx.font = '12px "Share Tech Mono", monospace';
@@ -6838,6 +6848,7 @@ function NeonMythosCity() {
     }));
 
     function drawParticles() {
+      if (!pCtx) return;
       pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
 
       // Stars
@@ -7756,6 +7767,9 @@ function NeonMythosCity() {
     const histEl    = document.getElementById('nmr-history');
     const ctaEl     = document.getElementById('nmr-cta');
     const ctaLabel  = document.getElementById('nmr-cta-label');
+    if (!overlay || !card || !closeBtn || !badgeEl || !nameEl || !portraitEl || !titleEl || !companyEl || !tagEl || !roiGrid || !skillRow || !statusRow || !histEl || !ctaEl || !ctaLabel) {
+      return;
+    }
 
     let currentAgent = null;
     const RESUME_PORTRAITS = {
@@ -9058,6 +9072,7 @@ function NeonMythosCity() {
     const getCompanionLang = () => COMPANION_I18N[normalizeCompanionLang(agentStore.lang)];
 
     const shell = document.getElementById("nm-agent-shell");
+    if (!shell) return;
     const log = document.getElementById("nm-agent-log");
     const negotiationLog = document.getElementById("nm-negotiation-log");
     const form = document.getElementById("nm-agent-form");
@@ -9073,6 +9088,9 @@ function NeonMythosCity() {
     const tabDeals = document.getElementById("nm-tab-deals");
     const tabList = shell.querySelector(".nm-agent-tabs");
     const sendButton = shell.querySelector(".nm-agent-send");
+    if (!log || !negotiationLog || !form || !input || !label || !statusChip || !panel || !roleLabel || !toggle || !avatarButton || !tabChat || !tabDeals || !tabList || !sendButton) {
+      return;
+    }
 
     const agentStore = {
       lang: "en",
@@ -9616,6 +9634,7 @@ function NeonMythosCity() {
     const name = document.getElementById("nm-lc-name");
     const line = document.getElementById("nm-lc-line");
     const role = document.getElementById("nm-lc-role");
+    if (!cutin || !portrait || !kicker || !name || !line || !role) return;
     let cutinTimer = null;
 
     const languageAgents = {
