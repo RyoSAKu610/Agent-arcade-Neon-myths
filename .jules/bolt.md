@@ -1,0 +1,3 @@
+## 2025-02-18 - [Spatial Hash Grid Optimization]
+**Learning:** For spatial coordinate lookups of small, fixed datasets in V8, a pre-computed 2D array grid (e.g., `arr[y][x]`) outperforms both O(N) `Array.find()` and O(1) `Map` lookups requiring string interpolation. This avoids iterative array scanning and expensive garbage collection from string allocations during the game loop.
+**Action:** When implementing game loops or grid systems, replace O(N) spatial lookup iterations on bounded maps with pre-computed 2D arrays to ensure stable O(1) performance and avoid allocating objects (like keys) on the hot path.
