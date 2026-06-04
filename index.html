@@ -78,7 +78,17 @@
     }
   </style>
   <script>
-    window.location.replace("neon-mythos-codex-pets.html?v=manga-deals-lite");
+    (function() {
+      var current = new URL(window.location.href);
+      var basePath = current.pathname;
+      if (!basePath.endsWith("/")) {
+        basePath = basePath.indexOf(".") >= 0
+          ? basePath.replace(/[^/]*$/, "")
+          : basePath + "/";
+      }
+      var target = new URL("neon-mythos-codex-pets.html?v=manga-deals-lite", current.origin + basePath);
+      window.location.replace(target.href);
+    })();
   </script>
 </head>
 <body>
