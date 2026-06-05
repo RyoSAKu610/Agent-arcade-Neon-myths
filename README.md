@@ -4,14 +4,14 @@ Agent Arcade: Neon Myths is now a static browser RPG/simulation hybrid called **
 
 ## Start
 
-[![START SIMULATION](https://img.shields.io/badge/START-LUMEN_ATLAS-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas-lite-20260605)
+[![START SIMULATION](https://img.shields.io/badge/START-LUMEN_ATLAS-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas-negotiation-20260605)
 
 Open the Start button above from any phone, tablet, or computer. Nothing needs to be installed.
 Use the **SOUND ON** button in the top-right corner if the browser does not start BGM automatically.
 The app starts in lightweight graphics mode for gentler mobile/data usage; use the **HD/LT** button to switch graphics quality.
 
 Direct URL:
-https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas-lite-20260605
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas-negotiation-20260605
 
 ## Lumen Atlas
 
@@ -19,6 +19,7 @@ https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html
 - Chapter 1: **Ledger Dawn**, playable from start to completion
 - Explorable maps: Central Plaza, Glitch Route 01, Golden Temple, Underground Vault, Data Causeway, plus Oracle Gate preview
 - Click/tap movement, camera follow, warps, locked gate feedback, NPC dialogue choices, quest log, region atlas, and browser save
+- Three-choice negotiation events where the player's stance changes risk, rewards, reputation, and contract outcomes
 - Story/UI text for English, Japanese, Chinese, Korean, Spanish, and French
 - Lightweight sprites, terrain-layer rendering, and a user-toggleable HD mode for broader device support
 

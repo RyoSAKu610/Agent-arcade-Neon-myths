@@ -8,6 +8,44 @@ const TILE_MOBILE = 24;
 const STEP_MS = 190;
 const SAVE_DEBOUNCE_MS = 650;
 const GRAPHICS_KEY = "neonMythos:graphicsMode";
+const DEAL_STRATEGIES = [
+  {
+    id: "read",
+    labelKey: "dealChoiceRead",
+    descKey: "dealChoiceReadDesc",
+    success: 0.46,
+    hold: 0.42,
+    rewards: {
+      success: { yen: 1800, data: 34, rep: 1 },
+      hold: { data: 18 },
+      fail: { data: -8 }
+    }
+  },
+  {
+    id: "push",
+    labelKey: "dealChoicePush",
+    descKey: "dealChoicePushDesc",
+    success: 0.58,
+    hold: 0.18,
+    rewards: {
+      success: { yen: 5200, con: 2 },
+      hold: { yen: 900, data: 6 },
+      fail: { con: -1, rep: -3 }
+    }
+  },
+  {
+    id: "trust",
+    labelKey: "dealChoiceTrust",
+    descKey: "dealChoiceTrustDesc",
+    success: 0.42,
+    hold: 0.44,
+    rewards: {
+      success: { yen: 2400, con: 1, rep: 4 },
+      hold: { data: 12, rep: 1 },
+      fail: { yen: -500 }
+    }
+  }
+];
 
 const root = document.getElementById("app");
 const boot = loadSave();
@@ -230,7 +268,7 @@ const checkWarp = () => {
 };
 
 const stepPlayer = () => {
-  if (!state.destination || state.dialogueNodeId || state.qte) return false;
+  if (!state.destination || state.dialogueNodeId || state.qte || state.cutin?.awaiting) return false;
   const now = Date.now();
   if (state.lastMoveAt && now - state.lastMoveAt < STEP_MS) return false;
   const stepsDue = Math.max(1, Math.min(6, Math.floor((now - (state.lastMoveAt || now - STEP_MS)) / STEP_MS)));
@@ -319,28 +357,46 @@ const resolveQte = (success) => {
 };
 
 const runDeal = () => {
-  if (state.cutin) return;
+  if (state.cutin || state.qte || state.dialogueNodeId) return;
   const a = AGENTS[Math.floor(Math.random() * AGENTS.length)];
   let b = AGENTS[Math.floor(Math.random() * AGENTS.length)];
   if (b.id === a.id) b = AGENTS[(AGENTS.indexOf(a) + 3) % AGENTS.length];
-  const roll = Math.random();
-  const outcome = roll > 0.66 ? "success" : roll > 0.26 ? "hold" : "fail";
-  const color = outcome === "success" ? "#00ff88" : outcome === "hold" ? "#ffd34d" : "#ff3355";
   state.cutin = {
     a,
     b,
+    awaiting: true,
+    color: "#ffd34d",
+    label: t("dealPrompt")
+  };
+  addLog(t("dealHeader"), `${a.name} <> ${b.name}: ${t("dealPrompt")}`, "#ffd34d");
+  render();
+};
+
+const resolveDeal = (strategyId) => {
+  if (!state.cutin?.awaiting) return;
+  const strategy = DEAL_STRATEGIES.find((item) => item.id === strategyId) || DEAL_STRATEGIES[0];
+  const { a, b } = state.cutin;
+  const roll = Math.random();
+  const outcome = roll < strategy.success ? "success" : roll < strategy.success + strategy.hold ? "hold" : "fail";
+  const color = outcome === "success" ? "#00ff88" : outcome === "hold" ? "#ffd34d" : "#ff3355";
+  const label = outcome === "success" ? t("dealSuccess") : outcome === "hold" ? t("dealHold") : t("dealFail");
+  applyResources(strategy.rewards[outcome]);
+  state.cutin = {
+    a,
+    b,
+    awaiting: false,
+    strategy,
     outcome,
     color,
-    label: outcome === "success" ? t("dealSuccess") : outcome === "hold" ? t("dealHold") : t("dealFail")
+    label
   };
-  if (outcome === "success") applyResources({ yen: 3600, con: 1, rep: 1 });
-  if (outcome === "hold") applyResources({ data: 18 });
-  if (outcome === "fail") applyResources({ rep: -1 });
-  addLog(t("dealHeader"), `${a.name} <> ${b.name}: ${state.cutin.label}`, color);
+  addLog(t("dealHeader"), `${a.name} <> ${b.name}: ${t(strategy.labelKey)} / ${label}`, color);
   saveSoon();
   window.setTimeout(() => {
-    state.cutin = null;
-    render();
+    if (!state.cutin?.awaiting) {
+      state.cutin = null;
+      render();
+    }
   }, 2600);
   render();
 };
@@ -693,14 +749,26 @@ const renderQte = () => {
 
 const renderCutin = () => {
   if (!state.cutin) return "";
-  const { a, b, color, label } = state.cutin;
+  const { a, b, color, label, awaiting } = state.cutin;
   return `
-    <div class="cutin" style="--cutin-color:${color}">
+    <div class="cutin ${awaiting ? "is-choice" : ""}" style="--cutin-color:${color}">
       <div class="cutin-card">
         <div class="cutin-agent" style="--agent-color:${a.color}">${spriteHtml({ ...a, x: 0, y: 0 }, "entity", { state: "work", scale: 0.74 })}</div>
         <div class="cutin-vs">VS</div>
         <div class="cutin-agent" style="--agent-color:${b.color}">${spriteHtml({ ...b, x: 0, y: 0 }, "entity", { state: "work", scale: 0.74 })}</div>
-        <div class="cutin-result">${esc(label)}</div>
+        ${awaiting ? `
+          <div class="deal-choice-panel">
+            <div class="deal-choice-title">${esc(t("dealPrompt"))}</div>
+            <div class="deal-choice-grid">
+              ${DEAL_STRATEGIES.map((strategy) => `
+                <button type="button" data-deal-choice="${strategy.id}">
+                  <strong>${esc(t(strategy.labelKey))}</strong>
+                  <span>${esc(t(strategy.descKey))}</span>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        ` : `<div class="cutin-result">${esc(label)}</div>`}
       </div>
     </div>
   `;
@@ -845,6 +913,11 @@ document.addEventListener("click", (event) => {
   }
   if (event.target.closest("[data-run-deal]")) {
     runDeal();
+    return;
+  }
+  const dealChoice = event.target.closest("[data-deal-choice]")?.dataset.dealChoice;
+  if (dealChoice) {
+    resolveDeal(dealChoice);
     return;
   }
   if (event.target.closest("[data-qte-success]")) {

@@ -57,7 +57,14 @@ const needText = (key, where) => {
   "qteSuccess",
   "qteFail",
   "spawnEvent",
-  "runDeal"
+  "runDeal",
+  "dealPrompt",
+  "dealChoiceRead",
+  "dealChoiceReadDesc",
+  "dealChoicePush",
+  "dealChoicePushDesc",
+  "dealChoiceTrust",
+  "dealChoiceTrustDesc"
 ].forEach((key) => needText(key, "core ui"));
 
 AGENTS.forEach((agent) => {

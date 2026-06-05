@@ -810,6 +810,11 @@ input:focus-visible {
   animation: cutinFade 2.6s ease both;
 }
 
+.cutin.is-choice {
+  pointer-events: auto;
+  animation: none;
+}
+
 .cutin-card {
   width: min(760px, 100%);
   display: grid;
@@ -821,6 +826,56 @@ input:focus-visible {
   color: #05070f;
   box-shadow: 10px 10px 0 #05070f, 0 28px 80px rgba(0, 0, 0, 0.7);
   transform: rotate(-1deg);
+}
+
+.deal-choice-panel {
+  grid-column: 1 / -1;
+  padding: 10px;
+  border: 3px solid #05070f;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.deal-choice-title {
+  margin-bottom: 8px;
+  color: #05070f;
+  font-size: 18px;
+  font-weight: 1000;
+  text-align: center;
+}
+
+.deal-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.deal-choice-grid button {
+  min-height: 92px;
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  padding: 10px;
+  border: 2px solid #05070f;
+  border-radius: 5px;
+  background: #101727;
+  color: var(--text);
+  text-align: left;
+}
+
+.deal-choice-grid button strong {
+  color: var(--gold);
+  font-size: 14px;
+}
+
+.deal-choice-grid button span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.25;
+}
+
+.deal-choice-grid button:hover {
+  transform: translateY(-1px);
+  background: #15233b;
 }
 
 .cutin-agent {
@@ -996,5 +1051,13 @@ input:focus-visible {
   .cutin-result {
     bottom: 34px;
     font-size: 26px;
+  }
+
+  .deal-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .deal-choice-grid button {
+    min-height: 64px;
   }
 }
