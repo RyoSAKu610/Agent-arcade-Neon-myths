@@ -1,4 +1,4 @@
-import { AGENTS, AVATAR_IDS, PET_ATLAS, PROFILE_METRICS, getAgent } from "./data/characters.js";
+import { AGENTS, AVATAR_IDS, PET_ATLAS, PET_ATLAS_LITE, PROFILE_METRICS, getAgent } from "./data/characters.js";
 import { I18N, LANG_LIST, text } from "./data/i18n.js";
 import { DIALOGUE_NODES, MAP_SCENES, QTE_EVENTS, STORY_CHAPTERS, WORLD_REGIONS } from "./data/world.js";
 import { clearSave, loadSave, writeSave } from "./save.js";
@@ -7,9 +7,22 @@ const TILE_DESKTOP = 28;
 const TILE_MOBILE = 24;
 const STEP_MS = 190;
 const SAVE_DEBOUNCE_MS = 650;
+const GRAPHICS_KEY = "neonMythos:graphicsMode";
 
 const root = document.getElementById("app");
 const boot = loadSave();
+
+const detectGraphicsMode = () => {
+  try {
+    const saved = localStorage.getItem(GRAPHICS_KEY);
+    if (saved === "lite" || saved === "hd") return saved;
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (connection?.saveData || Number(navigator.deviceMemory || 8) <= 4) return "lite";
+  } catch {
+    return "lite";
+  }
+  return "lite";
+};
 
 const state = {
   save: boot.save,
@@ -25,6 +38,7 @@ const state = {
   cutin: null,
   activePanel: "quest",
   mobileOpen: false,
+  graphicsMode: detectGraphicsMode(),
   frame: 0,
   lastSavedAt: 0,
   saveTimer: null,
@@ -142,6 +156,13 @@ const buildPath = (map, start, end) => {
   return path;
 };
 
+const needsPathRefresh = (map, pos) => {
+  const next = state.path[0];
+  if (!next) return true;
+  if (Math.abs(next.x - pos.x) + Math.abs(next.y - pos.y) !== 1) return true;
+  return isBlocked(map, next.x, next.y);
+};
+
 const getActiveObjective = () => getChapter().objectives.find((objective) => !hasFlag(objective.flag)) || null;
 
 const isRegionUnlocked = (region) => !region.unlockFlag || hasFlag(region.unlockFlag);
@@ -224,7 +245,7 @@ const stepPlayer = () => {
       moved = true;
       break;
     }
-    state.path = buildPath(map, pos, state.destination);
+    if (needsPathRefresh(map, pos)) state.path = buildPath(map, pos, state.destination);
     const next = state.path.shift();
     if (!next) {
       state.destination = null;
@@ -344,6 +365,13 @@ const toggleSound = async () => {
   render();
 };
 
+const toggleGraphicsMode = () => {
+  state.graphicsMode = state.graphicsMode === "lite" ? "hd" : "lite";
+  localStorage.setItem(GRAPHICS_KEY, state.graphicsMode);
+  addLog("VIDEO", t(state.graphicsMode === "lite" ? "graphicsLite" : "graphicsHd"), "#00e5ff");
+  render();
+};
+
 const handleCompanion = (message) => {
   const trimmed = message.trim();
   if (!trimmed) return;
@@ -383,27 +411,34 @@ const cameraStyle = () => {
   return `--map-w:${map.size.w};--map-h:${map.size.h};--camera-x:${Math.round(x)}px;--camera-y:${Math.round(y)}px;`;
 };
 
-const tileHtml = (map) => {
-  let html = "";
-  for (let y = 0; y < map.size.h; y += 1) {
-    for (let x = 0; x < map.size.w; x += 1) {
-      html += `<div class="tile tile-${tileKind(map, x, y)}" style="--x:${x};--y:${y}"></div>`;
-    }
-  }
-  return html;
-};
+const terrainRectHtml = (kind, rect) => (
+  `<div class="terrain tile-${kind}" style="--x:${rect.x};--y:${rect.y};--w:${rect.w};--h:${rect.h}"></div>`
+);
+
+const tileHtml = (map) => [
+  terrainRectHtml(map.tiles.base || "grass", { x: 0, y: 0, w: map.size.w, h: map.size.h }),
+  ...map.tiles.water.map((rect) => terrainRectHtml("water", rect)),
+  ...map.tiles.gardens.map((rect) => terrainRectHtml("garden", rect)),
+  ...map.tiles.plaza.map((rect) => terrainRectHtml("plaza", rect)),
+  ...map.tiles.roads.map((rect) => terrainRectHtml("road", rect))
+].join("");
 
 const spriteHtml = (agent, className = "entity", opts = {}) => {
-  const atlas = PET_ATLAS[agent.spriteId || agent.id];
+  const spriteId = agent.spriteId || agent.id;
+  const useLite = state.graphicsMode === "lite";
+  const atlas = (useLite ? PET_ATLAS_LITE[spriteId] : PET_ATLAS[spriteId]) || PET_ATLAS[spriteId];
   const row = opts.row ?? (opts.state === "walk" ? 1 : opts.state === "work" ? 8 : 0);
   const frames = row === 1 ? 8 : 6;
   const frame = state.frame % frames;
   const color = agent.color || "#00e5ff";
-  const sprite = atlas
-    ? `<div class="sprite" style="background-image:url('${atlas}');--row:${row};--frame:${frame};--color:${color};--sprite-scale:${opts.scale || 0.23}"></div>`
+  const frameW = useLite ? 96 : 192;
+  const frameH = useLite ? 104 : 208;
+  const scale = (opts.scale || 0.23) * (useLite ? 2 : 1);
+  const sprite = atlas && !(useLite && opts.deferSprite)
+    ? `<div class="sprite" style="background-image:url('${atlas}');--sprite-w:${frameW}px;--sprite-h:${frameH}px;--sprite-x:${frame * -frameW}px;--sprite-y:${row * -frameH}px;--color:${color};--sprite-scale:${scale}"></div>`
     : `<div class="sprite-fallback"></div>`;
   return `
-    <div class="${className}" style="--x:${agent.x};--y:${agent.y};--color:${color}">
+    <div class="${className} ${useLite && opts.deferSprite ? "is-token" : ""}" style="--x:${agent.x};--y:${agent.y};--color:${color}">
       ${sprite}
       <div class="entity-name">${esc(agent.name || agent.id)}</div>
       ${opts.button ? `<button type="button" data-${opts.button}="${esc(agent.npcId || agent.id)}" aria-label="${esc(agent.name || agent.id)}"></button>` : ""}
@@ -421,7 +456,7 @@ const renderMap = () => {
   }).join("");
   const agentHtml = state.save.agents
     .filter((agent) => agent.mapId === map.id && !currentNpcIds.has(agent.id))
-    .map((agent) => spriteHtml({ ...getAgent(agent.id), ...agent }, "entity", { button: "profile", state: agent.state, scale: 0.22 }))
+    .map((agent) => spriteHtml({ ...getAgent(agent.id), ...agent }, "entity", { button: "profile", state: agent.state, scale: 0.22, deferSprite: true }))
     .join("");
   const avatar = getAgent(state.save.avatarId) || getAgent(state.selectedAvatar) || getAgent("human");
   const playerHtml = spriteHtml({ ...avatar, ...state.save.position, name: "YOU" }, "player", { state: state.destination ? "walk" : "idle", scale: 0.25 });
@@ -585,6 +620,7 @@ const renderTopbar = () => {
       </div>
       <div class="top-actions">
         <button class="icon-btn" type="button" data-sound title="${esc(t("soundOn"))}">${state.audioOn ? "ON" : "♪"}</button>
+        <button class="icon-btn" type="button" data-toggle-graphics title="${esc(t("graphicsToggle"))}">${state.graphicsMode === "lite" ? "HD" : "LT"}</button>
         <button class="icon-btn" type="button" data-trigger-qte title="${esc(t("spawnEvent"))}">!</button>
         <button class="icon-btn" type="button" data-run-deal title="${esc(t("runDeal"))}">⇄</button>
         <button class="icon-btn" type="button" data-reset-save title="${esc(t("resetSave"))}">R</button>
@@ -797,6 +833,10 @@ document.addEventListener("click", (event) => {
   }
   if (event.target.closest("[data-sound]")) {
     toggleSound();
+    return;
+  }
+  if (event.target.closest("[data-toggle-graphics]")) {
+    toggleGraphicsMode();
     return;
   }
   if (event.target.closest("[data-trigger-qte]")) {

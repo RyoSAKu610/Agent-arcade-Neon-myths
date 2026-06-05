@@ -15,6 +15,23 @@ export const PET_ATLAS = {
   pixel: "character-pets/pixel/spritesheet.webp"
 };
 
+export const PET_ATLAS_LITE = {
+  kane: "character-pets-lite/kane/spritesheet.webp",
+  zero: "character-pets-lite/zero/spritesheet.webp",
+  nego: "character-pets-lite/nego/spritesheet.webp",
+  human: "character-pets-lite/human/spritesheet.webp",
+  oracle: "character-pets-lite/oracle/spritesheet.webp",
+  sage: "character-pets-lite/sage/spritesheet.webp",
+  drone: "character-pets-lite/drone/spritesheet.webp",
+  yami: "character-pets-lite/yami/spritesheet.webp",
+  lira: "character-pets-lite/lira/spritesheet.webp",
+  kitsune: "character-pets-lite/kitsune/spritesheet.webp",
+  neon: "character-pets-lite/neon/spritesheet.webp",
+  eyevoid: "character-pets-lite/eyevoid/spritesheet.webp",
+  goldjack: "character-pets-lite/goldjack/spritesheet.webp",
+  pixel: "character-pets-lite/pixel/spritesheet.webp"
+};
+
 export const PORTRAIT_ATLAS = {
   sage: "character-assets/sage-boy.png",
   drone: "character-assets/drone-tan.png",

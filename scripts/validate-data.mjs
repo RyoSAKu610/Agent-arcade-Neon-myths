@@ -19,6 +19,47 @@ const needText = (key, where) => {
   });
 };
 
+[
+  "subtitle",
+  "selectLanguage",
+  "selectAvatar",
+  "startJourney",
+  "continueJourney",
+  "resetSave",
+  "soundOn",
+  "graphicsToggle",
+  "graphicsLite",
+  "graphicsHd",
+  "mapTab",
+  "questTab",
+  "atlasTab",
+  "agentsTab",
+  "economyTab",
+  "companionTab",
+  "talk",
+  "close",
+  "choose",
+  "continueLabel",
+  "objective",
+  "completed",
+  "locked",
+  "lockedGate",
+  "saveStatus",
+  "day",
+  "resources",
+  "yen",
+  "data",
+  "con",
+  "rep",
+  "liveFeed",
+  "qteTitle",
+  "qteAction",
+  "qteSuccess",
+  "qteFail",
+  "spawnEvent",
+  "runDeal"
+].forEach((key) => needText(key, "core ui"));
+
 AGENTS.forEach((agent) => {
   needText(agent.roleKey, `agent ${agent.id}`);
   if (!agentIds.has(agent.id)) errors.push(`agent missing id ${agent.id}`);

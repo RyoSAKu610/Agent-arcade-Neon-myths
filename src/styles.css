@@ -320,15 +320,26 @@ input:focus-visible {
   cursor: crosshair;
 }
 
-.tile {
+.tile,
+.terrain {
   position: absolute;
-  width: var(--tile);
-  height: var(--tile);
   left: calc(var(--x) * var(--tile));
   top: calc(var(--y) * var(--tile));
+  pointer-events: none;
+}
+
+.tile {
+  width: var(--tile);
+  height: var(--tile);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(0, 0, 0, 0.16);
-  pointer-events: none;
+}
+
+.terrain {
+  width: calc(var(--w) * var(--tile));
+  height: calc(var(--h) * var(--tile));
+  background-size: var(--tile) var(--tile), var(--tile) var(--tile);
+  background-repeat: repeat;
 }
 
 .tile-grass,
@@ -505,13 +516,13 @@ input:focus-visible {
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: 192px;
-  height: 208px;
+  width: var(--sprite-w, 192px);
+  height: var(--sprite-h, 208px);
   transform: translateX(-50%) scale(var(--sprite-scale));
   transform-origin: 50% 100%;
   background-image: var(--sprite);
   background-repeat: no-repeat;
-  background-position: calc(var(--frame) * -192px) calc(var(--row) * -208px);
+  background-position: var(--sprite-x, 0) var(--sprite-y, 0);
   filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.62)) drop-shadow(0 0 9px var(--color));
   image-rendering: auto;
   pointer-events: none;
@@ -528,6 +539,13 @@ input:focus-visible {
   border-radius: 45% 45% 24% 24%;
   background: radial-gradient(circle at 50% 30%, #fff, var(--color) 34%, #07111f 68%);
   box-shadow: 0 0 14px var(--color);
+}
+
+.entity.is-token .sprite-fallback {
+  width: 24px;
+  height: 24px;
+  bottom: 13px;
+  border-radius: 50%;
 }
 
 .entity-name {
