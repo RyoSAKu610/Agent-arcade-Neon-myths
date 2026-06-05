@@ -1,21 +1,37 @@
 # Agent Arcade: Neon Myths
 
-Agent Arcade: Neon Myths is a browser-based NEON MYTHOS simulation bundled with Codex pet sprites, character artwork, and the correct simulation HTML.
+Agent Arcade: Neon Myths is now a static browser RPG/simulation hybrid called **NEON MYTHOS: Lumen Atlas**. It keeps the original Codex pet sprites, character artwork, BGM, agent economy, QTE alerts, negotiation cut-ins, companion chat, and profile overlays, while adding a larger adventure map structure and Chapter 1 progression.
 
 ## Start
 
-[![START SIMULATION](https://img.shields.io/badge/START-SIMULATION-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=manga-deals-lite)
+[![START SIMULATION](https://img.shields.io/badge/START-LUMEN_ATLAS-00e5ff?style=for-the-badge&labelColor=0b1020)](https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas)
 
 Open the Start button above from any phone, tablet, or computer. Nothing needs to be installed.
 Use the **SOUND ON** button in the top-right corner if the browser does not start BGM automatically.
 
 Direct URL:
-https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=manga-deals-lite
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas
+
+## Lumen Atlas
+
+- 8-region world atlas: Golden Vault, Oracle Skyline, Trade Guild, Shadow Lab, Dragon Route, Human Bridge, Sage Academy, and Eye-Void Nexus
+- Chapter 1: **Ledger Dawn**, playable from start to completion
+- Explorable maps: Central Plaza, Glitch Route 01, Golden Temple, Underground Vault, Data Causeway, plus Oracle Gate preview
+- Click/tap movement, camera follow, warps, locked gate feedback, NPC dialogue choices, quest log, region atlas, and browser save
+- Story/UI text for English, Japanese, Chinese, Korean, Spanish, and French
+
+Progress is saved in browser `localStorage` under:
+
+```text
+neonMythos:rpgSave:v1
+```
 
 ## Included Files
 
 - `index.html` public launch page
-- `neon-mythos-codex-pets.html` the correct NEON MYTHOS simulation
+- `neon-mythos-codex-pets.html` compatibility app shell
+- `src/` modular static app source
+- `scripts/validate-data.mjs` static build/data validation
 - `character-assets/` character portraits used by the simulation
 - `character-pets/` Codex pet spritesheets used by the simulation
 - `pet-portable-bundle/` portable Codex pet spritesheets used by the simulation
@@ -34,4 +50,10 @@ Then open:
 
 ```text
 http://localhost:8000/
+```
+
+Validate the static data/build:
+
+```bash
+npm run build
 ```
