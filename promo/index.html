@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070f">
+  <title>NEON MYTHOS: Lumen Atlas PV</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #05070f;
+      --panel: rgba(7, 11, 22, 0.84);
+      --text: #eef8ff;
+      --muted: #a9b8cc;
+      --cyan: #00e5ff;
+      --gold: #ffd34d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background:
+        linear-gradient(135deg, rgba(0, 229, 255, 0.11), transparent 42%),
+        radial-gradient(circle at 80% 10%, rgba(255, 211, 77, 0.13), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header,
+    footer {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 16px 0;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(22px, 4vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      display: grid;
+      align-items: center;
+    }
+
+    video {
+      width: 100%;
+      max-height: calc(100svh - 170px);
+      aspect-ratio: 16 / 9;
+      display: block;
+      border: 1px solid rgba(0, 229, 255, 0.38);
+      background: #000;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.46);
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .credit {
+      color: var(--gold);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NEON MYTHOS: Lumen Atlas PV</h1>
+    <div class="meta">90s / English subtitles / lightweight 720p</div>
+  </header>
+  <main>
+    <video controls preload="metadata" poster="./neon-mythos-ledger-dawn-pv-poster.jpg">
+      <source src="./neon-mythos-ledger-dawn-pv.mp4" type="video/mp4">
+      <track src="./neon-mythos-ledger-dawn-pv.vtt" kind="subtitles" srclang="en" label="English" default>
+    </video>
+  </main>
+  <footer>
+    <span class="credit">Music: Cipher by Kevin MacLeod, CC BY 3.0</span>
+    <span><a href="../neon-mythos-codex-pets.html?v=lumen-atlas-negotiation-20260605">Play the game</a> / <a href="./credits.md">Credits</a></span>
+  </footer>
+</body>
+</html>

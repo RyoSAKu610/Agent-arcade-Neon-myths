@@ -13,6 +13,14 @@ The app starts in lightweight graphics mode for gentler mobile/data usage; use t
 Direct URL:
 https://ryosaku610.github.io/Agent-arcade-Neon-myths/neon-mythos-codex-pets.html?v=lumen-atlas-negotiation-20260605
 
+## Promotional Video
+
+Watch the 90-second PV:
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/promo/
+
+Direct MP4:
+https://ryosaku610.github.io/Agent-arcade-Neon-myths/promo/neon-mythos-ledger-dawn-pv.mp4
+
 ## Lumen Atlas
 
 - 8-region world atlas: Golden Vault, Oracle Skyline, Trade Guild, Shadow Lab, Dragon Route, Human Bridge, Sage Academy, and Eye-Void Nexus

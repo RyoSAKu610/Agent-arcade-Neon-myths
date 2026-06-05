@@ -1,0 +1,49 @@
+1
+00:00:00,800 --> 00:00:07,200
+ACTION: Lumen Atlas boots from a corrupted city ledger.
+The first key will decide which myths wake next.
+
+2
+00:00:08,200 --> 00:00:17,400
+ACTION: In Central Plaza, YOU meet NEGO-CHAN.
+NEGO-CHAN: The Atlas is blinking. Bring back the first Lumen Key.
+
+3
+00:00:18,200 --> 00:00:27,400
+ACTION: Cross Glitch Route 01 before the map rewrites itself.
+NEON: I will mark the safe tiles. Keep moving.
+
+4
+00:00:28,200 --> 00:00:37,400
+ACTION: At Golden Temple, KANE-KAMI reveals the Vault attack.
+KANE-KAMI: Find ZERO and patch the gate.
+
+5
+00:00:38,200 --> 00:00:47,400
+ACTION: ZERO patches Data Causeway while hostile signals close in.
+ZERO: Hold the line. I can open one clean route.
+
+6
+00:00:48,200 --> 00:00:57,400
+ACTION: Choose a negotiation stance: Read, Push, or Build Trust.
+YOU: Build trust. We need allies, not just money.
+
+7
+00:00:58,200 --> 00:01:07,400
+ACTION: Enter Underground Vault and recover the first Lumen Key.
+SYSTEM: Key signature found. Extraction window is collapsing.
+
+8
+00:01:08,200 --> 00:01:19,000
+ACTION: Return the key. The Oracle Gate begins to open.
+ORACLE: One key lights eight regions. Seven shadows answer.
+
+9
+00:01:20,200 --> 00:01:26,600
+MIDGAME PREVIEW: Guilds, labs, bridges, and the Eye-Void awaken.
+NEXT: Routes unlock, allies clash, and the city chooses a keeper.
+
+10
+00:01:26,800 --> 00:01:29,600
+PLAY NOW: NEON MYTHOS: Lumen Atlas
+Music: Cipher by Kevin MacLeod, CC BY 3.0.

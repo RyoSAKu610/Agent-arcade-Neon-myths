@@ -1,3 +1,6 @@
 .DS_Store
 Thumbs.db
 test-screenshots/
+__pycache__/
+promo/dist/
+promo/assets/*.oga
