@@ -4474,7 +4474,15 @@ function NeonMythosCity() {
     runAI(setResi);
     const now = Date.now();
     if (now >= nextNegotiationAt.current) {
-      const workers = [...agents, ...resi].filter(a => a.state === "work");
+      // ⚡ Bolt: Eliminate intermediate array allocations from spread + filter
+      // Reduces GC overhead by using sequential loops
+      const workers = [];
+      for (let i = 0; i < agents.length; i++) {
+        if (agents[i].state === "work") workers.push(agents[i]);
+      }
+      for (let i = 0; i < resi.length; i++) {
+        if (resi[i].state === "work") workers.push(resi[i]);
+      }
       if (workers.length >= 2) {
         nextNegotiationAt.current = now + DEAL_INTERVAL_MIN_MS + Math.random() * DEAL_INTERVAL_JITTER_MS;
         let a = null;
