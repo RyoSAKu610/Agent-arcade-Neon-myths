@@ -118,10 +118,14 @@ export const MAP_SCENES = {
       gardens: [{ x: 5, y: 6, w: 9, h: 8 }, { x: 45, y: 7, w: 11, h: 8 }, { x: 46, y: 30, w: 9, h: 8 }]
     },
     buildings: [
+      { id: "north_arcology", x: 2, y: 2, w: 4, h: 8, color: "#00e5ff", label: "A-01", kind: "tower" },
+      { id: "capsule_stack", x: 58, y: 5, w: 4, h: 8, color: "#55ffcc", label: "POD", kind: "tower" },
       { id: "quest_board", x: 17, y: 20, w: 3, h: 2, color: "#ffd34d", label: "QUEST", kind: "notice" },
       { id: "trade_arch", x: 7, y: 18, w: 5, h: 4, color: "#ff62c6", label: "TRADE", kind: "guild" },
       { id: "atlas_terminal", x: 39, y: 18, w: 5, h: 4, color: "#00e5ff", label: "ATLAS", kind: "terminal" },
-      { id: "human_bridge_preview", x: 25, y: 35, w: 7, h: 3, color: "#9ca3af", label: "BRIDGE", kind: "bridge" }
+      { id: "skyline_market", x: 48, y: 16, w: 6, h: 5, color: "#ff62c6", label: "NITE", kind: "street" },
+      { id: "human_bridge_preview", x: 25, y: 35, w: 7, h: 3, color: "#9ca3af", label: "BRIDGE", kind: "bridge" },
+      { id: "mono_station", x: 41, y: 38, w: 8, h: 4, color: "#00ff88", label: "METRO", kind: "station" }
     ],
     warps: [
       { id: "to_glitch", x: 60, y: 20, w: 4, h: 7, toMap: "glitch_route_01", to: { x: 3, y: 14 } },
@@ -134,9 +138,18 @@ export const MAP_SCENES = {
       { id: "npc_human", agentId: "human", x: 29, y: 24, dialogue: [{ node: "archivist_intro" }] }
     ],
     props: [
-      { x: 23, y: 14, label: "LUMEN", color: "#ffd34d" },
-      { x: 36, y: 29, label: "SYNC", color: "#00ff88" },
-      { x: 10, y: 10, label: "PARK", color: "#55ffcc" }
+      { x: 23, y: 14, label: "LUMEN", color: "#ffd34d", kind: "holo" },
+      { x: 36, y: 29, label: "SYNC", color: "#00ff88", kind: "holo" },
+      { x: 10, y: 10, label: "PARK", color: "#55ffcc", kind: "sign" },
+      { x: 21, y: 21, label: "AD", color: "#ff62c6", kind: "billboard" },
+      { x: 28, y: 20, label: "BUS", color: "#9ca3af", kind: "stop" },
+      { x: 34, y: 21, label: "LAMP", color: "#00e5ff", kind: "streetlight" },
+      { x: 38, y: 25, label: "VEND", color: "#55ffcc", kind: "vending" },
+      { x: 46, y: 28, label: "BENCH", color: "#9ca3af", kind: "bench" },
+      { x: 13, y: 31, label: "CONE", color: "#ffd34d", kind: "barrier" },
+      { x: 56, y: 15, label: "CAM", color: "#00e5ff", kind: "antenna" },
+      { x: 6, y: 39, label: "TAXI", color: "#ffd34d", kind: "vehicle" },
+      { x: 51, y: 39, label: "FOOD", color: "#ff62c6", kind: "stall" }
     ]
   },
   glitch_route_01: {
@@ -152,8 +165,11 @@ export const MAP_SCENES = {
       gardens: [{ x: 8, y: 5, w: 9, h: 6 }, { x: 48, y: 5, w: 12, h: 8 }]
     },
     buildings: [
+      { id: "route_motel", x: 4, y: 18, w: 8, h: 5, color: "#ff62c6", label: "MOTEL", kind: "street" },
+      { id: "fiber_pylon", x: 24, y: 5, w: 5, h: 6, color: "#00e5ff", label: "FIBER", kind: "tower" },
       { id: "relay_kiosk", x: 34, y: 9, w: 5, h: 4, color: "#00ff88", label: "ROUTE", kind: "terminal" },
-      { id: "glitch_shrine", x: 54, y: 18, w: 5, h: 4, color: "#bf5fff", label: "GLITCH", kind: "lab" }
+      { id: "glitch_shrine", x: 54, y: 18, w: 5, h: 4, color: "#bf5fff", label: "GLITCH", kind: "lab" },
+      { id: "east_billboard_stack", x: 63, y: 5, w: 5, h: 7, color: "#ffd34d", label: "EXIT", kind: "tower" }
     ],
     warps: [
       { id: "to_central", x: 0, y: 12, w: 3, h: 7, toMap: "central_plaza", to: { x: 58, y: 23 } },
@@ -164,8 +180,15 @@ export const MAP_SCENES = {
       { id: "npc_pixel_route", agentId: "pixel", x: 49, y: 16, dialogue: [{ node: "archivist_intro" }] }
     ],
     props: [
-      { x: 12, y: 12, label: "01", color: "#ff62c6" },
-      { x: 41, y: 10, label: "LINK", color: "#00ff88" }
+      { x: 12, y: 12, label: "01", color: "#ff62c6", kind: "route" },
+      { x: 41, y: 10, label: "LINK", color: "#00ff88", kind: "holo" },
+      { x: 5, y: 12, label: "GAS", color: "#ffd34d", kind: "sign" },
+      { x: 17, y: 17, label: "BIKE", color: "#9ca3af", kind: "vehicle" },
+      { x: 31, y: 14, label: "TOLL", color: "#00e5ff", kind: "barrier" },
+      { x: 40, y: 17, label: "WIRE", color: "#00e5ff", kind: "antenna" },
+      { x: 47, y: 13, label: "VEND", color: "#55ffcc", kind: "vending" },
+      { x: 60, y: 16, label: "SIGN", color: "#ff62c6", kind: "billboard" },
+      { x: 67, y: 18, label: "LAMP", color: "#00e5ff", kind: "streetlight" }
     ]
   },
   golden_temple: {
@@ -183,6 +206,8 @@ export const MAP_SCENES = {
     },
     buildings: [
       { id: "temple_hall", x: 16, y: 6, w: 14, h: 8, color: "#ffd34d", label: "TEMPLE", kind: "temple" },
+      { id: "keeper_residence", x: 3, y: 21, w: 8, h: 5, color: "#55ffcc", label: "RYOKAN", kind: "street" },
+      { id: "treasury_row", x: 32, y: 20, w: 8, h: 5, color: "#ffb000", label: "LEDGER", kind: "guild" },
       { id: "vault_lift", x: 20, y: 21, w: 7, h: 3, color: "#ffb000", label: "VAULT", kind: "vault" }
     ],
     warps: [
@@ -205,8 +230,14 @@ export const MAP_SCENES = {
       { id: "npc_goldjack", agentId: "goldjack", x: 8, y: 17, dialogue: [{ node: "archivist_intro" }] }
     ],
     props: [
-      { x: 23, y: 4, label: "KEY I", color: "#ffd34d" },
-      { x: 18, y: 26, label: "YEN", color: "#ffb000" }
+      { x: 23, y: 4, label: "KEY I", color: "#ffd34d", kind: "monument" },
+      { x: 18, y: 26, label: "YEN", color: "#ffb000", kind: "stall" },
+      { x: 6, y: 13, label: "GATE", color: "#ffd34d", kind: "lantern" },
+      { x: 39, y: 13, label: "GATE", color: "#ffd34d", kind: "lantern" },
+      { x: 13, y: 18, label: "EMA", color: "#55ffcc", kind: "sign" },
+      { x: 30, y: 18, label: "COIN", color: "#ffb000", kind: "vending" },
+      { x: 22, y: 25, label: "SCAN", color: "#00e5ff", kind: "holo" },
+      { x: 36, y: 27, label: "LAMP", color: "#ffd34d", kind: "streetlight" }
     ]
   },
   underground_vault: {
@@ -223,9 +254,11 @@ export const MAP_SCENES = {
       gardens: []
     },
     buildings: [
-      { id: "vault_core", x: 18, y: 10, w: 8, h: 6, color: "#ffd34d", label: "CORE", kind: "vault" },
+      { id: "west_rack", x: 3, y: 6, w: 5, h: 8, color: "#00e5ff", label: "RACK", kind: "server" },
+      { id: "vault_core", x: 18, y: 8, w: 8, h: 4, color: "#ffd34d", label: "CORE", kind: "vault" },
       { id: "cold_storage", x: 6, y: 20, w: 8, h: 4, color: "#00e5ff", label: "DATA", kind: "terminal" },
-      { id: "risk_wall", x: 29, y: 20, w: 8, h: 4, color: "#ff3355", label: "RISK", kind: "lab" }
+      { id: "risk_wall", x: 29, y: 20, w: 8, h: 4, color: "#ff3355", label: "RISK", kind: "lab" },
+      { id: "east_rack", x: 36, y: 6, w: 5, h: 8, color: "#bf5fff", label: "RACK", kind: "server" }
     ],
     warps: [
       { id: "to_temple", x: 20, y: 29, w: 5, h: 3, toMap: "golden_temple", to: { x: 23, y: 20 } }
@@ -244,8 +277,14 @@ export const MAP_SCENES = {
       }
     ],
     props: [
-      { x: 22, y: 8, label: "LUMEN KEY", color: "#ffd34d" },
-      { x: 15, y: 15, label: "HASH", color: "#00e5ff" }
+      { x: 22, y: 8, label: "LUMEN KEY", color: "#ffd34d", kind: "monument" },
+      { x: 15, y: 15, label: "HASH", color: "#00e5ff", kind: "holo" },
+      { x: 11, y: 12, label: "LOCK", color: "#ff3355", kind: "barrier" },
+      { x: 31, y: 12, label: "LOCK", color: "#ff3355", kind: "barrier" },
+      { x: 12, y: 18, label: "CABLE", color: "#00e5ff", kind: "antenna" },
+      { x: 28, y: 18, label: "CABLE", color: "#bf5fff", kind: "antenna" },
+      { x: 5, y: 25, label: "FAN", color: "#9ca3af", kind: "vent" },
+      { x: 37, y: 25, label: "FAN", color: "#9ca3af", kind: "vent" }
     ]
   },
   data_causeway: {
@@ -262,7 +301,9 @@ export const MAP_SCENES = {
       gardens: [{ x: 42, y: 8, w: 7, h: 7 }]
     },
     buildings: [
+      { id: "causeway_control", x: 6, y: 7, w: 7, h: 5, color: "#00e5ff", label: "CTRL", kind: "terminal" },
       { id: "zero_relay", x: 18, y: 12, w: 6, h: 5, color: "#ff3355", label: "ZERO", kind: "lab" },
+      { id: "drone_hangar", x: 36, y: 19, w: 7, h: 4, color: "#00ff88", label: "DRONE", kind: "station" },
       { id: "oracle_gate", x: 48, y: 11, w: 6, h: 7, color: "#00e5ff", label: "GATE", kind: "terminal" }
     ],
     warps: [
@@ -283,8 +324,14 @@ export const MAP_SCENES = {
       { id: "npc_neon", agentId: "neon", x: 35, y: 17, dialogue: [{ node: "archivist_intro" }] }
     ],
     props: [
-      { x: 48, y: 9, label: "ORACLE", color: "#00e5ff" },
-      { x: 27, y: 18, label: "PATCH", color: "#ff3355" }
+      { x: 48, y: 9, label: "ORACLE", color: "#00e5ff", kind: "holo" },
+      { x: 27, y: 18, label: "PATCH", color: "#ff3355", kind: "holo" },
+      { x: 9, y: 18, label: "TAXI", color: "#ffd34d", kind: "vehicle" },
+      { x: 16, y: 18, label: "BOLL", color: "#9ca3af", kind: "barrier" },
+      { x: 25, y: 13, label: "CAM", color: "#00e5ff", kind: "antenna" },
+      { x: 34, y: 13, label: "LIGHT", color: "#00e5ff", kind: "streetlight" },
+      { x: 42, y: 14, label: "KIOSK", color: "#55ffcc", kind: "vending" },
+      { x: 53, y: 19, label: "LOCK", color: "#ff3355", kind: "barrier" }
     ]
   },
   oracle_gate: {
@@ -301,7 +348,9 @@ export const MAP_SCENES = {
       gardens: []
     },
     buildings: [
-      { id: "oracle_preview", x: 8, y: 6, w: 12, h: 7, color: "#00e5ff", label: "SKYLINE", kind: "terminal" }
+      { id: "oracle_left_spire", x: 3, y: 5, w: 4, h: 8, color: "#55ffcc", label: "I/O", kind: "tower" },
+      { id: "oracle_preview", x: 8, y: 6, w: 12, h: 7, color: "#00e5ff", label: "SKYLINE", kind: "terminal" },
+      { id: "oracle_right_spire", x: 21, y: 5, w: 4, h: 8, color: "#bf5fff", label: "EYE", kind: "tower" }
     ],
     warps: [
       { id: "to_central", x: 0, y: 13, w: 3, h: 6, toMap: "central_plaza", to: { x: 52, y: 12 } },
@@ -311,7 +360,11 @@ export const MAP_SCENES = {
       { id: "npc_oracle_preview", agentId: "oracle", x: 14, y: 14, dialogue: [{ node: "archivist_intro" }] }
     ],
     props: [
-      { x: 14, y: 5, label: "NEXT CHAPTER", color: "#00e5ff" }
+      { x: 14, y: 5, label: "NEXT CHAPTER", color: "#00e5ff", kind: "holo" },
+      { x: 6, y: 15, label: "PORT", color: "#55ffcc", kind: "barrier" },
+      { x: 11, y: 18, label: "NODE", color: "#00e5ff", kind: "monument" },
+      { x: 18, y: 18, label: "NODE", color: "#bf5fff", kind: "monument" },
+      { x: 23, y: 15, label: "CAM", color: "#00e5ff", kind: "antenna" }
     ]
   }
 };

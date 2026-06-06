@@ -99,6 +99,7 @@ const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (ch) => ({
   "\"": "&quot;",
   "'": "&#39;"
 })[ch]);
+const classToken = (value, fallback = "default") => String(value || fallback).replace(/[^a-z0-9_-]/gi, "").toLowerCase() || fallback;
 
 const hasFlag = (flag) => !flag || state.save.flags.includes(flag);
 const setFlags = (flags = []) => {
@@ -479,6 +480,24 @@ const tileHtml = (map) => [
   ...map.tiles.roads.map((rect) => terrainRectHtml("road", rect))
 ].join("");
 
+const buildingHtml = (building) => {
+  const kind = classToken(building.kind, "block");
+  return `
+    <div class="building building-${kind}" data-label="${esc(building.label)}" style="--x:${building.x};--y:${building.y};--w:${building.w};--h:${building.h};--color:${building.color}">
+      <span class="building-label">${esc(building.label)}</span>
+    </div>
+  `;
+};
+
+const propHtml = (prop) => {
+  const kind = classToken(prop.kind, "sign");
+  return `
+    <div class="prop prop-${kind}" data-label="${esc(prop.label)}" style="--x:${prop.x};--y:${prop.y};--color:${prop.color}">
+      <span>${esc(prop.label)}</span>
+    </div>
+  `;
+};
+
 const spriteHtml = (agent, className = "entity", opts = {}) => {
   const spriteId = agent.spriteId || agent.id;
   const useLite = state.graphicsMode === "lite";
@@ -520,16 +539,16 @@ const renderMap = () => {
     ? `<div class="quest-marker" style="--x:${activeObjective.target.x};--y:${activeObjective.target.y}"></div>`
     : "";
   return `
-    <section class="map-stage" data-map-stage>
+    <section class="map-stage map-${classToken(map.id)}" data-map-stage style="--map-sky:${map.theme.sky};--map-ground:${map.theme.ground};--map-accent:${map.theme.accent}">
       <div class="map-ui">
         <div class="map-name">${esc(t(map.nameKey))}</div>
         <div class="map-hint">${activeObjective ? esc(t(activeObjective.textKey)) : esc(t("completed"))}</div>
       </div>
-      <div class="world" data-world style="${cameraStyle()}">
+      <div class="world world-${classToken(map.id)}" data-world style="${cameraStyle()}--map-accent:${map.theme.accent};">
         ${tileHtml(map)}
         ${map.warps.map((warp) => `<div class="warp ${warp.requiredFlag && !hasFlag(warp.requiredFlag) ? "is-locked" : ""}" style="--x:${warp.x};--y:${warp.y};--w:${warp.w};--h:${warp.h}"></div>`).join("")}
-        ${map.buildings.map((building) => `<div class="building" style="--x:${building.x};--y:${building.y};--w:${building.w};--h:${building.h};--color:${building.color}">${esc(building.label)}</div>`).join("")}
-        ${map.props.map((prop) => `<div class="prop" style="--x:${prop.x};--y:${prop.y};--color:${prop.color}">${esc(prop.label)}</div>`).join("")}
+        ${map.buildings.map(buildingHtml).join("")}
+        ${map.props.map(propHtml).join("")}
         ${state.destination ? `<div class="destination" style="--x:${state.destination.x};--y:${state.destination.y}"></div>` : ""}
         ${marker}
         ${npcHtml}

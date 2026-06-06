@@ -268,7 +268,24 @@ input:focus-visible {
   position: relative;
   min-height: 0;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 30%, rgba(0, 229, 255, 0.11), transparent 36rem), #07111f;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--map-sky, #07111f) 82%, #05070f), color-mix(in srgb, var(--map-ground, #07111f) 76%, #05070f)),
+    #07111f;
+}
+
+.map-stage::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0 3%, color-mix(in srgb, var(--map-accent, #00e5ff) 18%, transparent) 3% 4%, transparent 4% 11%, rgba(255,255,255,0.08) 11% 12%, transparent 12% 19%, color-mix(in srgb, var(--map-accent, #00e5ff) 24%, transparent) 19% 20%, transparent 20%),
+    linear-gradient(180deg, transparent 0 20%, rgba(5, 8, 16, 0.34) 20% 100%);
+  background-size: 220px 100%, 100% 100%;
+  opacity: 0.74;
+  mask-image: linear-gradient(to top, #000 0 82%, transparent 100%);
 }
 
 .map-ui {
@@ -312,12 +329,17 @@ input:focus-visible {
   position: absolute;
   left: 0;
   top: 0;
+  z-index: 1;
   width: calc(var(--map-w) * var(--tile));
   height: calc(var(--map-h) * var(--tile));
   transform: translate(var(--camera-x), var(--camera-y));
   transform-origin: 0 0;
   transition: transform 0.16s linear;
   cursor: crosshair;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: var(--tile) var(--tile);
 }
 
 .tile,
@@ -346,19 +368,26 @@ input:focus-visible {
 .tile-field {
   background:
     radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.18), transparent 24%),
+    radial-gradient(circle at 78% 64%, rgba(0, 255, 136, 0.26), transparent 18%),
     linear-gradient(135deg, #174838, #116454);
 }
 
 .tile-road {
   background:
-    linear-gradient(90deg, transparent 0 44%, rgba(255, 255, 255, 0.5) 44% 56%, transparent 56%),
-    linear-gradient(135deg, #1e2946, #334060);
+    linear-gradient(90deg, transparent 0 44%, rgba(255, 255, 255, 0.42) 44% 56%, transparent 56%),
+    linear-gradient(rgba(0, 229, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.16) 1px, transparent 1px),
+    linear-gradient(135deg, #1b2236, #34415f);
+  background-size: var(--tile) var(--tile), calc(var(--tile) * 2) calc(var(--tile) * 2), var(--tile) var(--tile), auto;
 }
 
 .tile-plaza {
   background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
     linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 45%),
     linear-gradient(135deg, #2f385f, #56637f);
+  background-size: calc(var(--tile) * 2) calc(var(--tile) * 2), calc(var(--tile) * 2) calc(var(--tile) * 2), auto, auto;
 }
 
 .tile-water {
@@ -376,20 +405,30 @@ input:focus-visible {
 }
 
 .tile-gold {
-  background: linear-gradient(135deg, #5f4618, #987528);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 211, 77, 0.18), transparent 36%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(135deg, #5f4618, #987528);
+  background-size: var(--tile) var(--tile), calc(var(--tile) * 2) calc(var(--tile) * 2), auto;
 }
 
 .tile-vault {
   background:
+    linear-gradient(90deg, rgba(0, 229, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(rgba(255, 211, 77, 0.08) 1px, transparent 1px),
     linear-gradient(135deg, rgba(255, 211, 77, 0.1), transparent 46%),
     #151b29;
+  background-size: var(--tile) var(--tile), var(--tile) var(--tile), auto, auto;
 }
 
 .tile-causeway,
 .tile-oracle {
   background:
+    linear-gradient(90deg, rgba(0, 229, 255, 0.18) 1px, transparent 1px),
+    linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
     linear-gradient(135deg, rgba(0, 229, 255, 0.15), transparent 46%),
     #102638;
+  background-size: var(--tile) var(--tile), var(--tile) var(--tile), auto, auto;
 }
 
 @keyframes waterFlow {
@@ -415,17 +454,22 @@ input:focus-visible {
   border: 2px solid color-mix(in srgb, var(--color) 78%, #ffffff);
   border-radius: 4px;
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--color) 55%, #ffffff), color-mix(in srgb, var(--color) 44%, #07111f)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.13) 1px, transparent 1px),
+    linear-gradient(180deg, color-mix(in srgb, var(--color) 50%, #ffffff), color-mix(in srgb, var(--color) 36%, #07111f)),
     #101727;
-  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.24), 0 0 18px color-mix(in srgb, var(--color) 30%, transparent);
-  display: grid;
-  place-items: center;
+  background-size: 14px 18px, 18px 14px, auto, auto;
+  box-shadow:
+    0 8px 0 rgba(0, 0, 0, 0.24),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 0 18px color-mix(in srgb, var(--color) 30%, transparent);
   color: #061019;
   font-size: 10px;
   font-weight: 1000;
   letter-spacing: 1px;
   text-align: center;
   pointer-events: none;
+  overflow: visible;
 }
 
 .building::before {
@@ -440,19 +484,321 @@ input:focus-visible {
   border: 1px solid rgba(255, 255, 255, 0.35);
 }
 
+.building::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid color-mix(in srgb, var(--color) 54%, transparent);
+  opacity: 0.88;
+}
+
+.building-label {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  max-width: calc(100% - 10px);
+  transform: translateX(-50%);
+  padding: 2px 5px;
+  border: 1px solid color-mix(in srgb, var(--color) 72%, #ffffff);
+  border-radius: 4px;
+  background: rgba(5, 8, 16, 0.78);
+  color: color-mix(in srgb, var(--color) 78%, #ffffff);
+  font-size: 9px;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--color) 70%, transparent);
+}
+
+.building-tower {
+  border-radius: 3px 3px 6px 6px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--color) 68%, transparent) 0 8%, transparent 8% 18%, rgba(255,255,255,0.28) 18% 26%, transparent 26% 42%, color-mix(in srgb, var(--color) 46%, transparent) 42% 50%, transparent 50%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color) 42%, #ffffff), #111a2e 64%, #07111f);
+  background-size: 24px 18px, auto;
+}
+
+.building-tower::before {
+  top: -24px;
+  height: 28px;
+  clip-path: polygon(28% 100%, 0 100%, 36% 0, 64% 0, 100% 100%, 72% 100%);
+}
+
+.building-terminal {
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--color) 72%, transparent) 0 9%, transparent 10% 31%, color-mix(in srgb, var(--color) 40%, transparent) 32% 38%, transparent 39%),
+    linear-gradient(90deg, transparent 0 42%, rgba(255,255,255,0.16) 42% 58%, transparent 58%),
+    #0b1730;
+}
+
+.building-terminal::after {
+  inset: 12%;
+  border-radius: 50%;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--color) 48%, transparent);
+}
+
+.building-guild,
+.building-street {
+  background:
+    linear-gradient(180deg, var(--color) 0 20%, transparent 20%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.24) 0 10px, rgba(0,0,0,0.2) 10px 18px),
+    linear-gradient(180deg, #172035, #0b101d);
+}
+
+.building-guild::after,
+.building-street::after {
+  inset: auto 8px 12px;
+  height: 26%;
+  background: linear-gradient(90deg, rgba(255,255,255,0.16), color-mix(in srgb, var(--color) 32%, transparent), rgba(255,255,255,0.1));
+}
+
+.building-station,
+.building-bridge {
+  border-radius: 2px;
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.3) 0 4px, transparent 4px 16px),
+    linear-gradient(180deg, color-mix(in srgb, var(--color) 28%, #ffffff), #20283a 56%, #0a0e18);
+}
+
+.building-station::after,
+.building-bridge::after {
+  inset: 34% -8px auto;
+  height: 6px;
+  border: 0;
+  background: color-mix(in srgb, var(--color) 72%, #ffffff);
+  box-shadow: 0 14px 0 rgba(255,255,255,0.14);
+}
+
+.building-temple {
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(255, 255, 255, 0.36), transparent 20%),
+    linear-gradient(90deg, transparent 0 15%, rgba(5,8,16,0.44) 15% 18%, transparent 18% 82%, rgba(5,8,16,0.44) 82% 85%, transparent 85%),
+    linear-gradient(180deg, #ffe28a, #9b6f1e 54%, #2b1906);
+}
+
+.building-temple::before {
+  top: -18px;
+  height: 24px;
+  background: linear-gradient(180deg, #fff2bd, #ffb000);
+  clip-path: polygon(50% 0, 0 76%, 10% 100%, 90% 100%, 100% 76%);
+}
+
+.building-vault {
+  border-width: 3px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 45%, transparent 0 18%, color-mix(in srgb, var(--color) 64%, transparent) 19% 25%, transparent 26%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.1) 0 6px, transparent 6px 18px),
+    linear-gradient(180deg, #2f3542, #0f141d);
+}
+
+.building-vault::after {
+  inset: 20%;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 8px rgba(0, 0, 0, 0.24), 0 0 20px color-mix(in srgb, var(--color) 42%, transparent);
+}
+
+.building-lab {
+  background:
+    linear-gradient(135deg, transparent 0 44%, color-mix(in srgb, var(--color) 44%, transparent) 44% 50%, transparent 50%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.14) 0 3px, transparent 3px 16px),
+    linear-gradient(180deg, #25102e, #111827);
+}
+
+.building-server {
+  background:
+    repeating-linear-gradient(0deg, color-mix(in srgb, var(--color) 48%, transparent) 0 4px, transparent 4px 14px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 3px, transparent 3px 15px),
+    #0b101d;
+}
+
+.building-notice {
+  border-radius: 5px;
+  background:
+    linear-gradient(90deg, transparent 0 43%, rgba(5,8,16,0.5) 43% 57%, transparent 57%),
+    linear-gradient(180deg, var(--color), #7a5e16);
+}
+
 .prop {
   z-index: 30;
-  min-width: 48px;
-  transform: translate(-18%, -20%);
-  padding: 2px 5px;
-  border: 1px solid color-mix(in srgb, var(--color) 75%, transparent);
-  border-radius: 5px;
-  background: rgba(5, 8, 16, 0.86);
-  color: var(--color);
-  font-size: 9px;
-  font-weight: 900;
-  text-align: center;
+  width: calc(var(--tile) * 1.35);
+  height: calc(var(--tile) * 1.35);
+  transform: translate(-18%, -28%);
   pointer-events: none;
+}
+
+.prop::before,
+.prop::after {
+  content: "";
+  position: absolute;
+}
+
+.prop span {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  max-width: 58px;
+  transform: translateX(-50%);
+  padding: 1px 4px;
+  border: 1px solid color-mix(in srgb, var(--color) 70%, transparent);
+  border-radius: 4px;
+  background: rgba(5, 8, 16, 0.82);
+  color: var(--color);
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prop-sign::before,
+.prop-billboard::before,
+.prop-stop::before {
+  inset: 20% 0 28%;
+  border: 1px solid color-mix(in srgb, var(--color) 78%, #ffffff);
+  border-radius: 4px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color) 52%, transparent), rgba(5,8,16,0.9));
+  box-shadow: 0 0 14px color-mix(in srgb, var(--color) 42%, transparent);
+}
+
+.prop-sign::after,
+.prop-billboard::after,
+.prop-stop::after {
+  left: 50%;
+  bottom: 4px;
+  width: 3px;
+  height: 22px;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--color) 70%, #ffffff);
+}
+
+.prop-holo::before {
+  inset: 16%;
+  border: 1px solid color-mix(in srgb, var(--color) 72%, #ffffff);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color) 38%, transparent), transparent 62%);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--color) 52%, transparent);
+  animation: holoFloat 1.8s ease-in-out infinite;
+}
+
+.prop-vending::before {
+  left: 28%;
+  top: 4%;
+  width: 44%;
+  height: 78%;
+  border: 2px solid color-mix(in srgb, var(--color) 70%, #ffffff);
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.2) 0 18%, transparent 18%),
+    linear-gradient(90deg, color-mix(in srgb, var(--color) 42%, transparent) 0 42%, rgba(5,8,16,0.92) 42%);
+}
+
+.prop-streetlight::before {
+  left: 50%;
+  top: 0;
+  width: 4px;
+  height: 92%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--color) 82%, #ffffff), #1f2937);
+}
+
+.prop-streetlight::after {
+  left: 35%;
+  top: -2px;
+  width: 22px;
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color) 72%, #ffffff);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color) 70%, transparent);
+}
+
+.prop-bench::before {
+  left: 8%;
+  right: 8%;
+  top: 45%;
+  height: 22%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #475569, color-mix(in srgb, var(--color) 46%, #ffffff), #475569);
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.28);
+}
+
+.prop-barrier::before,
+.prop-route::before {
+  inset: 32% 3% 38%;
+  border-radius: 2px;
+  background: repeating-linear-gradient(90deg, var(--color) 0 10px, #05070f 10px 18px);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color) 44%, transparent);
+}
+
+.prop-antenna::before {
+  left: 50%;
+  bottom: 6px;
+  width: 4px;
+  height: 74%;
+  transform: translateX(-50%);
+  background: color-mix(in srgb, var(--color) 70%, #ffffff);
+}
+
+.prop-antenna::after {
+  left: 50%;
+  top: 4px;
+  width: 28px;
+  height: 28px;
+  transform: translateX(-50%);
+  border: 2px solid color-mix(in srgb, var(--color) 68%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color) 42%, transparent);
+}
+
+.prop-vehicle::before {
+  left: 8%;
+  right: 8%;
+  top: 33%;
+  height: 38%;
+  border-radius: 8px 12px 5px 5px;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.24) 12% 34%, transparent 34% 66%, rgba(255,255,255,0.22) 66% 88%),
+    linear-gradient(180deg, color-mix(in srgb, var(--color) 76%, #ffffff), color-mix(in srgb, var(--color) 42%, #07111f));
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.prop-stall::before,
+.prop-lantern::before {
+  left: 10%;
+  right: 10%;
+  top: 22%;
+  height: 42%;
+  border-radius: 5px;
+  background:
+    repeating-linear-gradient(90deg, color-mix(in srgb, var(--color) 80%, #ffffff) 0 7px, rgba(5,8,16,0.9) 7px 14px);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--color) 42%, transparent);
+}
+
+.prop-monument::before {
+  left: 24%;
+  right: 24%;
+  top: 4%;
+  bottom: 10%;
+  clip-path: polygon(50% 0, 100% 28%, 72% 100%, 28% 100%, 0 28%);
+  background: linear-gradient(180deg, #ffffff, var(--color) 42%, #101727);
+  box-shadow: 0 0 18px color-mix(in srgb, var(--color) 50%, transparent);
+}
+
+.prop-vent::before {
+  inset: 28% 10% 28%;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 0deg, color-mix(in srgb, var(--color) 70%, #ffffff) 0 10deg, #111827 10deg 22deg);
+  box-shadow: inset 0 0 0 4px #05070f, 0 0 10px rgba(255,255,255,0.18);
+}
+
+@keyframes holoFloat {
+  0%, 100% { transform: translateY(0) scale(0.94); opacity: 0.74; }
+  50% { transform: translateY(-5px) scale(1); opacity: 1; }
 }
 
 .warp {
