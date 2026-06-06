@@ -15,8 +15,6 @@ ROOT = Path(__file__).resolve().parents[1]
 PROMO_DIR = ROOT / "promo"
 ASSET_DIR = PROMO_DIR / "assets"
 OUT_MP4 = PROMO_DIR / "neon-mythos-ledger-dawn-pv.mp4"
-OUT_SRT = PROMO_DIR / "neon-mythos-ledger-dawn-pv.srt"
-OUT_VTT = PROMO_DIR / "neon-mythos-ledger-dawn-pv.vtt"
 OUT_CREDITS = PROMO_DIR / "credits.md"
 AUDIO = ASSET_DIR / "cipher-kevin-macleod.oga"
 AUDIO_SOURCE_URL = "https://commons.wikimedia.org/wiki/Special:Redirect/file/Cipher%20%28ISRC%20USUAN1100844%29.oga"
@@ -54,19 +52,6 @@ SEGMENTS = [
     Segment(58, 68, "vault", "UNDERGROUND VAULT", "Enter the Vault and recover the first Lumen Key.", "SYSTEM: Key signature found. Extraction window is collapsing.", "vault", (191, 95, 255)),
     Segment(68, 80, "oracle", "ORACLE GATE", "Return the key. The first locked region begins to open.", "ORACLE: One key lights eight regions. Seven shadows answer.", "oracle", (0, 229, 255)),
     Segment(80, 90, "preview", "MIDGAME RISING", "The Atlas expands toward guilds, labs, bridges, and the Eye-Void.", "NEXT: Routes unlock, allies clash, and the city chooses a keeper.", "preview", (136, 0, 255)),
-]
-
-CAPTIONS = [
-    (0.8, 7.2, "ACTION: Lumen Atlas boots from a corrupted city ledger.\nThe first key will decide which myths wake next."),
-    (8.2, 17.4, "ACTION: In Central Plaza, YOU meet NEGO-CHAN.\nNEGO-CHAN: The Atlas is blinking. Bring back the first Lumen Key."),
-    (18.2, 27.4, "ACTION: Cross Glitch Route 01 before the map rewrites itself.\nNEON: I will mark the safe tiles. Keep moving."),
-    (28.2, 37.4, "ACTION: At Golden Temple, KANE-KAMI reveals the Vault attack.\nKANE-KAMI: Find ZERO and patch the gate."),
-    (38.2, 47.4, "ACTION: ZERO patches Data Causeway while hostile signals close in.\nZERO: Hold the line. I can open one clean route."),
-    (48.2, 57.4, "ACTION: Choose a negotiation stance: Read, Push, or Build Trust.\nYOU: Build trust. We need allies, not just money."),
-    (58.2, 67.4, "ACTION: Enter Underground Vault and recover the first Lumen Key.\nSYSTEM: Key signature found. Extraction window is collapsing."),
-    (68.2, 79.0, "ACTION: Return the key. The Oracle Gate begins to open.\nORACLE: One key lights eight regions. Seven shadows answer."),
-    (80.2, 86.6, "MIDGAME PREVIEW: Guilds, labs, bridges, and the Eye-Void awaken.\nNEXT: Routes unlock, allies clash, and the city chooses a keeper."),
-    (86.8, 89.6, "PLAY NOW: NEON MYTHOS: Lumen Atlas\nMusic: Cipher by Kevin MacLeod, CC BY 3.0."),
 ]
 
 SPRITES = {
@@ -205,6 +190,8 @@ SPRITE_CACHE: dict[tuple[str, int, int, int], Image.Image] = {}
 
 
 def sprite(char: str, row: int, frame: int, height: int) -> Image.Image:
+    frame_count = 6 if row == 0 else 8
+    frame = frame % frame_count
     key = (char, row, frame % 8, height)
     if key in SPRITE_CACHE:
         return SPRITE_CACHE[key]
@@ -248,28 +235,6 @@ def draw_quest_panel(img: Image.Image, seg: Segment) -> None:
     for line in wrap_text(draw, seg.action, FONT["small"], 320):
         draw.text((64, y), line, font=FONT["small"], fill=(232, 243, 255, 245))
         y += 29
-
-
-def draw_caption(img: Image.Image, t: float, seg: Segment) -> None:
-    text = ""
-    for start, end, value in CAPTIONS:
-        if start <= t <= end:
-            text = value
-            break
-    if not text:
-        return
-    draw = ImageDraw.Draw(img, "RGBA")
-    rounded(draw, (138, 548, 1142, 650), 20, (2, 3, 8, 224), rgba(seg.accent, 185), 2)
-    lines = wrap_text(draw, text, FONT["body_bold"], 930)
-    total_h = len(lines) * 36
-    y = 548 + (102 - total_h) // 2 - 2
-    for line in lines[:3]:
-        color = (255, 255, 255, 255)
-        if line.startswith("ACTION:") or line.startswith("MIDGAME") or line.startswith("PLAY NOW"):
-            color = (255, 236, 170, 255)
-        draw.text((178, y), line, font=FONT["body_bold"], fill=(0, 0, 0, 180), stroke_width=3, stroke_fill=(0, 0, 0, 190))
-        draw.text((178, y), line, font=FONT["body_bold"], fill=color)
-        y += 36
 
 
 def draw_map_floor(img: Image.Image, seg: Segment, p: float, t: float) -> None:
@@ -488,31 +453,10 @@ def render_frame(t: float) -> Image.Image:
         "oracle": draw_oracle_scene,
         "preview": draw_preview_scene,
     }[seg.kind](img, seg, p, t)
-    draw_caption(img, t, seg)
     return img.convert("RGB")
 
 
-def timestamp_srt(value: float) -> str:
-    ms = int(round((value - int(value)) * 1000))
-    total = int(value)
-    s = total % 60
-    m = (total // 60) % 60
-    h = total // 3600
-    return f"{h:02}:{m:02}:{s:02},{ms:03}"
-
-
-def timestamp_vtt(value: float) -> str:
-    return timestamp_srt(value).replace(",", ".")
-
-
-def write_subtitles() -> None:
-    srt_lines: list[str] = []
-    vtt_lines = ["WEBVTT", ""]
-    for i, (start, end, text) in enumerate(CAPTIONS, 1):
-        srt_lines.extend([str(i), f"{timestamp_srt(start)} --> {timestamp_srt(end)}", text, ""])
-        vtt_lines.extend([f"{timestamp_vtt(start)} --> {timestamp_vtt(end)}", text, ""])
-    OUT_SRT.write_text("\n".join(srt_lines), encoding="utf-8")
-    OUT_VTT.write_text("\n".join(vtt_lines), encoding="utf-8")
+def write_credits() -> None:
     OUT_CREDITS.write_text(
         "\n".join(
             [
@@ -535,7 +479,12 @@ def write_subtitles() -> None:
 def encode_video() -> None:
     if not AUDIO.exists():
         print(f"downloading BGM from {AUDIO_SOURCE_URL}", flush=True)
-        urllib.request.urlretrieve(AUDIO_SOURCE_URL, AUDIO)
+        request = urllib.request.Request(
+            AUDIO_SOURCE_URL,
+            headers={"User-Agent": "Mozilla/5.0 NEON-MYTHOS-PV/1.0"},
+        )
+        with urllib.request.urlopen(request, timeout=60) as response:
+            AUDIO.write_bytes(response.read())
     command = [
         "ffmpeg",
         "-y",
@@ -601,11 +550,9 @@ def encode_video() -> None:
 def main() -> None:
     PROMO_DIR.mkdir(exist_ok=True)
     ASSET_DIR.mkdir(exist_ok=True)
-    write_subtitles()
+    write_credits()
     encode_video()
     print(f"wrote {OUT_MP4}")
-    print(f"wrote {OUT_SRT}")
-    print(f"wrote {OUT_VTT}")
     print(f"wrote {OUT_CREDITS}")
 
 
