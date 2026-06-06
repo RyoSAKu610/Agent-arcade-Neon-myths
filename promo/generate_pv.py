@@ -207,7 +207,9 @@ def sprite(char: str, row: int, frame: int, height: int) -> Image.Image:
     return crop
 
 
-def paste_center(img: Image.Image, item: Image.Image, x: int, y: int) -> None:
+def paste_center(img: Image.Image, item: Image.Image, x: int, y: int, flip_x: bool = False) -> None:
+    if flip_x:
+        item = item.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
     img.alpha_composite(item, (int(x - item.width / 2), int(y - item.height)))
 
 
@@ -215,6 +217,17 @@ def draw_sprite_label(draw: ImageDraw.ImageDraw, x: int, y: int, label: str, col
     tw, th = text_size(draw, label, FONT["tiny"])
     rounded(draw, (x - tw // 2 - 9, y, x + tw // 2 + 9, y + th + 10), 8, (4, 7, 15, 210), rgba(color, 220), 2)
     draw.text((x - tw // 2, y + 4), label, font=FONT["tiny"], fill=(236, 248, 255, 255))
+
+
+def draw_dash_trail(draw: ImageDraw.ImageDraw, x: int, y: int, color: tuple[int, int, int], direction: int = 1) -> None:
+    tail = -1 if direction >= 0 else 1
+    for i in range(4):
+        length = 42 + i * 18
+        yy = y - 74 + i * 13
+        x1 = x + tail * (48 + i * 18)
+        x2 = x1 + tail * length
+        alpha = 130 - i * 24
+        draw.line((x1, yy, x2, yy + tail * 4), fill=rgba(color, alpha), width=max(2, 6 - i))
 
 
 def draw_header(img: Image.Image, seg: Segment, t: float, p: float) -> None:
@@ -276,7 +289,8 @@ def draw_plaza_scene(img: Image.Image, seg: Segment, p: float, t: float) -> None
     draw_map_floor(img, seg, p, t)
     draw = ImageDraw.Draw(img, "RGBA")
     px = int(mix(270, 600, smooth(p)))
-    paste_center(img, sprite("neon", 1, int(t * 8), 142), px, 502)
+    draw_dash_trail(draw, px, 502, seg.accent, direction=1)
+    paste_center(img, sprite("neon", 1, int(t * 8), 142), px, 502, flip_x=True)
     paste_center(img, sprite("nego", 0, int(t * 7 + 2), 150), 762, 490)
     draw_sprite_label(draw, px, 510, "YOU", seg.accent)
     draw_sprite_label(draw, 762, 500, "NEGO-CHAN", (255, 98, 198))
@@ -291,7 +305,8 @@ def draw_route_scene(img: Image.Image, seg: Segment, p: float, t: float) -> None
         y = 420 + int(math.sin(i + t * 5) * 18)
         draw.rectangle((x, y, x + 52, y + 8), fill=rgba(seg.accent, 115))
     px = int(mix(278, 890, ease_out(p)))
-    paste_center(img, sprite("neon", 1, int(t * 10), 128), px, 500)
+    draw_dash_trail(draw, px, 500, seg.accent, direction=1)
+    paste_center(img, sprite("neon", 1, int(t * 10), 128), px, 500, flip_x=True)
     paste_center(img, sprite("pixel", 0, int(t * 7), 114), 1010, 493)
     draw_sprite_label(draw, px, 508, "NEON", seg.accent)
     draw_sprite_label(draw, 1010, 502, "PIXEL", (0, 255, 136))
@@ -359,7 +374,8 @@ def draw_vault_scene(img: Image.Image, seg: Segment, p: float, t: float) -> None
         rounded(draw, (610 + i * 94, 230, 666 + i * 94, 440), 8, (4, 5, 12, 230), rgba(seg.accent, 120), 2)
     key_x = int(mix(946, 726, smooth(p)))
     draw_lumen_key(img, key_x, 344, 1.0 + 0.08 * math.sin(t * 7), (255, 211, 77), t)
-    paste_center(img, sprite("neon", 2, int(t * 8), 150), 556, 512)
+    draw_dash_trail(draw, 556, 512, seg.accent, direction=1)
+    paste_center(img, sprite("neon", 2, int(t * 8), 150), 556, 512, flip_x=True)
     paste_center(img, sprite("zero", 0, int(t * 7), 120), 372, 514)
     draw_speech(draw, 590, 156, "SYSTEM", "Key signature found.", seg.accent)
 
