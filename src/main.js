@@ -153,11 +153,35 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const blockCache = new WeakMap();
+
+// ⚡ Bolt: Optimize building/water spatial lookup
+// We cache a 2D Uint8Array for each map to lazily turn O(N) tile/building intersection checks into O(1) lookups
+// Cache state: 0 = uncomputed, 1 = blocked, 2 = open. Cache can be cleared via blockCache.delete(map) if map mutates.
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  let grid = blockCache.get(map);
+  if (!grid) {
+    grid = Array.from({ length: map.size.h }, () => new Uint8Array(map.size.w));
+    blockCache.set(map, grid);
+  }
+
+  let state = grid[y][x];
+  if (state === 0) {
+    let blocked = false;
+    if (!(map.warps || []).some((warp) => rectContains(warp, x, y))) {
+      if (tileKind(map, x, y) === "water") {
+        blocked = true;
+      } else if (map.buildings.some((building) => rectContains(building, x, y))) {
+        blocked = true;
+      }
+    }
+    state = blocked ? 1 : 2;
+    grid[y][x] = state;
+  }
+
+  return state === 1;
 };
 
 const buildPath = (map, start, end) => {
