@@ -153,11 +153,36 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+// Spatial caching for O(1) lookups of static map obstacles.
+// Reduces expensive O(N) array scans and rect intersections during pathfinding.
+const mapGridCache = new WeakMap();
+
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  let grid = mapGridCache.get(map);
+  if (!grid) {
+    grid = [];
+    mapGridCache.set(map, grid);
+  }
+
+  let row = grid[y];
+  if (!row) {
+    row = [];
+    grid[y] = row;
+  }
+
+  if (row[x] !== undefined) return row[x];
+
+  const compute = () => {
+    if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
+    if (tileKind(map, x, y) === "water") return true;
+    return map.buildings.some((building) => rectContains(building, x, y));
+  };
+
+  const result = compute();
+  row[x] = result;
+  return result;
 };
 
 const buildPath = (map, start, end) => {
