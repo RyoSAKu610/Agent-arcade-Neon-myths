@@ -166,23 +166,26 @@ const buildPath = (map, start, end) => {
   const queue = [start];
   const seen = new Set([key(start)]);
   const parent = new Map();
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
+
+  /* ⚡ Bolt Performance Optimization:
+   * Replaced object-based directional arrays and .forEach with flat coordinate arrays
+   * and a standard for loop. This eliminates closure overhead and object allocations
+   * during the inner loop of the BFS pathfinding.
+   */
+  const dirX = [1, -1, 0, 0];
+  const dirY = [0, 0, 1, -1];
+
   for (let index = 0; index < queue.length; index += 1) {
     const current = queue[index];
     if (current.x === end.x && current.y === end.y) break;
-    directions.forEach((dir) => {
-      const next = { x: current.x + dir.x, y: current.y + dir.y };
+    for (let d = 0; d < 4; d += 1) {
+      const next = { x: current.x + dirX[d], y: current.y + dirY[d] };
       const nextKey = key(next);
-      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) return;
+      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) continue;
       seen.add(nextKey);
       parent.set(nextKey, current);
       queue.push(next);
-    });
+    }
   }
   if (!seen.has(key(end))) return [];
   const path = [];
