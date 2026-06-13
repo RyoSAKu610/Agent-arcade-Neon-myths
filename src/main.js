@@ -166,23 +166,24 @@ const buildPath = (map, start, end) => {
   const queue = [start];
   const seen = new Set([key(start)]);
   const parent = new Map();
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
+  // ⚡ Bolt: Replace object-based directional arrays with flat arrays and a standard for loop
+  // to eliminate closure overhead and intermediate object allocations in the pathfinding hot path.
+  const dirX = [1, -1, 0, 0];
+  const dirY = [0, 0, 1, -1];
+
   for (let index = 0; index < queue.length; index += 1) {
     const current = queue[index];
     if (current.x === end.x && current.y === end.y) break;
-    directions.forEach((dir) => {
-      const next = { x: current.x + dir.x, y: current.y + dir.y };
-      const nextKey = key(next);
-      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) return;
+    for (let i = 0; i < 4; i++) {
+      const nextX = current.x + dirX[i];
+      const nextY = current.y + dirY[i];
+      const nextKey = `${nextX},${nextY}`;
+      if (seen.has(nextKey) || isBlocked(map, nextX, nextY)) continue;
       seen.add(nextKey);
+      const next = { x: nextX, y: nextY };
       parent.set(nextKey, current);
       queue.push(next);
-    });
+    }
   }
   if (!seen.has(key(end))) return [];
   const path = [];
