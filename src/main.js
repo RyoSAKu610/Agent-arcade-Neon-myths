@@ -153,11 +153,31 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+// ⚡ Bolt: Optimizing O(N) spatial lookups to O(1) using a lazily evaluated 2D array cache
+// Impact: Significantly reduces latency during pathfinding execution in the game loop
+const blockedCache = new WeakMap();
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  let mapCache = blockedCache.get(map);
+  if (!mapCache) {
+    mapCache = [];
+    blockedCache.set(map, mapCache);
+  }
+  if (!mapCache[y]) mapCache[y] = [];
+  if (mapCache[y][x] !== undefined) return mapCache[y][x];
+
+  let blocked = false;
+  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) {
+    blocked = false;
+  } else if (tileKind(map, x, y) === "water") {
+    blocked = true;
+  } else {
+    blocked = map.buildings.some((building) => rectContains(building, x, y));
+  }
+
+  mapCache[y][x] = blocked;
+  return blocked;
 };
 
 const buildPath = (map, start, end) => {
