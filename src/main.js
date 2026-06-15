@@ -162,35 +162,61 @@ const isBlocked = (map, x, y) => {
 
 const buildPath = (map, start, end) => {
   if (start.x === end.x && start.y === end.y) return [];
-  const key = (point) => `${point.x},${point.y}`;
-  const queue = [start];
-  const seen = new Set([key(start)]);
+
+  // ⚡ Bolt: Use 1D integer indexing for Set/Map and flat coordinate queues
+  // to avoid garbage collection overhead from strings and intermediate objects.
+  const width = map.size.w;
+  const height = map.size.h;
+  const seen = new Set();
   const parent = new Map();
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
-  for (let index = 0; index < queue.length; index += 1) {
-    const current = queue[index];
-    if (current.x === end.x && current.y === end.y) break;
-    directions.forEach((dir) => {
-      const next = { x: current.x + dir.x, y: current.y + dir.y };
-      const nextKey = key(next);
-      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) return;
-      seen.add(nextKey);
-      parent.set(nextKey, current);
-      queue.push(next);
-    });
+
+  const queueX = [start.x];
+  const queueY = [start.y];
+
+  const startIndex = start.y * width + start.x;
+  seen.add(startIndex);
+
+  const dirX = [1, -1, 0, 0];
+  const dirY = [0, 0, 1, -1];
+
+  let found = false;
+
+  for (let index = 0; index < queueX.length; index += 1) {
+    const cx = queueX[index];
+    const cy = queueY[index];
+    if (cx === end.x && cy === end.y) {
+      found = true;
+      break;
+    }
+
+    for (let i = 0; i < 4; i++) {
+      const nx = cx + dirX[i];
+      const ny = cy + dirY[i];
+
+      if (nx < 0 || ny < 0 || nx >= width || ny >= height) continue;
+
+      const nIndex = ny * width + nx;
+      if (seen.has(nIndex)) continue;
+
+      if (isBlocked(map, nx, ny)) continue;
+
+      seen.add(nIndex);
+      parent.set(nIndex, cy * width + cx);
+      queueX.push(nx);
+      queueY.push(ny);
+    }
   }
-  if (!seen.has(key(end))) return [];
+
+  if (!found) return [];
+
   const path = [];
-  let cursor = end;
-  while (cursor.x !== start.x || cursor.y !== start.y) {
-    path.unshift(cursor);
-    cursor = parent.get(key(cursor));
-    if (!cursor) return [];
+  let currIndex = end.y * width + end.x;
+  while (currIndex !== startIndex) {
+    const cx = currIndex % width;
+    const cy = Math.floor(currIndex / width);
+    path.unshift({x: cx, y: cy});
+    currIndex = parent.get(currIndex);
+    if (currIndex === undefined) return [];
   }
   return path;
 };
