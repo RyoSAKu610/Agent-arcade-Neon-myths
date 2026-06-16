@@ -162,34 +162,33 @@ const isBlocked = (map, x, y) => {
 
 const buildPath = (map, start, end) => {
   if (start.x === end.x && start.y === end.y) return [];
-  const key = (point) => `${point.x},${point.y}`;
+  // Optimizing lookups and object allocations in hot path
+  const toKey = (x, y) => y * map.size.w + x;
   const queue = [start];
-  const seen = new Set([key(start)]);
+  const seen = new Set([toKey(start.x, start.y)]);
   const parent = new Map();
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
+  const dirX = [1, -1, 0, 0];
+  const dirY = [0, 0, 1, -1];
   for (let index = 0; index < queue.length; index += 1) {
     const current = queue[index];
     if (current.x === end.x && current.y === end.y) break;
-    directions.forEach((dir) => {
-      const next = { x: current.x + dir.x, y: current.y + dir.y };
-      const nextKey = key(next);
-      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) return;
+    for (let i = 0; i < 4; i += 1) {
+      const nx = current.x + dirX[i];
+      const ny = current.y + dirY[i];
+      const nextKey = toKey(nx, ny);
+      if (seen.has(nextKey) || isBlocked(map, nx, ny)) continue;
       seen.add(nextKey);
       parent.set(nextKey, current);
-      queue.push(next);
-    });
+      queue.push({ x: nx, y: ny });
+    }
   }
-  if (!seen.has(key(end))) return [];
+  const endKey = toKey(end.x, end.y);
+  if (!seen.has(endKey)) return [];
   const path = [];
   let cursor = end;
   while (cursor.x !== start.x || cursor.y !== start.y) {
     path.unshift(cursor);
-    cursor = parent.get(key(cursor));
+    cursor = parent.get(toKey(cursor.x, cursor.y));
     if (!cursor) return [];
   }
   return path;
