@@ -162,34 +162,43 @@ const isBlocked = (map, x, y) => {
 
 const buildPath = (map, start, end) => {
   if (start.x === end.x && start.y === end.y) return [];
-  const key = (point) => `${point.x},${point.y}`;
+
+  // OPTIMIZATION: Use 1D integer index instead of string interpolation for map keys
+  const mapWidth = map.size.w;
+  const key = (x, y) => y * mapWidth + x;
+
   const queue = [start];
-  const seen = new Set([key(start)]);
+  const seen = new Set([key(start.x, start.y)]);
   const parent = new Map();
-  const directions = [
-    { x: 1, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: -1 }
-  ];
+
+  // OPTIMIZATION: Flat coordinate arrays instead of object array to avoid closure allocations
+  const dirX = [1, -1, 0, 0];
+  const dirY = [0, 0, 1, -1];
+
   for (let index = 0; index < queue.length; index += 1) {
     const current = queue[index];
     if (current.x === end.x && current.y === end.y) break;
-    directions.forEach((dir) => {
-      const next = { x: current.x + dir.x, y: current.y + dir.y };
-      const nextKey = key(next);
-      if (seen.has(nextKey) || isBlocked(map, next.x, next.y)) return;
+
+    for (let i = 0; i < 4; i += 1) {
+      const nx = current.x + dirX[i];
+      const ny = current.y + dirY[i];
+      const nextKey = key(nx, ny);
+
+      if (seen.has(nextKey) || isBlocked(map, nx, ny)) continue;
+
       seen.add(nextKey);
+      const next = { x: nx, y: ny };
       parent.set(nextKey, current);
       queue.push(next);
-    });
+    }
   }
-  if (!seen.has(key(end))) return [];
+
+  if (!seen.has(key(end.x, end.y))) return [];
   const path = [];
   let cursor = end;
   while (cursor.x !== start.x || cursor.y !== start.y) {
     path.unshift(cursor);
-    cursor = parent.get(key(cursor));
+    cursor = parent.get(key(cursor.x, cursor.y));
     if (!cursor) return [];
   }
   return path;
