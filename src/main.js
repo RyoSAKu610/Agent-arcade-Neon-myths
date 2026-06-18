@@ -153,11 +153,37 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const blockedCache = new WeakMap();
+
+// OPTIMIZATION: Lazily cache coordinate blocking state using a 2D grid to convert O(N) array scans to O(1) lookups
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  let grid = blockedCache.get(map);
+  if (!grid) {
+    grid = new Array(map.size.h);
+    blockedCache.set(map, grid);
+  }
+
+  let row = grid[y];
+  if (!row) {
+    row = new Array(map.size.w);
+    grid[y] = row;
+  }
+
+  if (row[x] !== undefined) return row[x];
+
+  let blocked = false;
+  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) {
+    blocked = false;
+  } else if (tileKind(map, x, y) === "water") {
+    blocked = true;
+  } else if (map.buildings.some((building) => rectContains(building, x, y))) {
+    blocked = true;
+  }
+
+  row[x] = blocked;
+  return blocked;
 };
 
 const buildPath = (map, start, end) => {
