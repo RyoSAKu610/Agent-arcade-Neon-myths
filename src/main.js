@@ -153,11 +153,31 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+// OPTIMIZATION: Lazily-evaluated WeakMap cache for collision lookups to avoid O(N) array scans and rectContains checks.
+const collisionCache = new WeakMap();
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  let grid = collisionCache.get(map);
+  if (!grid) {
+    grid = [];
+    collisionCache.set(map, grid);
+  }
+
+  const key = y * map.size.w + x;
+  if (grid[key] !== undefined) return grid[key];
+
+  let blocked = false;
+  if (!(map.warps || []).some((warp) => rectContains(warp, x, y))) {
+    if (tileKind(map, x, y) === "water") {
+      blocked = true;
+    } else {
+      blocked = map.buildings.some((building) => rectContains(building, x, y));
+    }
+  }
+
+  grid[key] = blocked;
+  return blocked;
 };
 
 const buildPath = (map, start, end) => {
