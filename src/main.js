@@ -153,11 +153,35 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const _blockGridCache = new WeakMap();
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  // OPTIMIZATION: Cache static map collision layout in a 2D array for O(1) lookup
+  let grid = _blockGridCache.get(map);
+  if (!grid) {
+    grid = [];
+    _blockGridCache.set(map, grid);
+  }
+  let row = grid[y];
+  if (!row) {
+    row = [];
+    grid[y] = row;
+  }
+  const cached = row[x];
+  if (cached !== undefined) return cached;
+
+  let blocked = false;
+  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) {
+    blocked = false;
+  // OPTIMIZATION: direct water check instead of iterating all tiles in tileKind
+  } else if (inAny(map.tiles.water, x, y)) {
+    blocked = true;
+  } else {
+    blocked = map.buildings.some((building) => rectContains(building, x, y));
+  }
+  row[x] = blocked;
+  return blocked;
 };
 
 const buildPath = (map, start, end) => {
