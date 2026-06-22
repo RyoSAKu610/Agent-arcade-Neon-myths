@@ -156,7 +156,8 @@ const tileKind = (map, x, y) => {
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
   if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
+  // PERFORMANCE: Direct intersection check for water instead of tileKind()
+  if (inAny(map.tiles.water, x, y)) return true;
   return map.buildings.some((building) => rectContains(building, x, y));
 };
 
