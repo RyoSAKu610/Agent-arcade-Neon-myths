@@ -143,21 +143,30 @@ const applyResources = (delta = {}) => {
 };
 
 const rectContains = (rect, x, y) => x >= rect.x && x < rect.x + rect.w && y >= rect.y && y < rect.y + rect.h;
-const inAny = (rects = [], x, y) => rects.some((rect) => rectContains(rect, x, y));
+const inAny = (rects, x, y) => {
+  if (!rects) return false;
+  for (let i = 0; i < rects.length; i++) {
+    const r = rects[i];
+    if (x >= r.x && x < r.x + r.w && y >= r.y && y < r.y + r.h) return true;
+  }
+  return false;
+};
 
 const tileKind = (map, x, y) => {
-  if (inAny(map.tiles.roads, x, y)) return "road";
-  if (inAny(map.tiles.plaza, x, y)) return "plaza";
-  if (inAny(map.tiles.gardens, x, y)) return "garden";
-  if (inAny(map.tiles.water, x, y)) return "water";
-  return map.tiles.base || "grass";
+  const tiles = map.tiles;
+  if (tiles.roads && inAny(tiles.roads, x, y)) return "road";
+  if (tiles.plaza && inAny(tiles.plaza, x, y)) return "plaza";
+  if (tiles.gardens && inAny(tiles.gardens, x, y)) return "garden";
+  if (tiles.water && inAny(tiles.water, x, y)) return "water";
+  return tiles.base || "grass";
 };
 
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
+  if (inAny(map.warps, x, y)) return false;
   if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+  if (inAny(map.buildings, x, y)) return true;
+  return false;
 };
 
 const buildPath = (map, start, end) => {
