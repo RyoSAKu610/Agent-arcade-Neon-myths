@@ -153,11 +153,33 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const mapBlockCache = new WeakMap();
+
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  // OPTIMIZATION: Memoize collision grid for static maps to accelerate pathfinding (O(1) lookups instead of O(N) array scans per tile)
+  let grid = mapBlockCache.get(map);
+  if (!grid) {
+    grid = new Uint8Array(map.size.w * map.size.h); // 0: uncomputed, 1: free, 2: blocked
+    mapBlockCache.set(map, grid);
+  }
+
+  const index = y * map.size.w + x;
+  const cached = grid[index];
+  if (cached !== 0) return cached === 2;
+
+  let blocked = false;
+  if (!((map.warps || []).some((warp) => rectContains(warp, x, y)))) {
+    if (tileKind(map, x, y) === "water") {
+      blocked = true;
+    } else if (map.buildings.some((building) => rectContains(building, x, y))) {
+      blocked = true;
+    }
+  }
+
+  grid[index] = blocked ? 2 : 1;
+  return blocked;
 };
 
 const buildPath = (map, start, end) => {
