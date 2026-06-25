@@ -155,9 +155,33 @@ const tileKind = (map, x, y) => {
 
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  // OPTIMIZATION: Use standard for-loops and avoid `.some()` to prevent closure
+  // allocation overhead in this frequently called pathfinding hot path.
+  const warps = map.warps;
+  if (warps) {
+    for (let i = 0; i < warps.length; i++) {
+      if (rectContains(warps[i], x, y)) return false;
+    }
+  }
+
+  // OPTIMIZATION: Direct intersection check against `water` instead of
+  // generalized `tileKind` to avoid redundant checks on non-blocking terrain.
+  const water = map.tiles.water;
+  if (water) {
+    for (let i = 0; i < water.length; i++) {
+      if (rectContains(water[i], x, y)) return true;
+    }
+  }
+
+  const buildings = map.buildings;
+  if (buildings) {
+    for (let i = 0; i < buildings.length; i++) {
+      if (rectContains(buildings[i], x, y)) return true;
+    }
+  }
+
+  return false;
 };
 
 const buildPath = (map, start, end) => {
