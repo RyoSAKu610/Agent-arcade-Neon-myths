@@ -153,11 +153,36 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const _blockedGrids = new WeakMap();
+
+const getBlockedGrid = (map) => {
+  let grid = _blockedGrids.get(map);
+  if (!grid) {
+    const w = map.size.w;
+    const h = map.size.h;
+    grid = new Uint8Array(w * h);
+    for (let gy = 0; gy < h; gy++) {
+      for (let gx = 0; gx < w; gx++) {
+        let blocked = false;
+        if ((map.warps || []).some((warp) => rectContains(warp, gx, gy))) {
+          blocked = false;
+        } else if (tileKind(map, gx, gy) === "water") {
+          blocked = true;
+        } else if (map.buildings.some((building) => rectContains(building, gx, gy))) {
+          blocked = true;
+        }
+        if (blocked) grid[gy * w + gx] = 1;
+      }
+    }
+    _blockedGrids.set(map, grid);
+  }
+  return grid;
+};
+
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
-  if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+  const grid = getBlockedGrid(map);
+  return grid[y * map.size.w + x] === 1;
 };
 
 const buildPath = (map, start, end) => {
@@ -165,7 +190,11 @@ const buildPath = (map, start, end) => {
 
   // OPTIMIZATION: Use 1D integer index instead of string interpolation for map keys
   const mapWidth = map.size.w;
+  const mapHeight = map.size.h;
   const key = (x, y) => y * mapWidth + x;
+
+  // OPTIMIZATION: Retrieve the precomputed O(1) collision grid directly for the hot loop
+  const grid = getBlockedGrid(map);
 
   const queue = [start];
   const seen = new Set([key(start.x, start.y)]);
@@ -182,9 +211,14 @@ const buildPath = (map, start, end) => {
     for (let i = 0; i < 4; i += 1) {
       const nx = current.x + dirX[i];
       const ny = current.y + dirY[i];
+
+      if (nx < 0 || ny < 0 || nx >= mapWidth || ny >= mapHeight) continue;
+      // OPTIMIZATION: Use cached grid lookup instead of redundant O(N) spatial bounding box checks
+      if (grid[ny * mapWidth + nx] === 1) continue;
+
       const nextKey = key(nx, ny);
 
-      if (seen.has(nextKey) || isBlocked(map, nx, ny)) continue;
+      if (seen.has(nextKey)) continue;
 
       seen.add(nextKey);
       const next = { x: nx, y: ny };
