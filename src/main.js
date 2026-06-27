@@ -155,9 +155,22 @@ const tileKind = (map, x, y) => {
 
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
-  if ((map.warps || []).some((warp) => rectContains(warp, x, y))) return false;
+
+  // OPTIMIZATION: Use for loops instead of Array.prototype.some() and closures
+  // to avoid closure allocation overhead in hot loop.
+  const warps = map.warps || [];
+  for (let i = 0; i < warps.length; i += 1) {
+    if (rectContains(warps[i], x, y)) return false;
+  }
+
   if (tileKind(map, x, y) === "water") return true;
-  return map.buildings.some((building) => rectContains(building, x, y));
+
+  const buildings = map.buildings || [];
+  for (let i = 0; i < buildings.length; i += 1) {
+    if (rectContains(buildings[i], x, y)) return true;
+  }
+
+  return false;
 };
 
 const buildPath = (map, start, end) => {
