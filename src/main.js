@@ -153,24 +153,63 @@ const tileKind = (map, x, y) => {
   return map.tiles.base || "grass";
 };
 
+const collisionCache = new WeakMap();
+
 const isBlocked = (map, x, y) => {
   if (x < 0 || y < 0 || x >= map.size.w || y >= map.size.h) return true;
 
-  // OPTIMIZATION: Use for loops instead of Array.prototype.some() and closures
-  // to avoid closure allocation overhead in hot loop.
-  const warps = map.warps || [];
-  for (let i = 0; i < warps.length; i += 1) {
-    if (rectContains(warps[i], x, y)) return false;
+  // OPTIMIZATION: Lazily cache map collision data as a flat Uint8Array
+  // to convert O(N) rect containment lookups to O(1) grid lookups.
+  let grid = collisionCache.get(map);
+  if (!grid) {
+    const width = map.size.w;
+    const height = map.size.h;
+    grid = new Uint8Array(width * height);
+
+    for (let cy = 0; cy < height; cy++) {
+      for (let cx = 0; cx < width; cx++) {
+        let blocked = false;
+
+        // water check
+        let isWater = false;
+        if (map.tiles && map.tiles.water) {
+          const water = map.tiles.water;
+          for (let i = 0; i < water.length; i++) {
+             if (rectContains(water[i], cx, cy)) {
+                isWater = true; break;
+             }
+          }
+        }
+
+        let isBuilding = false;
+        const buildings = map.buildings || [];
+        for (let i = 0; i < buildings.length; i++) {
+           if (rectContains(buildings[i], cx, cy)) {
+              isBuilding = true; break;
+           }
+        }
+
+        let isWarp = false;
+        const warps = map.warps || [];
+        for (let i = 0; i < warps.length; i += 1) {
+          if (rectContains(warps[i], cx, cy)) {
+              isWarp = true; break;
+          }
+        }
+
+        if (!isWarp && (isWater || isBuilding)) {
+           blocked = true;
+        }
+
+        grid[cy * width + cx] = blocked ? 1 : 0;
+      }
+    }
+    collisionCache.set(map, grid);
   }
 
-  if (tileKind(map, x, y) === "water") return true;
-
-  const buildings = map.buildings || [];
-  for (let i = 0; i < buildings.length; i += 1) {
-    if (rectContains(buildings[i], x, y)) return true;
-  }
-
-  return false;
+  // OPTIMIZATION: Indexing with floating-point coordinates returns undefined
+  // causing silent logic failures. Ensure coordinates are converted to integers.
+  return grid[Math.floor(y) * map.size.w + Math.floor(x)] === 1;
 };
 
 const buildPath = (map, start, end) => {
