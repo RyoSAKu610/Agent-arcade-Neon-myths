@@ -494,13 +494,24 @@ const terrainRectHtml = (kind, rect) => (
   `<div class="terrain tile-${kind}" style="--x:${rect.x};--y:${rect.y};--w:${rect.w};--h:${rect.h}"></div>`
 );
 
-const tileHtml = (map) => [
-  terrainRectHtml(map.tiles.base || "grass", { x: 0, y: 0, w: map.size.w, h: map.size.h }),
-  ...map.tiles.water.map((rect) => terrainRectHtml("water", rect)),
-  ...map.tiles.gardens.map((rect) => terrainRectHtml("garden", rect)),
-  ...map.tiles.plaza.map((rect) => terrainRectHtml("plaza", rect)),
-  ...map.tiles.roads.map((rect) => terrainRectHtml("road", rect))
-].join("");
+// OPTIMIZATION: Memoize large, static HTML string chunks (like terrain grids) with a WeakMap keyed by the map object to eliminate CPU and GC overhead.
+const tileHtmlCache = new WeakMap();
+
+const tileHtml = (map) => {
+  let cached = tileHtmlCache.get(map);
+  if (cached) return cached;
+
+  const html = [
+    terrainRectHtml(map.tiles.base || "grass", { x: 0, y: 0, w: map.size.w, h: map.size.h }),
+    ...map.tiles.water.map((rect) => terrainRectHtml("water", rect)),
+    ...map.tiles.gardens.map((rect) => terrainRectHtml("garden", rect)),
+    ...map.tiles.plaza.map((rect) => terrainRectHtml("plaza", rect)),
+    ...map.tiles.roads.map((rect) => terrainRectHtml("road", rect))
+  ].join("");
+
+  tileHtmlCache.set(map, html);
+  return html;
+};
 
 const buildingHtml = (building) => {
   const kind = classToken(building.kind, "block");
