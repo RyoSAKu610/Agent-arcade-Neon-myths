@@ -163,7 +163,12 @@ const isBlocked = (map, x, y) => {
     if (rectContains(warps[i], x, y)) return false;
   }
 
-  if (tileKind(map, x, y) === "water") return true;
+  // OPTIMIZATION: Check directly against water tiles instead of calculating all tile kinds
+  // since only water acts as a blocker. Reduces redundant array iterations significantly.
+  const water = map.tiles.water || [];
+  for (let i = 0; i < water.length; i += 1) {
+    if (rectContains(water[i], x, y)) return true;
+  }
 
   const buildings = map.buildings || [];
   for (let i = 0; i < buildings.length; i += 1) {
